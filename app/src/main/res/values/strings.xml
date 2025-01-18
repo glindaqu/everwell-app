@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">Everwell</string>
+
+    <!-- auth screen -->
+    <string name="authorization_screen_topbar_title">Вход</string>
+    <string name="authorization_screen_login_title">Логин</string>
+    <string name="authorization_screen_password_title">Пароль</string>
+    <string name="authorization_screen_sign_in_text">Продолжить</string>
+    <string name="authorization_screen_sign_up_text">Зарегестрироваться</string>
+    <string name="authorization_screen_restore_access">Восстановить доступ</string>
+</resources>
