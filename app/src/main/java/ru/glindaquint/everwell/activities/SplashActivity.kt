@@ -7,9 +7,11 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import dagger.hilt.android.AndroidEntryPoint
 import ru.glindaquint.everwell.screens.splash.SplashScreen
 import ru.glindaquint.everwell.ui.theme.EverwellTheme
 
+@AndroidEntryPoint
 @SuppressLint("CustomSplashScreen")
 class SplashScreenActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {

@@ -8,4 +8,21 @@
     <string name="authorization_screen_sign_in_text">Продолжить</string>
     <string name="authorization_screen_sign_up_text">Зарегестрироваться</string>
     <string name="authorization_screen_restore_access">Восстановить доступ</string>
+
+    <!-- registration screen -->
+    <string name="registration_screen_topbar_title">Регистрация</string>
+    <string name="registration_screen_login_title">Почта</string>
+    <string name="registration_screen_password_title">Пароль</string>
+    <string name="registration_screen_password_again_title">Повторите пароль</string>
+    <string name="registration_screen_sign_up_text">Продолжить</string>
+    <string name="registration_screen_sign_in_text">Уже есть аккаунт?</string>
+    <string name="registration_screen_restore_access">Восстановить доступ</string>
+
+    <!-- restore screen -->
+    <string name="restore_screen_topbar_title">Восстановление</string>
+    <string name="restore_screen_email_title">E-mail</string>
+    <string name="restore_screen_code_title">Введите код</string>
+    <string name="restore_screen_restore_text">Продолжить</string>
+    <string name="restore_screen_sign_in_text">У меня уже есть аккаунт?</string>
+
 </resources>
