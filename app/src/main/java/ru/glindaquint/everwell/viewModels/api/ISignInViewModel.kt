@@ -1,13 +1,10 @@
 package ru.glindaquint.everwell.viewModels.api
 
-import retrofit2.Call
+import ru.glindaquint.everwell.network.dto.authorization.SignInRequest
 import ru.glindaquint.everwell.uiStates.SignInUiState
 
 interface ISignInViewModel {
-    fun signIn(
-        username: String,
-        password: String,
-    ): Call<Any>
+    fun signIn(request: SignInRequest)
 
     fun updateUiState(state: SignInUiState)
 }

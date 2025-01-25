@@ -2,10 +2,12 @@ package ru.glindaquint.everwell.screens.authorization.signIn
 
 import android.annotation.SuppressLint
 import android.os.Build
+import android.util.Log
 import androidx.annotation.RequiresApi
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -20,6 +22,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import ru.glindaquint.everwell.R
 import ru.glindaquint.everwell.navigation.authorization.AuthorizationRoutes
+import ru.glindaquint.everwell.network.dto.authorization.SignInRequest
 import ru.glindaquint.everwell.sharedComponents.LabeledTextField
 import ru.glindaquint.everwell.sharedComponents.authorization.ActionButton
 import ru.glindaquint.everwell.sharedComponents.authorization.ContentContainer
@@ -38,6 +41,10 @@ fun SignInScreen(
     val loginTextFieldState = remember { mutableStateOf(TextFieldValue()) }
     val passwordTextFieldState = remember { mutableStateOf(TextFieldValue()) }
     val canSeePassword = remember { mutableStateOf(false) }
+
+    val uiState = viewModel.uiState.collectAsState()
+    Log.d("token", "SignInScreen: ${uiState.value.error}")
+    Log.d("token", "SignInScreen: ${uiState.value.data.token}")
 
     val passwordTextTransform =
         remember {
@@ -81,7 +88,14 @@ fun SignInScreen(
         )
         ActionButton(
             text = stringResource(id = R.string.authorization_screen_sign_in_text),
-            action = { /*TODO*/ },
+            action = {
+                viewModel.signIn(
+                    SignInRequest(
+                        username = loginTextFieldState.value.text,
+                        password = passwordTextFieldState.value.text,
+                    ),
+                )
+            },
         )
         OptionsContainer {
             Option(

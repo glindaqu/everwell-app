@@ -1,5 +1,6 @@
 package ru.glindaquint.everwell.utils
 
+import android.annotation.SuppressLint
 import android.graphics.BlurMaskFilter
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.drawBehind
@@ -10,6 +11,7 @@ import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 
+@SuppressLint("SuspiciousModifierThen")
 fun Modifier.dropShadow(
     color: Color = Color.Black,
     offsetX: Dp = 0.dp,
