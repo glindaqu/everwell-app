@@ -33,7 +33,12 @@ class SignInViewModel
                             response: Response<SignInResponse>,
                         ) {
                             if (response.body() == null) {
-                                updateUiState(uiState.value.copy(error = "Something went wrong"))
+                                updateUiState(
+                                    uiState.value.copy(
+                                        loading = false,
+                                        error = "Something went wrong",
+                                    ),
+                                )
                             } else {
                                 updateUiState(
                                     uiState.value.copy(
@@ -48,7 +53,12 @@ class SignInViewModel
                             call: Call<SignInResponse>,
                             t: Throwable,
                         ) {
-                            updateUiState(uiState.value.copy(error = t.message ?: "Unknown error"))
+                            updateUiState(
+                                uiState.value.copy(
+                                    loading = false,
+                                    error = t.message ?: "Unknown error",
+                                ),
+                            )
                         }
                     },
                 )
