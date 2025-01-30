@@ -36,7 +36,7 @@ fun CodeTextField(
         Text(
             text = stringResource(id = R.string.restore_screen_code_title),
             color = Color.Black,
-            fontStyle = MaterialTheme.typography.labelSmall.fontStyle,
+            fontStyle = MaterialTheme.typography.bodySmall.fontStyle,
             fontSize = 14.sp,
         )
         Row(

@@ -1,5 +1,3 @@
-@file:Suppress("ktlint:standard:filename")
-
 package ru.glindaquint.everwell.activities
 
 import android.annotation.SuppressLint
@@ -13,7 +11,7 @@ import ru.glindaquint.everwell.ui.theme.EverwellTheme
 
 @AndroidEntryPoint
 @SuppressLint("CustomSplashScreen")
-class SplashScreenActivity : ComponentActivity() {
+class SplashActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()

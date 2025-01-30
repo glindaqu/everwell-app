@@ -20,8 +20,8 @@ fun Option(
             },
         text = text,
         color = MainAccent,
-        fontWeight = MaterialTheme.typography.labelSmall.fontWeight,
-        fontSize = MaterialTheme.typography.labelSmall.fontSize,
-        fontStyle = MaterialTheme.typography.labelSmall.fontStyle,
+        fontWeight = MaterialTheme.typography.bodySmall.fontWeight,
+        fontSize = MaterialTheme.typography.bodySmall.fontSize,
+        fontStyle = MaterialTheme.typography.bodySmall.fontStyle,
     )
 }

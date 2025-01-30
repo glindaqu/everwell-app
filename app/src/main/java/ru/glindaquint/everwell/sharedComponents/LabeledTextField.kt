@@ -40,7 +40,7 @@ fun LabeledTextField(
         Text(
             text = labelText,
             color = Color.Black,
-            fontStyle = MaterialTheme.typography.labelSmall.fontStyle,
+            fontStyle = MaterialTheme.typography.bodySmall.fontStyle,
             fontSize = 14.sp,
         )
         TextField(

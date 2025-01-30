@@ -2,7 +2,6 @@ package ru.glindaquint.everwell.screens.authorization.signIn
 
 import android.annotation.SuppressLint
 import android.os.Build
-import android.util.Log
 import androidx.annotation.RequiresApi
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -18,6 +17,8 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.window.Dialog
+import androidx.compose.ui.window.DialogProperties
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import ru.glindaquint.everwell.R
@@ -43,8 +44,6 @@ fun SignInScreen(
     val canSeePassword = remember { mutableStateOf(false) }
 
     val uiState = viewModel.uiState.collectAsState()
-    Log.d("token", "SignInScreen: ${uiState.value.error}")
-    Log.d("token", "SignInScreen: ${uiState.value.data.token}")
 
     val passwordTextTransform =
         remember {
@@ -68,6 +67,9 @@ fun SignInScreen(
         }
 
     ContentContainer(topBarTitle = stringResource(id = R.string.authorization_screen_topbar_title)) {
+        if (uiState.value.loading) {
+            SignInLoadingScreen()
+        }
         LabeledTextField(
             state = loginTextFieldState,
             labelText = stringResource(id = R.string.authorization_screen_login_title),

@@ -26,7 +26,7 @@
             android:theme="@style/Theme.Everwell" >
         </activity>
         <activity
-            android:name=".activities.SplashScreenActivity"
+            android:name=".activities.SplashActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

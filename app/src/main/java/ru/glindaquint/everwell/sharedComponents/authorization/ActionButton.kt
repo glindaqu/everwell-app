@@ -31,9 +31,9 @@ fun ActionButton(
     ) {
         Text(
             text = text,
-            fontStyle = MaterialTheme.typography.labelSmall.fontStyle,
+            fontStyle = MaterialTheme.typography.bodySmall.fontStyle,
             fontWeight = FontWeight.SemiBold,
-            fontSize = MaterialTheme.typography.labelSmall.fontSize,
+            fontSize = MaterialTheme.typography.bodySmall.fontSize,
             modifier = Modifier.padding(vertical = 10.dp),
             color = MainSecondary,
         )

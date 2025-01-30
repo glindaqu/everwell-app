@@ -65,18 +65,33 @@ dependencies {
     implementation(libs.material)
     implementation(libs.androidx.activity)
     implementation(libs.androidx.constraintlayout)
+
+    // navigation
     implementation(libs.androidx.navigation.compose)
+
+    // tests
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
     androidTestImplementation(platform(libs.androidx.compose.bom))
     androidTestImplementation(libs.androidx.ui.test.junit4)
+
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
+
+    // hilt
     implementation(libs.hilt.android)
     kapt(libs.hilt.compiler)
     implementation(libs.androidx.hilt.navigation.compose)
+
+    // retrofit
     implementation(libs.converter.gson)
     implementation(libs.retrofit)
+
+    // system ui controller
     implementation(libs.accompanist.systemuicontroller.v02413rc)
+
+    // coil (async image loading)
+    implementation(libs.coil.compose)
+    implementation(libs.coil.network.okhttp)
 }

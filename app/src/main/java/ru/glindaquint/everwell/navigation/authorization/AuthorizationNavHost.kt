@@ -14,7 +14,7 @@ import ru.glindaquint.everwell.screens.authorization.signUp.SignUpScreen
 @Suppress("ktlint:standard:function-naming")
 @Composable
 fun AuthorizationNavHost(navHostController: NavHostController) {
-    NavHost(navController = navHostController, startDestination = AuthorizationRoutes.RESTORE) {
+    NavHost(navController = navHostController, startDestination = AuthorizationRoutes.SIGN_IN) {
         composable(
             route = AuthorizationRoutes.SIGN_IN,
             content = { SignInScreen(navHostController = navHostController) },

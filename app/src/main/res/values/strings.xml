@@ -1,6 +1,18 @@
 <resources>
     <string name="app_name">Everwell</string>
 
+    <!-- navigation -->
+    <string name="profile">Профиль</string>
+    <string name="home">Главная</string>
+    <string name="pressure">Давление</string>
+    <string name="feed">Питание</string>
+    <string name="notes">Заметки</string>
+    <string name="tasks">Задачи</string>
+    <string name="settings">Настройки</string>
+    <string name="about_it">О приложении</string>
+    <string name="water_balance">Водный баланс</string>
+    <string name="news">Новости</string>
+
     <!-- auth screen -->
     <string name="authorization_screen_topbar_title">Вход</string>
     <string name="authorization_screen_login_title">Логин</string>

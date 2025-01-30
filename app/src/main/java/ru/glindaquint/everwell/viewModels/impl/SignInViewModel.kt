@@ -21,9 +21,10 @@ class SignInViewModel
     ViewModel(),
         ISignInViewModel {
         private val service = RetrofitFactory.build(UsersService::class.java)
-        val uiState = MutableStateFlow(SignInUiState())
+        val uiState = MutableStateFlow(SignInUiState(loading = false, error = null, data = null))
 
         override fun signIn(request: SignInRequest) {
+            updateUiState(uiState.value.copy(loading = true))
             service
                 .signIn(request)
                 .enqueue(

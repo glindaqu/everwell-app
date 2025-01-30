@@ -20,14 +20,24 @@ val Typography =
             TextStyle(
                 fontSize = 24.sp,
                 fontWeight = FontWeight.Medium,
-                lineHeight = 20.sp,
                 fontFamily = Roboto,
             ),
-        labelSmall =
+        bodySmall =
             TextStyle(
                 fontWeight = FontWeight.Normal,
-                lineHeight = 20.sp,
                 fontSize = 14.sp,
+                fontFamily = Roboto,
+            ),
+        bodyMedium =
+            TextStyle(
+                fontWeight = FontWeight.Medium,
+                fontSize = 14.sp,
+                fontFamily = Roboto,
+            ),
+        labelMedium =
+            TextStyle(
+                fontWeight = FontWeight.Normal,
+                fontSize = 10.sp,
                 fontFamily = Roboto,
             ),
     )
