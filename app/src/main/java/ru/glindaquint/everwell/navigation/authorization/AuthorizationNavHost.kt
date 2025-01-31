@@ -1,7 +1,5 @@
 package ru.glindaquint.everwell.navigation.authorization
 
-import android.os.Build
-import androidx.annotation.RequiresApi
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
@@ -10,7 +8,6 @@ import ru.glindaquint.everwell.screens.authorization.restore.RestoreScreen
 import ru.glindaquint.everwell.screens.authorization.signIn.SignInScreen
 import ru.glindaquint.everwell.screens.authorization.signUp.SignUpScreen
 
-@RequiresApi(Build.VERSION_CODES.R)
 @Suppress("ktlint:standard:function-naming")
 @Composable
 fun AuthorizationNavHost(navHostController: NavHostController) {

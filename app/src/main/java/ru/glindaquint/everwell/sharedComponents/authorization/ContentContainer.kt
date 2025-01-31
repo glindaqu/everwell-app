@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
@@ -23,7 +24,6 @@ import ru.glindaquint.everwell.ui.theme.MainBackground
 import ru.glindaquint.everwell.ui.theme.MainOnBackground
 import ru.glindaquint.everwell.ui.theme.MainPrimary
 import ru.glindaquint.everwell.ui.theme.MainSecondary
-import ru.glindaquint.everwell.utils.UpdateSystemBarsColor
 import ru.glindaquint.everwell.utils.dropShadow
 import ru.glindaquint.everwell.utils.pxToDp
 
@@ -34,8 +34,6 @@ fun ContentContainer(
     topBarTitle: String,
     content: @Composable () -> Unit,
 ) {
-    UpdateSystemBarsColor(statusBarColor = MainPrimary, navBarColor = MainBackground)
-
     Scaffold(topBar = {
         Row(
             modifier =
@@ -44,7 +42,7 @@ fun ContentContainer(
                     .background(
                         color = MainPrimary,
                         shape = RoundedCornerShape(bottomEnd = 18.dp, bottomStart = 18.dp),
-                    ),
+                    ).statusBarsPadding(),
         ) {
             Text(
                 modifier = Modifier.padding(vertical = 25.dp, horizontal = 16.dp),
