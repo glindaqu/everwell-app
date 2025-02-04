@@ -14,19 +14,22 @@ import androidx.compose.material3.IconButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import ru.glindaquint.everwell.ui.theme.MainBackground
 
 @Suppress("ktlint:standard:function-naming")
 @Composable
-fun HomeTopAppBar(onMenuButtonClick: () -> Unit) {
+fun HomeTopAppBar(
+    modifier: Modifier = Modifier,
+    onMenuButtonClick: () -> Unit,
+) {
     Row(
         modifier =
-            Modifier
+            modifier
                 .fillMaxWidth()
+                .background(MainBackground)
                 .padding(top = 9.dp)
-                .statusBarsPadding()
-                .background(Color.Transparent),
+                .statusBarsPadding(),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.SpaceBetween,
     ) {
