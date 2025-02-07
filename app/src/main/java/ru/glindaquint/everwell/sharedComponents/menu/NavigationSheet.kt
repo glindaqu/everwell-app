@@ -14,7 +14,7 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.dp
 import ru.glindaquint.everwell.navigation.main.MainRouteDto
 import ru.glindaquint.everwell.navigation.main.MainRoutes
-import ru.glindaquint.everwell.types.NavigationSheetItemColors
+import ru.glindaquint.everwell.types.navigation.NavigationSheetItemColors
 import ru.glindaquint.everwell.ui.theme.MainOnBackground
 
 @Suppress("ktlint:standard:function-naming")

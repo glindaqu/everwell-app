@@ -4,7 +4,7 @@ package ru.glindaquint.everwell.navigation.main
 
 import androidx.compose.ui.graphics.Color
 import ru.glindaquint.everwell.R
-import ru.glindaquint.everwell.types.NavigationDrawerColors
+import ru.glindaquint.everwell.types.navigation.NavigationDrawerColors
 import ru.glindaquint.everwell.ui.theme.MainAccent
 import ru.glindaquint.everwell.ui.theme.MainOnBackground
 import ru.glindaquint.everwell.ui.theme.MainPrimary

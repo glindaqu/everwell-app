@@ -8,8 +8,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import ru.glindaquint.everwell.navigation.main.MainRouteDto
 import ru.glindaquint.everwell.sharedComponents.LineSpacer
-import ru.glindaquint.everwell.types.NavigationDrawerColors
-import ru.glindaquint.everwell.types.NavigationSheetItemColors
+import ru.glindaquint.everwell.types.navigation.NavigationDrawerColors
+import ru.glindaquint.everwell.types.navigation.NavigationSheetItemColors
 
 @Suppress("ktlint:standard:function-naming")
 @Composable

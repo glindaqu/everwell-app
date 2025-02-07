@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.hilt.navigation.compose.hiltViewModel
+import ru.glindaquint.everwell.models.simpleCalendar.SimpleCalendarModel
 import ru.glindaquint.everwell.viewModels.impl.SimpleCalendarViewModel
 
 /**
@@ -16,14 +17,29 @@ import ru.glindaquint.everwell.viewModels.impl.SimpleCalendarViewModel
 @SuppressLint("SimpleDateFormat")
 @Suppress("ktlint:standard:function-naming")
 @Composable
-fun SimpleCalendar(viewModel: SimpleCalendarViewModel = hiltViewModel<SimpleCalendarViewModel>()) {
+fun SimpleCalendar() {
+    val viewModel = hiltViewModel<SimpleCalendarViewModel>()
     val uiState = viewModel.simpleCalendarUiState.collectAsState()
 
     SimpleCalendarContainer {
         SimpleCalendarHeader(
             state = uiState.value,
-            nextMonthClick = { viewModel.setDate(uiState.value.addDate(month = 1)) },
-            prevMonthClick = { viewModel.setDate(uiState.value.addDate(month = -1)) },
+            nextMonthClick = {
+                viewModel.setDate(
+                    SimpleCalendarModel.addToDate(
+                        uiState.value.getDate(),
+                        month = 1,
+                    ),
+                )
+            },
+            prevMonthClick = {
+                viewModel.setDate(
+                    SimpleCalendarModel.addToDate(
+                        uiState.value.getDate(),
+                        month = -1,
+                    ),
+                )
+            },
         )
         SimpleCalendarBody(state = uiState.value, onItemClick = { })
     }

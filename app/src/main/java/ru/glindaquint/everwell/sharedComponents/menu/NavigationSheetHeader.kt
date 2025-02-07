@@ -14,7 +14,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil3.compose.AsyncImage
-import ru.glindaquint.everwell.types.NavigationDrawerColors
+import ru.glindaquint.everwell.types.navigation.NavigationDrawerColors
 import ru.glindaquint.everwell.ui.theme.Typography
 
 @Suppress("ktlint:standard:function-naming")

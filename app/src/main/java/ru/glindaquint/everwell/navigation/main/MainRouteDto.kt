@@ -2,7 +2,7 @@
 
 package ru.glindaquint.everwell.navigation.main
 
-import ru.glindaquint.everwell.types.NavigationDrawerColors
+import ru.glindaquint.everwell.types.navigation.NavigationDrawerColors
 
 data class MainRouteDto(
     val routeId: Int = lastId,
