@@ -1,5 +1,6 @@
 package ru.glindaquint.everwell.models.simpleCalendar
 
+import android.util.Log
 import java.util.Calendar
 import java.util.Date
 import javax.inject.Inject
@@ -109,6 +110,8 @@ class SimpleCalendarModel
 
                 val calendar2 = Calendar.getInstance()
                 calendar2.time = date2
+
+                Log.d("", "${calendar1.time} --- ${calendar2.time}")
 
                 return (calendar1.get(Calendar.YEAR) == calendar2.get(Calendar.YEAR)) &&
                     (

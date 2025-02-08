@@ -1,6 +1,5 @@
 package ru.glindaquint.everwell.viewModels.impl
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -8,6 +7,7 @@ import ru.glindaquint.everwell.models.simpleCalendar.SimpleCalendarModel
 import ru.glindaquint.everwell.types.simpleCalendar.SimpleCalendarBodyItemDto
 import ru.glindaquint.everwell.uiStates.SimpleCalendarUiState
 import ru.glindaquint.everwell.viewModels.api.ISimpleCalendarViewModel
+import java.util.Calendar
 import java.util.Date
 import javax.inject.Inject
 
@@ -24,52 +24,30 @@ class SimpleCalendarViewModel
         }
 
         override fun setDate(date: Date) {
-            val days: MutableList<SimpleCalendarBodyItemDto> = mutableListOf()
             simpleCalendarModel.setDate(date)
-            for (i in simpleCalendarModel.previousMonthDaysCount - simpleCalendarModel.firstDayOffset..simpleCalendarModel.previousMonthDaysCount) {
+            val days: MutableList<SimpleCalendarBodyItemDto> = mutableListOf()
+            val calendar = Calendar.getInstance()
+            calendar.time = date
+            calendar.set(Calendar.DAY_OF_MONTH, -simpleCalendarModel.firstDayOffset)
+            val totalDaysCount =
+                simpleCalendarModel.firstDayOffset + simpleCalendarModel.currentMonthDaysCount + simpleCalendarModel.lastDayOffset
+            for (i in 0..totalDaysCount) {
                 days.add(
                     SimpleCalendarBodyItemDto(
-                        day = i,
-                        relatedWithCurrentMonth = false,
-                        selected = false,
-                    ),
-                )
-            }
-            for (i in 1..simpleCalendarModel.currentMonthDaysCount) {
-                days.add(
-                    SimpleCalendarBodyItemDto(
-                        day = i,
-                        relatedWithCurrentMonth = true,
+                        day = calendar.get(Calendar.DAY_OF_MONTH),
+                        relatedWithCurrentMonth =
+                            simpleCalendarModel.currentMonth ==
+                                calendar.get(
+                                    Calendar.MONTH,
+                                ),
                         selected =
                             SimpleCalendarModel.isDatesEqual(
                                 simpleCalendarModel.date,
-                                SimpleCalendarModel.createDate(
-                                    day = i,
-                                    month = simpleCalendarModel.currentMonth,
-                                    year = simpleCalendarModel.currentYear,
-                                ),
+                                calendar.time,
                             ),
                     ),
                 )
-                Log.d(
-                    "",
-                    "${
-                        SimpleCalendarModel.createDate(
-                            day = i,
-                            month = simpleCalendarModel.currentMonth,
-                            year = simpleCalendarModel.currentYear,
-                        )
-                    }",
-                )
-            }
-            for (i in 1..simpleCalendarModel.lastDayOffset) {
-                days.add(
-                    SimpleCalendarBodyItemDto(
-                        day = i,
-                        relatedWithCurrentMonth = false,
-                        selected = false,
-                    ),
-                )
+                calendar.set(Calendar.DAY_OF_MONTH, calendar.get(Calendar.DAY_OF_MONTH) + 1)
             }
             updateUiState(
                 SimpleCalendarUiState(
