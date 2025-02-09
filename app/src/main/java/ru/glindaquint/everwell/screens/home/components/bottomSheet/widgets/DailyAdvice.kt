@@ -19,7 +19,7 @@ import ru.glindaquint.everwell.ui.theme.MainSecondary
 
 @Suppress("ktlint:standard:function-naming")
 @Composable
-fun DailyAdvice() {
+fun DailyAdvice(advice: String) {
     Column(verticalArrangement = Arrangement.spacedBy(3.dp)) {
         Text(
             text = "Day's advice",
@@ -38,7 +38,7 @@ fun DailyAdvice() {
                     ),
         ) {
             Text(
-                text = "Попей водички, восполни водный баланс в организме и подыши свежим воздухом.",
+                text = advice,
                 modifier = Modifier.padding(start = 12.dp, top = 9.dp),
                 fontSize = 14.sp,
             )

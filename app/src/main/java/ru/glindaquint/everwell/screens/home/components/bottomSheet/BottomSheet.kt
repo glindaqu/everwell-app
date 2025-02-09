@@ -1,5 +1,6 @@
 package ru.glindaquint.everwell.screens.home.components.bottomSheet
 
+import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
@@ -16,17 +17,22 @@ import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import ru.glindaquint.everwell.R
 import ru.glindaquint.everwell.screens.home.components.bottomSheet.widgets.ActivityInfo
 import ru.glindaquint.everwell.screens.home.components.bottomSheet.widgets.DailyAdvice
 import ru.glindaquint.everwell.screens.home.components.bottomSheet.widgets.QuickAction
 import ru.glindaquint.everwell.utils.pxToDp
+import ru.glindaquint.everwell.viewModels.impl.BottomSheetViewModel
 
+@SuppressLint("StateFlowValueCalledInComposition")
 @OptIn(ExperimentalLayoutApi::class)
 @Suppress("ktlint:standard:function-naming")
 @Composable
 fun BottomSheet() {
     val sheetWidth = remember { mutableStateOf(IntSize(0, 0)) }
+    val viewModel = hiltViewModel<BottomSheetViewModel>()
+
     Column(
         modifier =
             Modifier
@@ -51,7 +57,7 @@ fun BottomSheet() {
             QuickAction(title = "Notes")
         }
 
-        DailyAdvice()
+        DailyAdvice(advice = viewModel.bottomSheetUiState.value.dailyAdvice)
 
         Row(
             modifier = Modifier.fillMaxWidth(),
@@ -60,17 +66,19 @@ fun BottomSheet() {
             ActivityInfo(
                 title = "Calories",
                 painter = painterResource(id = R.drawable.apple),
-                value = "2000kCal",
+                value = "${viewModel.bottomSheetUiState.value.widgetStats.calories}kCal",
             )
             ActivityInfo(
                 title = "Steps",
                 painter = painterResource(id = R.drawable.sneakers),
-                value = "20000",
+                value =
+                    viewModel.bottomSheetUiState.value.widgetStats.steps
+                        .toString(),
             )
             ActivityInfo(
                 title = "Water drunk",
                 painter = painterResource(id = R.drawable.water_glass),
-                value = "1 liter",
+                value = "${viewModel.bottomSheetUiState.value.widgetStats.water} liters",
             )
         }
     }
