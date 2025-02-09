@@ -37,9 +37,7 @@ class SimpleCalendarViewModel
                         day = calendar.get(Calendar.DAY_OF_MONTH),
                         relatedWithCurrentMonth =
                             simpleCalendarModel.currentMonth ==
-                                calendar.get(
-                                    Calendar.MONTH,
-                                ),
+                                calendar.get(Calendar.MONTH),
                         selected =
                             SimpleCalendarModel.isDatesEqual(
                                 simpleCalendarModel.date,

@@ -1,4 +1,4 @@
-package ru.glindaquint.everwell.network.dto
+package ru.glindaquint.everwell.network.dto.authorization
 
 data class UserDto(
     val name: String = "",
