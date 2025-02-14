@@ -20,9 +20,11 @@ import ru.glindaquint.everwell.sharedComponents.authorization.ContentContainer
 @Suppress("ktlint:standard:function-naming")
 @Composable
 fun NewPasswordScreen() {
-    val loginTextFieldState = remember { mutableStateOf(TextFieldValue()) }
     val passwordTextFieldState = remember { mutableStateOf(TextFieldValue()) }
+    val passwordAgainTextFieldState = remember { mutableStateOf(TextFieldValue()) }
+
     val canSeePassword = remember { mutableStateOf(false) }
+    val canSeePasswordAgain = remember { mutableStateOf(false) }
 
     val passwordTextTransform =
         remember {
@@ -34,6 +36,17 @@ fun NewPasswordScreen() {
                 }
             }
         }
+    val passwordAgainTextTransform =
+        remember {
+            derivedStateOf {
+                if (!canSeePasswordAgain.value) {
+                    PasswordVisualTransformation('•')
+                } else {
+                    VisualTransformation.None
+                }
+            }
+        }
+
     val passwordTrailingIcon =
         remember {
             derivedStateOf {
@@ -44,15 +57,21 @@ fun NewPasswordScreen() {
                 }
             }
         }
+    val passwordAgainTrailingIcon =
+        remember {
+            derivedStateOf {
+                if (canSeePasswordAgain.value) {
+                    R.drawable.visibility_on
+                } else {
+                    R.drawable.visibility_off
+                }
+            }
+        }
 
-    ContentContainer(topBarTitle = stringResource(id = R.string.authorization_screen_topbar_title)) {
-        LabeledTextField(
-            state = loginTextFieldState,
-            labelText = stringResource(id = R.string.authorization_screen_login_title),
-        )
+    ContentContainer(topBarTitle = stringResource(id = R.string.restore_screen_topbar_title)) {
         LabeledTextField(
             state = passwordTextFieldState,
-            labelText = stringResource(id = R.string.authorization_screen_password_title),
+            labelText = stringResource(id = R.string.registration_screen_password_title),
             textTransform = passwordTextTransform.value,
             trailingIcon = {
                 IconButton(onClick = { canSeePassword.value = !canSeePassword.value }) {
@@ -63,11 +82,36 @@ fun NewPasswordScreen() {
                 }
             },
             keyboardType = KeyboardType.Password,
+            errorHandler = { password, isError, isFocused ->
+                isError.value = (password.text.length < 8 && password.text.isNotEmpty()) ||
+                    !isFocused &&
+                    passwordTextFieldState.value.text != passwordAgainTextFieldState.value.text
+            },
+        )
+        LabeledTextField(
+            state = passwordAgainTextFieldState,
+            labelText = stringResource(id = R.string.registration_screen_password_again_title),
+            textTransform = passwordAgainTextTransform.value,
+            trailingIcon = {
+                IconButton(onClick = {
+                    canSeePasswordAgain.value = !canSeePasswordAgain.value
+                }) {
+                    Icon(
+                        painter = painterResource(id = passwordAgainTrailingIcon.value),
+                        contentDescription = "Hide/Display password (again)",
+                    )
+                }
+            },
+            keyboardType = KeyboardType.Password,
+            errorHandler = { password, isError, isFocused ->
+                isError.value = (password.text.length < 8 && password.text.isNotEmpty()) ||
+                    !isFocused &&
+                    passwordTextFieldState.value.text != passwordAgainTextFieldState.value.text
+            },
         )
         ActionButton(
-            text = stringResource(id = R.string.authorization_screen_sign_in_text),
-            action = {
-            },
+            text = stringResource(id = R.string.registration_screen_sign_up_text),
+            action = { /*TODO*/ },
         )
     }
 }
