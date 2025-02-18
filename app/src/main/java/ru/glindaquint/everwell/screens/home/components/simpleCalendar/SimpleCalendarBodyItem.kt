@@ -53,7 +53,7 @@ internal fun SimpleCalendarBodyItem(
     Box(
         modifier =
             Modifier
-                .size(40.dp)
+                .size(35.dp)
                 .clip(CircleShape)
                 .background(background)
                 .clickable { onClick(model.day) },

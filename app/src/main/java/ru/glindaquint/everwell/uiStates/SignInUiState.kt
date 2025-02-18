@@ -1,9 +1,7 @@
 package ru.glindaquint.everwell.uiStates
 
-import ru.glindaquint.everwell.network.dto.authorization.SignInResponse
-
 data class SignInUiState(
-    val loading: Boolean = true,
-    val error: String? = "",
-    val data: SignInResponse? = null,
+    val loading: Boolean = false,
+    val error: String? = null,
+    val successful: Boolean = false,
 )

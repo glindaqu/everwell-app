@@ -25,7 +25,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import ru.glindaquint.everwell.network.dto.home.TaskDto
+import ru.glindaquint.everwell.network.dto.tasks.TaskDto
 import ru.glindaquint.everwell.ui.theme.MainPrimary
 import ru.glindaquint.everwell.ui.theme.MainSecondary
 import java.text.SimpleDateFormat
@@ -63,12 +63,12 @@ internal fun TaskListItem(task: TaskDto) {
                 horizontalArrangement = Arrangement.spacedBy(6.dp),
             ) {
                 Text(
-                    text = SimpleDateFormat("hh:MM").format(task.deadline),
+                    text = SimpleDateFormat("hh:MM").format(task.deadlineDate),
                     fontSize = 10.sp,
                     lineHeight = 10.sp,
                     color = MainPrimary,
                 )
-                if (task.isNotifying) {
+                if (task.isNotificationEnabled) {
                     Icon(
                         imageVector = Icons.Default.Notifications,
                         contentDescription = "is notification set",
@@ -76,7 +76,7 @@ internal fun TaskListItem(task: TaskDto) {
                         tint = MainPrimary,
                     )
                 }
-                if (task.isRepeating) {
+                if (task.repeat != "NO_REPEAT") {
                     Icon(
                         imageVector = Icons.Default.Refresh,
                         contentDescription = "is notification repeats",

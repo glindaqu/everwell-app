@@ -6,10 +6,10 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import ru.glindaquint.everwell.network.RetrofitFactory
 import ru.glindaquint.everwell.network.dto.authorization.SignInRequest
 import ru.glindaquint.everwell.network.dto.authorization.SignInResponse
-import ru.glindaquint.everwell.network.services.UsersService
+import ru.glindaquint.everwell.network.services.AuthorizationService
+import ru.glindaquint.everwell.services.preferencesManager.PreferenceManagerImpl
 import ru.glindaquint.everwell.uiStates.SignInUiState
 import ru.glindaquint.everwell.viewModels.api.ISignInViewModel
 import javax.inject.Inject
@@ -17,15 +17,15 @@ import javax.inject.Inject
 @HiltViewModel
 class SignInViewModel
     @Inject
-    constructor() :
-    ViewModel(),
+    constructor(
+        private val preferenceManager: PreferenceManagerImpl,
+        private val authorizationService: AuthorizationService,
+        val uiState: MutableStateFlow<SignInUiState>,
+    ) : ViewModel(),
         ISignInViewModel {
-        private val service = RetrofitFactory.build(UsersService::class.java)
-        val uiState = MutableStateFlow(SignInUiState(loading = false, error = null, data = null))
-
         override fun signIn(request: SignInRequest) {
             updateUiState(uiState.value.copy(loading = true))
-            service
+            authorizationService
                 .signIn(request)
                 .enqueue(
                     object : Callback<SignInResponse> {
@@ -35,18 +35,21 @@ class SignInViewModel
                         ) {
                             if (response.body() == null) {
                                 updateUiState(
-                                    uiState.value.copy(
+                                    SignInUiState(
                                         loading = false,
                                         error = "Something went wrong",
+                                        successful = false,
                                     ),
                                 )
                             } else {
                                 updateUiState(
-                                    uiState.value.copy(
+                                    SignInUiState(
                                         loading = false,
-                                        data = response.body()!!,
+                                        error = null,
+                                        successful = true,
                                     ),
                                 )
+                                preferenceManager.saveString("token", response.body()!!.token)
                             }
                         }
 
@@ -55,9 +58,10 @@ class SignInViewModel
                             t: Throwable,
                         ) {
                             updateUiState(
-                                uiState.value.copy(
+                                SignInUiState(
                                     loading = false,
                                     error = t.message ?: "Unknown error",
+                                    successful = false,
                                 ),
                             )
                         }

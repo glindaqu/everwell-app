@@ -94,4 +94,7 @@ dependencies {
     // coil (async image loading)
     implementation(libs.coil.compose)
     implementation(libs.coil.network.okhttp)
+
+    implementation(libs.logging.interceptor)
+    implementation(libs.okhttp)
 }

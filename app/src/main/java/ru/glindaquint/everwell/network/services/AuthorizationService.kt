@@ -7,13 +7,13 @@ import ru.glindaquint.everwell.network.dto.authorization.SignInRequest
 import ru.glindaquint.everwell.network.dto.authorization.SignInResponse
 import ru.glindaquint.everwell.network.dto.authorization.UserDto
 
-interface UsersService {
-    @POST("/auth/signup")
+interface AuthorizationService {
+    @POST("/auth/sign-up")
     fun signUp(
         @Body user: UserDto,
     ): Call<Void>
 
-    @POST("/auth/signin")
+    @POST("/auth/sign-in")
     fun signIn(
         @Body signInRequest: SignInRequest,
     ): Call<SignInResponse>

@@ -1,4 +1,4 @@
-package ru.glindaquint.everwell.uiStates
+package ru.glindaquint.everwell.uiStates.homeUiState
 
 import ru.glindaquint.everwell.types.simpleCalendar.SimpleCalendarBodyItemDto
 import java.util.Calendar

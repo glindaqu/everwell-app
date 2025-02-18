@@ -18,7 +18,7 @@ import androidx.compose.ui.unit.sp
 import ru.glindaquint.everwell.R
 import ru.glindaquint.everwell.ui.theme.MainAccent
 import ru.glindaquint.everwell.ui.theme.MainSecondary
-import ru.glindaquint.everwell.uiStates.SimpleCalendarUiState
+import ru.glindaquint.everwell.uiStates.homeUiState.SimpleCalendarUiState
 
 @Suppress("ktlint:standard:function-naming")
 @SuppressLint("SimpleDateFormat")
@@ -46,7 +46,7 @@ internal fun SimpleCalendarHeader(
             )
         }
         Text(
-            text = SimpleDateFormat("MMMM yyyy").format(state.getDate()).uppercase(),
+            text = SimpleDateFormat("MMM yyyy").format(state.getDate()).uppercase(),
             color = MainSecondary,
             fontSize = 14.sp,
         )

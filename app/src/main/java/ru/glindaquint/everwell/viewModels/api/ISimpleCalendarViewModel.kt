@@ -1,6 +1,6 @@
 package ru.glindaquint.everwell.viewModels.api
 
-import ru.glindaquint.everwell.uiStates.SimpleCalendarUiState
+import ru.glindaquint.everwell.uiStates.homeUiState.SimpleCalendarUiState
 import java.util.Date
 
 interface ISimpleCalendarViewModel {

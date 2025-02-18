@@ -1,6 +1,8 @@
 package ru.glindaquint.everwell.network
 
 import com.google.gson.GsonBuilder
+import okhttp3.OkHttpClient
+import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
@@ -15,10 +17,17 @@ class RetrofitFactory {
                     GsonBuilder().setLenient().create(),
                 ),
         ): T {
+            val interceptor = HttpLoggingInterceptor()
+            interceptor.setLevel(HttpLoggingInterceptor.Level.HEADERS)
+
+            // Add Interceptor to HttpClient
+            val client: OkHttpClient = OkHttpClient.Builder().addInterceptor(interceptor).build()
+
             val service =
                 Retrofit
                     .Builder()
                     .baseUrl(API_BASE_URL)
+                    .client(client) // Set HttpClient to be used by Retrofit
                     .addConverterFactory(converterFactory)
                     .build()
                     .create(api)

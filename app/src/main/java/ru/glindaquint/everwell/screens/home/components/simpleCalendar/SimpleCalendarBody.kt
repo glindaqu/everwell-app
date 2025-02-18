@@ -8,7 +8,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import ru.glindaquint.everwell.uiStates.SimpleCalendarUiState
+import ru.glindaquint.everwell.uiStates.homeUiState.SimpleCalendarUiState
 
 @OptIn(ExperimentalLayoutApi::class)
 @Suppress("ktlint:standard:function-naming")
