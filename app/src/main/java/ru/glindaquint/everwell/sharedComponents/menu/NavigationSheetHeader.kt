@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -26,7 +27,8 @@ fun NavigationSheetHeader(navigationDrawerColors: NavigationDrawerColors) {
                 .fillMaxWidth()
                 .background(
                     color = navigationDrawerColors.headerColor,
-                ).padding(start = 16.dp, top = 13.dp, bottom = 8.dp),
+                ).padding(start = 16.dp, top = 13.dp, bottom = 8.dp)
+                .statusBarsPadding(),
     ) {
         AsyncImage(
             model = "https://i.pinimg.com/originals/25/05/6a/25056adc1178c436437713d7444ba8a0.jpg",

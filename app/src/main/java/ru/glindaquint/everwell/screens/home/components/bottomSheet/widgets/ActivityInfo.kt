@@ -24,10 +24,12 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import ru.glindaquint.everwell.ui.theme.MainAccent
 import ru.glindaquint.everwell.ui.theme.MainSecondary
+import ru.glindaquint.everwell.utils.pxToDp
 
 @Suppress("ktlint:standard:function-naming")
 @Composable
 fun ActivityInfo(
+    modifier: Modifier = Modifier,
     title: String,
     painter: Painter,
     value: String,
@@ -35,8 +37,7 @@ fun ActivityInfo(
     val infoWidgetSize = remember { mutableStateOf(IntSize(0, 0)) }
     Column(
         modifier =
-            Modifier
-                .size(110.dp)
+            modifier
                 .clip(RoundedCornerShape(12.dp))
                 .background(
                     Brush.linearGradient(
@@ -51,6 +52,7 @@ fun ActivityInfo(
                     infoWidgetSize.value = it.size
                 },
         horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center,
     ) {
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
@@ -68,7 +70,7 @@ fun ActivityInfo(
             Icon(
                 painter = painter,
                 contentDescription = "Info about $title",
-                modifier = Modifier.size(50.dp),
+                modifier = Modifier.size((infoWidgetSize.value.width / 2.5).toInt().pxToDp()),
                 tint = MainSecondary,
             )
             Text(text = value, color = MainAccent, fontSize = 20.sp)

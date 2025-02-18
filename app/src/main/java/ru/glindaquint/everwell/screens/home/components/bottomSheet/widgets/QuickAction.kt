@@ -20,14 +20,14 @@ import ru.glindaquint.everwell.ui.theme.MainSecondary
 @Suppress("ktlint:standard:function-naming")
 @Composable
 fun QuickAction(
+    modifier: Modifier = Modifier,
     painter: Painter? = null,
     title: String,
 ) {
     Box(contentAlignment = Alignment.BottomStart) {
         Box(
             modifier =
-                Modifier
-                    .size(85.dp)
+                modifier
                     .clip(RoundedCornerShape(12.dp))
                     .background(Color.Gray),
         )

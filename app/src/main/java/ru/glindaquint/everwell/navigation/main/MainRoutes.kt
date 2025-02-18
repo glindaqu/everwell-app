@@ -38,7 +38,7 @@ class MainRoutes {
                 routeIconResource = R.drawable.home,
                 navigationDrawerColors =
                     NavigationDrawerColors(
-                        headerColor = Color.White,
+                        headerColor = MainSecondary,
                         bodyColor = MainOnBackground,
                         itemBackgroundColor = MainOnBackground,
                         itemForegroundColor = MainSecondary,

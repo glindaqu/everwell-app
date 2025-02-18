@@ -31,13 +31,13 @@ val Typography =
         bodyMedium =
             TextStyle(
                 fontWeight = FontWeight.Medium,
-                fontSize = 14.sp,
+                fontSize = 16.sp,
                 fontFamily = Roboto,
             ),
         labelMedium =
             TextStyle(
                 fontWeight = FontWeight.Normal,
-                fontSize = 10.sp,
+                fontSize = 12.sp,
                 fontFamily = Roboto,
             ),
     )

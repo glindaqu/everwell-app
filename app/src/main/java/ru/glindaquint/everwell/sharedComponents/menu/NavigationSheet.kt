@@ -2,7 +2,9 @@ package ru.glindaquint.everwell.sharedComponents.menu
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.widthIn
 import androidx.compose.material3.ModalDrawerSheet
 import androidx.compose.runtime.Composable
@@ -38,9 +40,10 @@ fun NavigationSheet(
 
     ModalDrawerSheet(
         drawerContainerColor = MainOnBackground,
+        windowInsets = WindowInsets(0),
         modifier = Modifier.widthIn(max = (metrics.widthPixels / LocalDensity.current.density * 0.75f).dp),
     ) {
-        Column(modifier = Modifier.fillMaxSize(), verticalArrangement = Arrangement.SpaceBetween) {
+        Column(modifier = Modifier.fillMaxSize().navigationBarsPadding(), verticalArrangement = Arrangement.SpaceBetween) {
             Column {
                 NavigationSheetHeader(navigationDrawerColors = selectedItem.value.navigationDrawerColors)
                 NavigationSheetBody(
