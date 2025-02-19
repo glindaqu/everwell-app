@@ -6,10 +6,10 @@ import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import ru.glindaquint.everwell.dto.colors.navigation.NavigationDrawerColors
+import ru.glindaquint.everwell.dto.colors.navigation.NavigationSheetItemColors
 import ru.glindaquint.everwell.navigation.main.MainRouteDto
 import ru.glindaquint.everwell.sharedComponents.LineSpacer
-import ru.glindaquint.everwell.types.navigation.NavigationDrawerColors
-import ru.glindaquint.everwell.types.navigation.NavigationSheetItemColors
 
 @Suppress("ktlint:standard:function-naming")
 @Composable
