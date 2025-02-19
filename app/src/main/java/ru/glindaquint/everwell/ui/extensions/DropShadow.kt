@@ -1,4 +1,4 @@
-package ru.glindaquint.everwell.utils
+package ru.glindaquint.everwell.ui.extensions
 
 import android.annotation.SuppressLint
 import android.graphics.BlurMaskFilter

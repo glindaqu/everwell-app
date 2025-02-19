@@ -38,8 +38,8 @@ import ru.glindaquint.everwell.screens.home.components.topAppBar.HomeTopAppBar
 import ru.glindaquint.everwell.screens.home.components.tranparencyDarkBG.TransparencyDarkBackground
 import ru.glindaquint.everwell.ui.theme.MainBackground
 import ru.glindaquint.everwell.ui.theme.MainOnBackground
-import ru.glindaquint.everwell.utils.UpdateNavigationBarColor
-import ru.glindaquint.everwell.utils.UpdateStatusBarColor
+import ru.glindaquint.everwell.ui.extensions.UpdateNavigationBarColor
+import ru.glindaquint.everwell.ui.extensions.UpdateStatusBarColor
 import ru.glindaquint.everwell.utils.pxToDp
 import ru.glindaquint.everwell.viewModels.impl.HomeViewModel
 

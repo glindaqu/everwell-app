@@ -24,7 +24,7 @@ import ru.glindaquint.everwell.ui.theme.MainBackground
 import ru.glindaquint.everwell.ui.theme.MainOnBackground
 import ru.glindaquint.everwell.ui.theme.MainPrimary
 import ru.glindaquint.everwell.ui.theme.MainSecondary
-import ru.glindaquint.everwell.utils.dropShadow
+import ru.glindaquint.everwell.ui.extensions.dropShadow
 import ru.glindaquint.everwell.utils.pxToDp
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")

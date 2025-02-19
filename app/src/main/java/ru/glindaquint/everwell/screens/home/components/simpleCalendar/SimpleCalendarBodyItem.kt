@@ -14,8 +14,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import ru.glindaquint.everwell.types.simpleCalendar.SimpleCalendarBodyItemColors
-import ru.glindaquint.everwell.types.simpleCalendar.SimpleCalendarBodyItemDto
+import ru.glindaquint.everwell.dto.colors.simpleCalendar.SimpleCalendarBodyItemColors
+import ru.glindaquint.everwell.dto.objective.simpleCalendar.SimpleCalendarBodyItemDto
 import ru.glindaquint.everwell.ui.theme.MainAccent
 import ru.glindaquint.everwell.ui.theme.MainBackground
 import ru.glindaquint.everwell.ui.theme.MainPrimary

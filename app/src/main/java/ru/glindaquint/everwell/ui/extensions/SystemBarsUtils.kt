@@ -1,4 +1,4 @@
-package ru.glindaquint.everwell.utils
+package ru.glindaquint.everwell.ui.extensions
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect

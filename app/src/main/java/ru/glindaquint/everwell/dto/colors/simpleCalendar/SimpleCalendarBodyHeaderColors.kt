@@ -1,4 +1,4 @@
-package ru.glindaquint.everwell.types.simpleCalendar
+package ru.glindaquint.everwell.dto.colors.simpleCalendar
 
 import androidx.compose.ui.graphics.Color
 

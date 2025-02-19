@@ -4,7 +4,7 @@ import androidx.lifecycle.ViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import ru.glindaquint.everwell.models.simpleCalendar.SimpleCalendarModel
-import ru.glindaquint.everwell.types.simpleCalendar.SimpleCalendarBodyItemDto
+import ru.glindaquint.everwell.dto.objective.simpleCalendar.SimpleCalendarBodyItemDto
 import ru.glindaquint.everwell.uiStates.homeUiState.SimpleCalendarUiState
 import ru.glindaquint.everwell.viewModels.api.ISimpleCalendarViewModel
 import java.util.Calendar

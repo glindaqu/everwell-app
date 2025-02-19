@@ -1,4 +1,4 @@
-package ru.glindaquint.everwell.types.navigation
+package ru.glindaquint.everwell.dto.colors.navigation
 
 import androidx.compose.ui.graphics.Color
 

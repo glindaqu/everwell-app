@@ -1,4 +1,4 @@
-package ru.glindaquint.everwell.types.simpleCalendar
+package ru.glindaquint.everwell.dto.objective.simpleCalendar
 
 data class SimpleCalendarBodyItemDto(
     val day: Int,
