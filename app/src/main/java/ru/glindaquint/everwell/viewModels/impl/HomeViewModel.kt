@@ -1,6 +1,5 @@
 package ru.glindaquint.everwell.viewModels.impl
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -19,14 +18,15 @@ import javax.inject.Inject
 class HomeViewModel
     @Inject
     constructor(
+        preferenceManager: PreferenceManagerImpl,
         val uiState: MutableStateFlow<HomeUiState>,
-        private val preferenceManager: PreferenceManagerImpl,
         private val tasksService: TasksService,
         private val userService: UserService,
     ) : ViewModel() {
         private val apiToken = "Bearer " + preferenceManager.getString("token")
 
         fun loadTasks() {
+            updateUiState(uiState.value.copy(loading = true))
             tasksService.getAll(token = apiToken).enqueue(
                 object : Callback<GetAllTasksResponse> {
                     override fun onResponse(
@@ -38,16 +38,15 @@ class HomeViewModel
                                 uiState.value.copy(
                                     tasks = response.body()!!.tasks,
                                     loading = false,
+                                    error = null,
                                 ),
                             )
                         } else {
-                            Log.d(
-                                "NETWORK ERROR",
-                                "onResponse: Unknown error, ${response.code()}, $response, ${
-                                    preferenceManager.getString(
-                                        "token",
-                                    )
-                                }",
+                            updateUiState(
+                                uiState.value.copy(
+                                    error = "Something went wrong",
+                                    loading = false,
+                                ),
                             )
                         }
                     }
@@ -56,13 +55,19 @@ class HomeViewModel
                         call: Call<GetAllTasksResponse>,
                         t: Throwable,
                     ) {
-                        Log.d("NETWORK ERROR", "onFailure: ${t.message}")
+                        updateUiState(
+                            uiState.value.copy(
+                                error = t.message,
+                                loading = false,
+                            ),
+                        )
                     }
                 },
             )
         }
 
         fun loadUser() {
+            updateUiState(uiState.value.copy(loading = true))
             userService.getUser(token = apiToken).enqueue(
                 object : Callback<GetUserResponse> {
                     override fun onResponse(
@@ -70,7 +75,20 @@ class HomeViewModel
                         response: Response<GetUserResponse>,
                     ) {
                         if (response.body() != null) {
-                            updateUiState(uiState.value.copy(username = response.body()!!.username))
+                            updateUiState(
+                                uiState.value.copy(
+                                    username = response.body()!!.username,
+                                    loading = false,
+                                    error = null,
+                                ),
+                            )
+                        } else {
+                            updateUiState(
+                                uiState.value.copy(
+                                    loading = false,
+                                    error = "Something went wrong",
+                                ),
+                            )
                         }
                     }
 
@@ -78,7 +96,12 @@ class HomeViewModel
                         call: Call<GetUserResponse>,
                         t: Throwable,
                     ) {
-                        Log.d("NETWORK ERROR", "onFailure: ${t.message}")
+                        updateUiState(
+                            uiState.value.copy(
+                                loading = false,
+                                error = t.message,
+                            ),
+                        )
                     }
                 },
             )
