@@ -67,6 +67,10 @@ fun SignInScreen(
             }
         }
 
+    LaunchedEffect(Unit) {
+        viewModel.trySignInWithSaved()
+    }
+
     LaunchedEffect(uiState.value) {
         if (uiState.value.successful) {
             context.startActivity(

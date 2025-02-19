@@ -23,6 +23,16 @@ class SignInViewModel
         val uiState: MutableStateFlow<SignInUiState>,
     ) : ViewModel(),
         ISignInViewModel {
+        private val savedUsername = preferenceManager.getString("username")
+        private val savedPassword = preferenceManager.getString("password")
+
+        fun trySignInWithSaved() {
+            if (savedPassword == null || savedUsername == null) {
+                return
+            }
+            signIn(SignInRequest(username = savedUsername, password = savedPassword))
+        }
+
         override fun signIn(request: SignInRequest) {
             updateUiState(uiState.value.copy(loading = true))
             authorizationService
@@ -50,6 +60,8 @@ class SignInViewModel
                                     ),
                                 )
                                 preferenceManager.saveString("token", response.body()!!.token)
+                                preferenceManager.saveString("username", request.username)
+                                preferenceManager.saveString("password", request.password)
                             }
                         }
 

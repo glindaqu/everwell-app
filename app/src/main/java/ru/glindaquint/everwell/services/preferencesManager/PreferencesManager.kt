@@ -8,8 +8,8 @@ interface PreferencesManager {
 
     fun getString(
         key: String,
-        defaultValue: String = "",
-    ): String
+        defaultValue: String? = null,
+    ): String?
 
     fun setPreferencesChangeListener(callback: (String?) -> Unit)
 

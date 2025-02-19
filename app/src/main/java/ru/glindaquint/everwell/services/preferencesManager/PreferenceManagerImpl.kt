@@ -19,8 +19,8 @@ class PreferenceManagerImpl
 
         override fun getString(
             key: String,
-            defaultValue: String,
-        ): String = sharedPreferences.getString(key, defaultValue) ?: defaultValue
+            defaultValue: String?,
+        ): String? = sharedPreferences.getString(key, defaultValue) ?: defaultValue
 
         override fun setPreferencesChangeListener(callback: (String?) -> Unit) {
             listener =
