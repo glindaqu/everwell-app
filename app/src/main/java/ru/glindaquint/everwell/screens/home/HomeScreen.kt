@@ -76,6 +76,7 @@ fun HomeScreen(drawerState: DrawerState) {
 
     LaunchedEffect(Unit) {
         viewModel.loadTasks()
+        viewModel.loadUser()
     }
 
     BottomSheetScaffold(
@@ -97,6 +98,7 @@ fun HomeScreen(drawerState: DrawerState) {
                 modifier = Modifier.height(topAppBarHeight.intValue.pxToDp()),
             )
             HomeTopAppBar(
+                username = uiState.value.username ?: "",
                 modifier =
                     Modifier.onGloballyPositioned {
                         topAppBarHeight.intValue = it.size.height

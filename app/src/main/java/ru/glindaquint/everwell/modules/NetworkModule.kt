@@ -7,6 +7,7 @@ import dagger.hilt.android.components.ActivityRetainedComponent
 import ru.glindaquint.everwell.network.RetrofitFactory
 import ru.glindaquint.everwell.network.services.AuthorizationService
 import ru.glindaquint.everwell.network.services.TasksService
+import ru.glindaquint.everwell.network.services.UserService
 
 @Module
 @InstallIn(ActivityRetainedComponent::class)
@@ -16,4 +17,7 @@ object NetworkModule {
 
     @Provides
     fun provideTasksService(): TasksService = RetrofitFactory.build(TasksService::class.java)
+
+    @Provides
+    fun provideUserService(): UserService = RetrofitFactory.build(UserService::class.java)
 }

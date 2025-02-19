@@ -20,6 +20,7 @@ import ru.glindaquint.everwell.ui.theme.MainBackground
 @Suppress("ktlint:standard:function-naming")
 @Composable
 fun HomeTopAppBar(
+    username: String,
     modifier: Modifier = Modifier,
     onMenuButtonClick: () -> Unit,
 ) {
@@ -44,7 +45,7 @@ fun HomeTopAppBar(
                     )
                 },
             )
-            ProfileInfoButton(onClick = { })
+            ProfileInfoButton(username = username, onClick = { })
         }
         NotificationButton(onClick = { })
     }

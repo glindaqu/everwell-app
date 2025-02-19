@@ -26,7 +26,10 @@ import ru.glindaquint.everwell.utils.pxToDp
 
 @Suppress("ktlint:standard:function-naming")
 @Composable
-fun ProfileInfoButton(onClick: () -> Unit) {
+fun ProfileInfoButton(
+    username: String,
+    onClick: () -> Unit,
+) {
     Row(
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.spacedBy(8.dp),
@@ -54,7 +57,7 @@ fun ProfileInfoButton(onClick: () -> Unit) {
             horizontalArrangement = Arrangement.spacedBy(2.pxToDp()),
         ) {
             Text(
-                text = "Jayce",
+                text = username,
                 fontWeight = FontWeight.Medium,
                 fontFamily = Typography.bodySmall.fontFamily,
                 fontSize = Typography.bodySmall.fontSize,
