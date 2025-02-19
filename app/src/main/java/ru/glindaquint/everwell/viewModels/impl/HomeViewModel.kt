@@ -8,8 +8,8 @@ import retrofit2.Callback
 import retrofit2.Response
 import ru.glindaquint.everwell.network.dto.tasks.GetAllTasksResponse
 import ru.glindaquint.everwell.network.dto.users.GetUserResponse
-import ru.glindaquint.everwell.network.services.TasksService
-import ru.glindaquint.everwell.network.services.UserService
+import ru.glindaquint.everwell.network.services.TasksNetworkService
+import ru.glindaquint.everwell.network.services.UserNetworkService
 import ru.glindaquint.everwell.services.preferencesManager.PreferenceManagerImpl
 import ru.glindaquint.everwell.uiStates.homeUiState.HomeUiState
 import ru.glindaquint.everwell.viewModels.api.IHomeViewModel
@@ -21,15 +21,15 @@ class HomeViewModel
     constructor(
         preferenceManager: PreferenceManagerImpl,
         val uiState: MutableStateFlow<HomeUiState>,
-        private val tasksService: TasksService,
-        private val userService: UserService,
+        private val tasksNetworkService: TasksNetworkService,
+        private val userNetworkService: UserNetworkService,
     ) : ViewModel(),
         IHomeViewModel {
         private val apiToken = "Bearer " + preferenceManager.getString("token")
 
         override fun loadTasks() {
             updateUiState(uiState.value.copy(loading = true))
-            tasksService.getAll(token = apiToken).enqueue(
+            tasksNetworkService.getAll(token = apiToken).enqueue(
                 object : Callback<GetAllTasksResponse> {
                     override fun onResponse(
                         call: Call<GetAllTasksResponse>,
@@ -70,7 +70,7 @@ class HomeViewModel
 
         override fun loadUser() {
             updateUiState(uiState.value.copy(loading = true))
-            userService.getUser(token = apiToken).enqueue(
+            userNetworkService.getUser(token = apiToken).enqueue(
                 object : Callback<GetUserResponse> {
                     override fun onResponse(
                         call: Call<GetUserResponse>,

@@ -6,7 +6,7 @@ import retrofit2.http.Header
 import retrofit2.http.POST
 import ru.glindaquint.everwell.network.dto.tasks.GetAllTasksResponse
 
-interface TasksService {
+interface TasksNetworkService {
     @POST("/tasks/add")
     fun add()
 

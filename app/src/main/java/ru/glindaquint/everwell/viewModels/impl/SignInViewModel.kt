@@ -8,7 +8,7 @@ import retrofit2.Callback
 import retrofit2.Response
 import ru.glindaquint.everwell.network.dto.authorization.SignInRequest
 import ru.glindaquint.everwell.network.dto.authorization.SignInResponse
-import ru.glindaquint.everwell.network.services.AuthorizationService
+import ru.glindaquint.everwell.network.services.AuthorizationNetworkService
 import ru.glindaquint.everwell.services.preferencesManager.PreferenceManagerImpl
 import ru.glindaquint.everwell.uiStates.SignInUiState
 import ru.glindaquint.everwell.viewModels.api.ISignInViewModel
@@ -19,7 +19,7 @@ class SignInViewModel
     @Inject
     constructor(
         private val preferenceManager: PreferenceManagerImpl,
-        private val authorizationService: AuthorizationService,
+        private val authorizationNetworkService: AuthorizationNetworkService,
         val uiState: MutableStateFlow<SignInUiState>,
     ) : ViewModel(),
         ISignInViewModel {
@@ -35,7 +35,7 @@ class SignInViewModel
 
         override fun signIn(request: SignInRequest) {
             updateUiState(uiState.value.copy(loading = true))
-            authorizationService
+            authorizationNetworkService
                 .signIn(request)
                 .enqueue(
                     object : Callback<SignInResponse> {
