@@ -12,6 +12,7 @@ import ru.glindaquint.everwell.network.services.TasksService
 import ru.glindaquint.everwell.network.services.UserService
 import ru.glindaquint.everwell.services.preferencesManager.PreferenceManagerImpl
 import ru.glindaquint.everwell.uiStates.homeUiState.HomeUiState
+import ru.glindaquint.everwell.viewModels.api.IHomeViewModel
 import javax.inject.Inject
 
 @HiltViewModel
@@ -22,10 +23,11 @@ class HomeViewModel
         val uiState: MutableStateFlow<HomeUiState>,
         private val tasksService: TasksService,
         private val userService: UserService,
-    ) : ViewModel() {
+    ) : ViewModel(),
+        IHomeViewModel {
         private val apiToken = "Bearer " + preferenceManager.getString("token")
 
-        fun loadTasks() {
+        override fun loadTasks() {
             updateUiState(uiState.value.copy(loading = true))
             tasksService.getAll(token = apiToken).enqueue(
                 object : Callback<GetAllTasksResponse> {
@@ -66,7 +68,7 @@ class HomeViewModel
             )
         }
 
-        fun loadUser() {
+        override fun loadUser() {
             updateUiState(uiState.value.copy(loading = true))
             userService.getUser(token = apiToken).enqueue(
                 object : Callback<GetUserResponse> {
@@ -107,7 +109,7 @@ class HomeViewModel
             )
         }
 
-        fun updateUiState(state: HomeUiState) {
+        override fun updateUiState(state: HomeUiState) {
             this.uiState.value = state
         }
     }
