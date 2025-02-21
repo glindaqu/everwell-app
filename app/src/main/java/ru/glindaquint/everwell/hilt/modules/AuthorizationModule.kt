@@ -1,4 +1,4 @@
-package ru.glindaquint.everwell.modules
+package ru.glindaquint.everwell.hilt.modules
 
 import dagger.Module
 import dagger.Provides

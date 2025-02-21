@@ -1,16 +1,16 @@
 package ru.glindaquint.everwell.viewModels.impl
 
 import androidx.lifecycle.ViewModel
+import dagger.Lazy
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import ru.glindaquint.everwell.network.dto.tasks.GetAllTasksResponse
-import ru.glindaquint.everwell.network.dto.users.GetUserResponse
 import ru.glindaquint.everwell.network.services.TasksNetworkService
-import ru.glindaquint.everwell.network.services.UserNetworkService
 import ru.glindaquint.everwell.services.preferencesManager.PreferenceManagerImpl
+import ru.glindaquint.everwell.services.userService.UserService
 import ru.glindaquint.everwell.uiStates.homeUiState.HomeUiState
 import ru.glindaquint.everwell.viewModels.api.IHomeViewModel
 import javax.inject.Inject
@@ -22,10 +22,11 @@ class HomeViewModel
         preferenceManager: PreferenceManagerImpl,
         val uiState: MutableStateFlow<HomeUiState>,
         private val tasksNetworkService: TasksNetworkService,
-        private val userNetworkService: UserNetworkService,
+        private val userService: Lazy<UserService>,
     ) : ViewModel(),
         IHomeViewModel {
         private val apiToken = "Bearer " + preferenceManager.getString("token")
+        val user = userService.get().user
 
         override fun loadTasks() {
             updateUiState(uiState.value.copy(loading = true))
@@ -69,43 +70,14 @@ class HomeViewModel
         }
 
         override fun loadUser() {
-            updateUiState(uiState.value.copy(loading = true))
-            userNetworkService.getUser(token = apiToken).enqueue(
-                object : Callback<GetUserResponse> {
-                    override fun onResponse(
-                        call: Call<GetUserResponse>,
-                        response: Response<GetUserResponse>,
-                    ) {
-                        if (response.body() != null) {
-                            updateUiState(
-                                uiState.value.copy(
-                                    username = response.body()!!.username,
-                                    loading = false,
-                                    error = null,
-                                ),
-                            )
-                        } else {
-                            updateUiState(
-                                uiState.value.copy(
-                                    loading = false,
-                                    error = "Something went wrong",
-                                ),
-                            )
-                        }
-                    }
-
-                    override fun onFailure(
-                        call: Call<GetUserResponse>,
-                        t: Throwable,
-                    ) {
-                        updateUiState(
-                            uiState.value.copy(
-                                loading = false,
-                                error = t.message,
-                            ),
-                        )
-                    }
-                },
+            updateUiState(
+                uiState.value.copy(
+                    username =
+                        userService
+                            .get()
+                            .user.value
+                            ?.username,
+                ),
             )
         }
 

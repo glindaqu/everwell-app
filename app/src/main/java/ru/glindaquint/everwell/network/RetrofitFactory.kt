@@ -1,37 +1,50 @@
 package ru.glindaquint.everwell.network
 
 import com.google.gson.GsonBuilder
+import dagger.hilt.android.scopes.ActivityRetainedScoped
 import okhttp3.OkHttpClient
-import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import ru.glindaquint.everwell.network.interceptors.AuthorizationInterceptor
+import javax.inject.Inject
 
-class RetrofitFactory {
-    companion object {
-        private const val API_BASE_URL = "http://10.0.2.2:8080/"
+@ActivityRetainedScoped
+class RetrofitFactory
+    @Inject
+    constructor(
+        private val authorizationInterceptor: AuthorizationInterceptor,
+    ) {
+        companion object {
+            private var retrofit: Retrofit? = null
+            private var client: OkHttpClient? = null
 
-        fun <T> build(
-            api: Class<T>,
-            converterFactory: GsonConverterFactory =
-                GsonConverterFactory.create(
-                    GsonBuilder().setLenient().create(),
-                ),
-        ): T {
-            val interceptor = HttpLoggingInterceptor()
-            interceptor.setLevel(HttpLoggingInterceptor.Level.HEADERS)
+            private const val API_BASE_URL = "http://10.0.2.2:8080/"
+        }
 
-            // Add Interceptor to HttpClient
-            val client: OkHttpClient = OkHttpClient.Builder().addInterceptor(interceptor).build()
+        fun getInstance(apiUrl: String = API_BASE_URL): Retrofit {
+            if (retrofit == null) {
+                retrofit =
+                    Retrofit
+                        .Builder()
+                        .baseUrl(apiUrl)
+                        .client(getClient())
+                        .addConverterFactory(
+                            GsonConverterFactory.create(
+                                GsonBuilder().setLenient().create(),
+                            ),
+                        ).build()
+            }
+            return retrofit!!
+        }
 
-            val service =
-                Retrofit
-                    .Builder()
-                    .baseUrl(API_BASE_URL)
-                    .client(client) // Set HttpClient to be used by Retrofit
-                    .addConverterFactory(converterFactory)
-                    .build()
-                    .create(api)
-            return service
+        private fun getClient(): OkHttpClient {
+            if (client == null) {
+                client =
+                    OkHttpClient
+                        .Builder()
+                        .addInterceptor(authorizationInterceptor)
+                        .build()
+            }
+            return client!!
         }
     }
-}

@@ -36,10 +36,10 @@ import ru.glindaquint.everwell.screens.home.components.simpleCalendar.SimpleCale
 import ru.glindaquint.everwell.screens.home.components.taskList.TaskList
 import ru.glindaquint.everwell.screens.home.components.topAppBar.HomeTopAppBar
 import ru.glindaquint.everwell.screens.home.components.tranparencyDarkBG.TransparencyDarkBackground
-import ru.glindaquint.everwell.ui.theme.MainBackground
-import ru.glindaquint.everwell.ui.theme.MainOnBackground
 import ru.glindaquint.everwell.ui.extensions.UpdateNavigationBarColor
 import ru.glindaquint.everwell.ui.extensions.UpdateStatusBarColor
+import ru.glindaquint.everwell.ui.theme.MainBackground
+import ru.glindaquint.everwell.ui.theme.MainOnBackground
 import ru.glindaquint.everwell.utils.pxToDp
 import ru.glindaquint.everwell.viewModels.impl.HomeViewModel
 
@@ -49,6 +49,7 @@ import ru.glindaquint.everwell.viewModels.impl.HomeViewModel
 @Composable
 fun HomeScreen(drawerState: DrawerState) {
     val viewModel = hiltViewModel<HomeViewModel>()
+    val user = viewModel.user.collectAsState()
     val uiState = viewModel.uiState.collectAsState()
     val coroutineScope = rememberCoroutineScope()
     val sheetScaffoldState =
@@ -98,7 +99,7 @@ fun HomeScreen(drawerState: DrawerState) {
                 modifier = Modifier.height(topAppBarHeight.intValue.pxToDp()),
             )
             HomeTopAppBar(
-                username = uiState.value.username ?: "",
+                username = user.value?.username.toString(),
                 modifier =
                     Modifier.onGloballyPositioned {
                         topAppBarHeight.intValue = it.size.height

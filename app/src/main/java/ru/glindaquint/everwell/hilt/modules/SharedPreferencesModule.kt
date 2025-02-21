@@ -1,4 +1,4 @@
-package ru.glindaquint.everwell.modules
+package ru.glindaquint.everwell.hilt.modules
 
 import android.content.Context
 import android.content.SharedPreferences
