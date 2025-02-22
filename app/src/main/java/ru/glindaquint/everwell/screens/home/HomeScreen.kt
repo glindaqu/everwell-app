@@ -17,7 +17,6 @@ import androidx.compose.material3.SheetValue
 import androidx.compose.material3.rememberBottomSheetScaffoldState
 import androidx.compose.material3.rememberStandardBottomSheetState
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.mutableIntStateOf
@@ -49,7 +48,6 @@ import ru.glindaquint.everwell.viewModels.impl.HomeViewModel
 @Composable
 fun HomeScreen(drawerState: DrawerState) {
     val viewModel = hiltViewModel<HomeViewModel>()
-    val user = viewModel.user.collectAsState()
     val uiState = viewModel.uiState.collectAsState()
     val coroutineScope = rememberCoroutineScope()
     val sheetScaffoldState =
@@ -75,10 +73,6 @@ fun HomeScreen(drawerState: DrawerState) {
     UpdateStatusBarColor(color = Color.Transparent)
     UpdateNavigationBarColor(color = Color.Transparent)
 
-    LaunchedEffect(Unit) {
-        viewModel.loadTasks()
-    }
-
     BottomSheetScaffold(
         scaffoldState = sheetScaffoldState,
         sheetPeekHeight = sheetPickHeight.value + sheetPickHeight.value / 2,
@@ -98,7 +92,7 @@ fun HomeScreen(drawerState: DrawerState) {
                 modifier = Modifier.height(topAppBarHeight.intValue.pxToDp()),
             )
             HomeTopAppBar(
-                username = user.value?.username.toString(),
+                username = uiState.value.username.toString(),
                 modifier =
                     Modifier.onGloballyPositioned {
                         topAppBarHeight.intValue = it.size.height
