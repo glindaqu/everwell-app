@@ -18,12 +18,12 @@ import javax.inject.Inject
 class HomeViewModel
     @Inject
     constructor(
-        val uiState: MutableStateFlow<HomeUiState>,
         private val tasksNetworkService: TasksNetworkService,
-        private val userService: Lazy<UserService>,
+        userService: Lazy<UserService>,
     ) : ViewModel(),
         IHomeViewModel {
         val user = userService.get().user
+        val uiState = MutableStateFlow(HomeUiState(username = user.value?.username))
 
         override fun loadTasks() {
             updateUiState(uiState.value.copy(loading = true))
@@ -63,18 +63,6 @@ class HomeViewModel
                         )
                     }
                 },
-            )
-        }
-
-        override fun loadUser() {
-            updateUiState(
-                uiState.value.copy(
-                    username =
-                        userService
-                            .get()
-                            .user.value
-                            ?.username,
-                ),
             )
         }
 

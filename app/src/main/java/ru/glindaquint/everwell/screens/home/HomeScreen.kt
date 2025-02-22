@@ -77,7 +77,6 @@ fun HomeScreen(drawerState: DrawerState) {
 
     LaunchedEffect(Unit) {
         viewModel.loadTasks()
-        viewModel.loadUser()
     }
 
     BottomSheetScaffold(
