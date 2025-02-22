@@ -9,7 +9,6 @@ import retrofit2.Callback
 import retrofit2.Response
 import ru.glindaquint.everwell.network.dto.tasks.GetAllTasksResponse
 import ru.glindaquint.everwell.network.services.TasksNetworkService
-import ru.glindaquint.everwell.services.preferencesManager.PreferenceManagerImpl
 import ru.glindaquint.everwell.services.userService.UserService
 import ru.glindaquint.everwell.uiStates.homeUiState.HomeUiState
 import ru.glindaquint.everwell.viewModels.api.IHomeViewModel
@@ -19,18 +18,16 @@ import javax.inject.Inject
 class HomeViewModel
     @Inject
     constructor(
-        preferenceManager: PreferenceManagerImpl,
         val uiState: MutableStateFlow<HomeUiState>,
         private val tasksNetworkService: TasksNetworkService,
         private val userService: Lazy<UserService>,
     ) : ViewModel(),
         IHomeViewModel {
-        private val apiToken = "Bearer " + preferenceManager.getString("token")
         val user = userService.get().user
 
         override fun loadTasks() {
             updateUiState(uiState.value.copy(loading = true))
-            tasksNetworkService.getAll(token = apiToken).enqueue(
+            tasksNetworkService.getAll().enqueue(
                 object : Callback<GetAllTasksResponse> {
                     override fun onResponse(
                         call: Call<GetAllTasksResponse>,
