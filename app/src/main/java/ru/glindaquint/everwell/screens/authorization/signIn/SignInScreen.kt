@@ -23,7 +23,7 @@ import androidx.navigation.NavHostController
 import ru.glindaquint.everwell.R
 import ru.glindaquint.everwell.activities.MainActivity
 import ru.glindaquint.everwell.navigation.authorization.AuthorizationRoutes
-import ru.glindaquint.everwell.network.dto.authorization.SignInRequest
+import ru.glindaquint.everwell.network.dto.authorization.signIn.SignInRequest
 import ru.glindaquint.everwell.sharedComponents.LabeledTextField
 import ru.glindaquint.everwell.sharedComponents.authorization.ActionButton
 import ru.glindaquint.everwell.sharedComponents.authorization.ContentContainer
@@ -66,10 +66,6 @@ fun SignInScreen(
                 }
             }
         }
-
-    LaunchedEffect(Unit) {
-        viewModel.trySignInWithSaved()
-    }
 
     LaunchedEffect(uiState.value) {
         if (uiState.value.successful) {

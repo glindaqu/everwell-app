@@ -1,17 +1,17 @@
 package ru.glindaquint.everwell.viewModels.impl
 
 import androidx.lifecycle.ViewModel
+import dagger.Lazy
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
-import ru.glindaquint.everwell.network.dto.authorization.SignInRequest
-import ru.glindaquint.everwell.network.dto.authorization.SignInResponse
-import ru.glindaquint.everwell.network.services.AuthorizationNetworkService
+import ru.glindaquint.everwell.network.dto.authorization.signIn.SignInRequest
 import ru.glindaquint.everwell.services.preferencesManager.PreferenceManagerImpl
+import ru.glindaquint.everwell.services.preferencesManager.PreferencesKeys
+import ru.glindaquint.everwell.services.userService.UserService
 import ru.glindaquint.everwell.uiStates.SignInUiState
+import ru.glindaquint.everwell.utils.jwt.JwtUtils
 import ru.glindaquint.everwell.viewModels.api.ISignInViewModel
+import java.util.Date
 import javax.inject.Inject
 
 @HiltViewModel
@@ -19,66 +19,60 @@ class SignInViewModel
     @Inject
     constructor(
         private val preferenceManager: PreferenceManagerImpl,
-        private val authorizationNetworkService: AuthorizationNetworkService,
+        private val userService: Lazy<UserService>,
         val uiState: MutableStateFlow<SignInUiState>,
     ) : ViewModel(),
         ISignInViewModel {
         private val savedUsername = preferenceManager.getString("username")
         private val savedPassword = preferenceManager.getString("password")
 
-        fun trySignInWithSaved() {
-            if (savedPassword == null || savedUsername == null) {
-                return
+        init {
+            if (savedPassword != null && savedUsername != null) {
+                signIn(SignInRequest(username = savedUsername, password = savedPassword))
             }
-            signIn(SignInRequest(username = savedUsername, password = savedPassword))
         }
 
         override fun signIn(request: SignInRequest) {
             updateUiState(uiState.value.copy(loading = true))
-            authorizationNetworkService
-                .signIn(request)
-                .enqueue(
-                    object : Callback<SignInResponse> {
-                        override fun onResponse(
-                            call: Call<SignInResponse>,
-                            response: Response<SignInResponse>,
-                        ) {
-                            if (response.body() == null) {
-                                updateUiState(
-                                    SignInUiState(
-                                        loading = false,
-                                        error = "Something went wrong",
-                                        successful = false,
-                                    ),
-                                )
-                            } else {
-                                updateUiState(
-                                    SignInUiState(
-                                        loading = false,
-                                        error = null,
-                                        successful = true,
-                                    ),
-                                )
-                                preferenceManager.saveString("token", response.body()!!.token)
-                                preferenceManager.saveString("username", request.username)
-                                preferenceManager.saveString("password", request.password)
-                            }
-                        }
+            val savedToken = preferenceManager.getString(PreferencesKeys.NETWORK_TOKEN)
+            val jwt = JwtUtils.decode(savedToken)
 
-                        override fun onFailure(
-                            call: Call<SignInResponse>,
-                            t: Throwable,
-                        ) {
-                            updateUiState(
-                                SignInUiState(
-                                    loading = false,
-                                    error = t.message ?: "Unknown error",
-                                    successful = false,
-                                ),
-                            )
+            if (jwt != null && Date(jwt.iat).after(Date())) {
+                updateUiState(
+                    SignInUiState(
+                        loading = false,
+                        error = null,
+                        successful = true,
+                    ),
+                )
+            } else {
+                userService.get().signIn(
+                    request = request,
+                    onSuccess = { token ->
+                        preferenceManager.saveString("token", token)
+                        if (savedPassword != request.password) {
+                            preferenceManager.saveString("password", request.password)
                         }
+                        if (savedUsername != request.username) {
+                            preferenceManager.saveString("username", request.username)
+                        }
+                        updateUiState(
+                            SignInUiState(
+                                loading = false,
+                                error = null,
+                                successful = true,
+                            ),
+                        )
+                    },
+                    onFailure = { t ->
+                        SignInUiState(
+                            loading = false,
+                            error = t.message,
+                            successful = false,
+                        )
                     },
                 )
+            }
         }
 
         override fun updateUiState(state: SignInUiState) {

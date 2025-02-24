@@ -11,7 +11,7 @@ junitVersion = "1.2.1"
 espressoCore = "3.6.1"
 lifecycleRuntimeKtx = "2.8.7"
 activityCompose = "1.10.0"
-composeBom = "2025.01.01"
+composeBom = "2025.02.00"
 appcompat = "1.7.0"
 material = "1.12.0"
 activity = "1.10.0"
@@ -19,7 +19,7 @@ constraintlayout = "2.2.0"
 okhttpVersion = "4.12.0"
 retrofit = "2.9.0"
 converterGson = "2.5.0"
-navigationCompose = "2.8.6"
+navigationCompose = "2.8.7"
 
 [libraries]
 accompanist-systemuicontroller-v02413rc = { module = "com.google.accompanist:accompanist-systemuicontroller", version.ref = "accompanistSystemuicontrollerVersion" }

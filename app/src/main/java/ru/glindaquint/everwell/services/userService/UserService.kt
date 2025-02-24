@@ -1,11 +1,17 @@
 package ru.glindaquint.everwell.services.userService
 
+import android.util.Log
 import dagger.hilt.android.scopes.ActivityRetainedScoped
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import ru.glindaquint.everwell.network.dto.authorization.AuthorizationResponse
+import ru.glindaquint.everwell.network.dto.authorization.signIn.SignInRequest
+import ru.glindaquint.everwell.network.dto.authorization.signUp.SignUpRequest
 import ru.glindaquint.everwell.network.dto.users.GetUserResponse
+import ru.glindaquint.everwell.network.services.AuthorizationNetworkService
 import ru.glindaquint.everwell.network.services.UserNetworkService
 import javax.inject.Inject
 
@@ -14,14 +20,65 @@ class UserService
     @Inject
     constructor(
         private val userNetworkService: UserNetworkService,
+        private val authorizationNetworkService: AuthorizationNetworkService,
     ) {
-        val user: MutableStateFlow<GetUserResponse?> = MutableStateFlow(null)
+        private val _user: MutableStateFlow<GetUserResponse?> = MutableStateFlow(null)
+        val user = _user.asStateFlow()
 
-        init {
-            refreshUser()
+        fun signIn(
+            request: SignInRequest,
+            onSuccess: ((String) -> Unit)? = null,
+            onFailure: ((Throwable) -> Unit)? = null,
+        ) {
+            authorizationNetworkService.signIn(request).enqueue(
+                object : Callback<AuthorizationResponse> {
+                    override fun onResponse(
+                        call: Call<AuthorizationResponse>,
+                        response: Response<AuthorizationResponse>,
+                    ) {
+                        if (response.body() != null) {
+                            onSuccess?.invoke(response.body()!!.token)
+                            refreshUser()
+                        }
+                    }
+
+                    override fun onFailure(
+                        call: Call<AuthorizationResponse>,
+                        t: Throwable,
+                    ) {
+                        onFailure?.invoke(t)
+                    }
+                },
+            )
         }
 
-        private fun refreshUser(
+        fun signUp(
+            request: SignUpRequest,
+            onSuccess: ((String) -> Unit)? = null,
+            onFailure: ((Throwable) -> Unit)? = null,
+        ) {
+            authorizationNetworkService.signUp(request).enqueue(
+                object : Callback<AuthorizationResponse> {
+                    override fun onResponse(
+                        call: Call<AuthorizationResponse>,
+                        response: Response<AuthorizationResponse>,
+                    ) {
+                        if (response.body() != null) {
+                            onSuccess?.invoke(response.body()!!.token)
+                        }
+                    }
+
+                    override fun onFailure(
+                        call: Call<AuthorizationResponse>,
+                        t: Throwable,
+                    ) {
+                        onFailure?.invoke(t)
+                    }
+                },
+            )
+        }
+
+        fun refreshUser(
             onSuccess: (() -> Unit)? = null,
             onFailure: ((Throwable) -> Unit)? = null,
         ) {
@@ -32,7 +89,7 @@ class UserService
                         response: Response<GetUserResponse>,
                     ) {
                         if (response.body() != null) {
-                            user.value = response.body()!!
+                            _user.value = response.body()!!
                             onSuccess?.invoke()
                         }
                     }
@@ -42,6 +99,7 @@ class UserService
                         t: Throwable,
                     ) {
                         onFailure?.invoke(t)
+                        Log.d("", "onFailure: ${t.message}")
                     }
                 },
             )

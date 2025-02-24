@@ -2,6 +2,6 @@
 
 package ru.glindaquint.everwell.network.dto.authorization
 
-data class SignInResponse(
+data class AuthorizationResponse(
     val token: String = "",
 )
