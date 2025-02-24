@@ -5,11 +5,11 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.components.ActivityRetainedComponent
 import kotlinx.coroutines.flow.MutableStateFlow
-import ru.glindaquint.everwell.uiStates.SignInUiState
+import ru.glindaquint.everwell.uiStates.AuthorizationUiState
 
 @Module
 @InstallIn(ActivityRetainedComponent::class)
 object AuthorizationModule {
     @Provides
-    fun provideSignInUiState(): MutableStateFlow<SignInUiState> = MutableStateFlow(SignInUiState())
+    fun provideSignInUiState(): MutableStateFlow<AuthorizationUiState> = MutableStateFlow(AuthorizationUiState())
 }

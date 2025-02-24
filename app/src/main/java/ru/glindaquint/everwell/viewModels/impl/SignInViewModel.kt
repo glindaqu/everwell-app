@@ -8,7 +8,7 @@ import ru.glindaquint.everwell.network.dto.authorization.signIn.SignInRequest
 import ru.glindaquint.everwell.services.preferencesManager.PreferenceManagerImpl
 import ru.glindaquint.everwell.services.preferencesManager.PreferencesKeys
 import ru.glindaquint.everwell.services.userService.UserService
-import ru.glindaquint.everwell.uiStates.SignInUiState
+import ru.glindaquint.everwell.uiStates.AuthorizationUiState
 import ru.glindaquint.everwell.utils.jwt.JwtUtils
 import ru.glindaquint.everwell.viewModels.api.ISignInViewModel
 import java.util.Date
@@ -20,7 +20,7 @@ class SignInViewModel
     constructor(
         private val preferenceManager: PreferenceManagerImpl,
         private val userService: Lazy<UserService>,
-        val uiState: MutableStateFlow<SignInUiState>,
+        val uiState: MutableStateFlow<AuthorizationUiState>,
     ) : ViewModel(),
         ISignInViewModel {
         private val savedUsername = preferenceManager.getString("username")
@@ -39,7 +39,7 @@ class SignInViewModel
 
             if (jwt != null && Date(jwt.iat).after(Date())) {
                 updateUiState(
-                    SignInUiState(
+                    AuthorizationUiState(
                         loading = false,
                         error = null,
                         successful = true,
@@ -57,7 +57,7 @@ class SignInViewModel
                             preferenceManager.saveString("username", request.username)
                         }
                         updateUiState(
-                            SignInUiState(
+                            AuthorizationUiState(
                                 loading = false,
                                 error = null,
                                 successful = true,
@@ -65,7 +65,7 @@ class SignInViewModel
                         )
                     },
                     onFailure = { t ->
-                        SignInUiState(
+                        AuthorizationUiState(
                             loading = false,
                             error = t.message,
                             successful = false,
@@ -75,7 +75,7 @@ class SignInViewModel
             }
         }
 
-        override fun updateUiState(state: SignInUiState) {
+        override fun updateUiState(state: AuthorizationUiState) {
             uiState.value = state
         }
     }

@@ -14,7 +14,7 @@ import ru.glindaquint.everwell.screens.authorization.signUp.SignUpScreen
 fun AuthorizationNavHost(navHostController: NavHostController) {
     NavHost(
         navController = navHostController,
-        startDestination = AuthorizationRoutes.SIGN_IN,
+        startDestination = AuthorizationRoutes.SIGN_UP,
     ) {
         composable(
             route = AuthorizationRoutes.SIGN_IN,
