@@ -1,14 +1,23 @@
 package ru.glindaquint.everwell.screens.home.components.taskList
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ColumnScope
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.KeyboardArrowRight
+import androidx.compose.material3.Icon
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import ru.glindaquint.everwell.ui.theme.MainPrimary
+import ru.glindaquint.everwell.ui.theme.Typography
 import ru.glindaquint.everwell.utils.pxToDp
 
 @Suppress("ktlint:standard:function-naming")
@@ -21,10 +30,31 @@ internal fun TaskListContainer(
         modifier =
             modifier
                 .fillMaxWidth()
-                .padding(top = 25.pxToDp()),
-        verticalArrangement = Arrangement.spacedBy(10.dp),
+                .padding(top = 30.pxToDp()),
         horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.spacedBy(5.dp),
     ) {
-        content()
+        Row(
+            modifier = Modifier.clickable { }.fillMaxWidth().padding(start = 10.dp),
+            verticalAlignment = Alignment.CenterVertically,
+        ) {
+            Text(
+                text = "Tasks for today",
+                color = MainPrimary,
+                fontSize = Typography.bodySmall.fontSize,
+                fontWeight = Typography.bodySmall.fontWeight,
+            )
+            Icon(
+                modifier = Modifier.size(20.dp),
+                tint = MainPrimary,
+                imageVector = Icons.AutoMirrored.Filled.KeyboardArrowRight,
+                contentDescription = "all tasks button",
+            )
+        }
+        Column(
+            verticalArrangement = Arrangement.spacedBy(5.dp),
+        ) {
+            content()
+        }
     }
 }
