@@ -1,6 +1,5 @@
 package ru.glindaquint.everwell.network.interceptors
 
-import android.util.Log
 import okhttp3.Interceptor
 import okhttp3.Response
 import ru.glindaquint.everwell.services.jwtService.JwtService
@@ -13,12 +12,11 @@ class AuthorizationInterceptor
     ) : Interceptor {
         override fun intercept(chain: Interceptor.Chain): Response {
             val original = chain.request()
-            Log.d("", "intercept: ${original.url}")
             if (!original.url.toString().contains("auth")) {
                 return chain.proceed(
                     original
                         .newBuilder()
-                        .header("Authorization", jwtService.token)
+                        .header("Authorization", jwtService.token())
                         .method(original.method, original.body)
                         .build(),
                 )

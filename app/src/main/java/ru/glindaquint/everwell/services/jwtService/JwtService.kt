@@ -9,7 +9,7 @@ import javax.inject.Inject
 class JwtService
     @Inject
     constructor(
-        preferencesManager: PreferencesManager,
+        private val preferencesManager: PreferencesManager,
     ) {
-        val token = "Bearer " + preferencesManager.getString(PreferencesKeys.NETWORK_TOKEN)
+        fun token(): String = "Bearer " + preferencesManager.getString(PreferencesKeys.NETWORK_TOKEN)
     }
