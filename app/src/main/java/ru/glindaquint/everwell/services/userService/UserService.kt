@@ -104,4 +104,30 @@ class UserService
                 },
             )
         }
+
+        fun sendVerificationCode(
+            email: String,
+            code: String,
+        ) {
+            authorizationNetworkService
+                .sendEmail(
+                    to = email,
+                    subject = "Everwell",
+                    body = "Hello! Your verification code for Everwell: $code",
+                ).enqueue(
+                    object : Callback<Void> {
+                        override fun onResponse(
+                            call: Call<Void>,
+                            response: Response<Void>,
+                        ) {
+                        }
+
+                        override fun onFailure(
+                            call: Call<Void>,
+                            t: Throwable,
+                        ) {
+                        }
+                    },
+                )
+        }
     }

@@ -1,5 +1,6 @@
 package ru.glindaquint.everwell.screens.authorization.restore.components
 
+import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.LocalTextStyle
@@ -22,6 +23,7 @@ import androidx.compose.ui.unit.Dp
 import ru.glindaquint.everwell.ui.theme.MainBackground
 import ru.glindaquint.everwell.ui.theme.MainSecondary
 
+@SuppressLint("UnrememberedMutableState")
 @Suppress("ktlint:standard:function-naming")
 @Composable
 fun SingleNumberTextField(
@@ -32,14 +34,20 @@ fun SingleNumberTextField(
     targetFocusRequester: MutableState<FocusRequester>?,
 ) {
     val numberState = remember { mutableStateOf(TextFieldValue()) }
+
     TextField(
         value = numberState.value,
         onValueChange = {
-            state.value += it.text
-            numberState.value = it
-            targetFocusRequester?.value?.requestFocus()
+            if (numberState.value.text.isEmpty()) {
+                state.value += it.text
+                numberState.value = it
+                targetFocusRequester?.value?.requestFocus()
+            }
         },
-        modifier = Modifier.size(size).focusRequester(focusRequester.value),
+        modifier =
+            Modifier
+                .size(size)
+                .focusRequester(focusRequester.value),
         shape = shape,
         colors =
             TextFieldDefaults.colors(
@@ -54,8 +62,8 @@ fun SingleNumberTextField(
                 textAlign = TextAlign.Center,
                 color = MainBackground,
             ),
-        visualTransformation = PasswordVisualTransformation('⬤'),
         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
         singleLine = true,
+        visualTransformation = PasswordVisualTransformation('⬤'),
     )
 }

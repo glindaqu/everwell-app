@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
@@ -25,7 +26,7 @@ import ru.glindaquint.everwell.R
 @Composable
 fun CodeTextField(
     state: MutableState<String>,
-    size: Dp,
+    size: Dp = TextFieldDefaults.MinHeight,
 ) {
     val firstFocusRequester = remember { mutableStateOf(FocusRequester()) }
     val secondFocusRequester = remember { mutableStateOf(FocusRequester()) }

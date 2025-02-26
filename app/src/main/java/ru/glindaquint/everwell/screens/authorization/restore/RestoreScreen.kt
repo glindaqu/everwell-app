@@ -26,7 +26,7 @@ import ru.glindaquint.everwell.utils.pxToDp
 @Composable
 fun RestoreScreen(navHostController: NavHostController) {
     val emailTextFieldState = remember { mutableStateOf(TextFieldValue()) }
-    val codeTextFieldState = remember { mutableStateOf(String()) }
+    val codeTextFieldState = remember { mutableStateOf("") }
     val textFieldHeight = remember { mutableStateOf(0.dp) }
 
     ContentContainer(topBarTitle = stringResource(id = R.string.restore_screen_topbar_title)) {

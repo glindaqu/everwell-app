@@ -1,5 +1,6 @@
 package ru.glindaquint.everwell.viewModels.impl
 
+import android.annotation.SuppressLint
 import androidx.lifecycle.ViewModel
 import dagger.Lazy
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -8,8 +9,10 @@ import ru.glindaquint.everwell.network.dto.authorization.signUp.SignUpRequest
 import ru.glindaquint.everwell.services.preferencesManager.PreferenceManagerImpl
 import ru.glindaquint.everwell.services.preferencesManager.PreferencesKeys
 import ru.glindaquint.everwell.services.userService.UserService
-import ru.glindaquint.everwell.uiStates.AuthorizationUiState
+import ru.glindaquint.everwell.uiStates.SignInUiState
+import ru.glindaquint.everwell.uiStates.SignUpUiState
 import javax.inject.Inject
+import kotlin.random.Random
 
 @HiltViewModel
 class SignUpViewModel
@@ -17,7 +20,7 @@ class SignUpViewModel
     constructor(
         private val preferenceManager: PreferenceManagerImpl,
         private val userService: Lazy<UserService>,
-        val uiState: MutableStateFlow<AuthorizationUiState>,
+        val uiState: MutableStateFlow<SignUpUiState>,
     ) : ViewModel() {
         fun signUp(request: SignUpRequest) {
             updateUiState(uiState.value.copy(loading = true))
@@ -28,7 +31,7 @@ class SignUpViewModel
                     preferenceManager.saveString(PreferencesKeys.PASSWORD, request.password)
                     preferenceManager.saveString(PreferencesKeys.USERNAME, request.username)
                     updateUiState(
-                        AuthorizationUiState(
+                        SignUpUiState(
                             loading = false,
                             error = null,
                             successful = true,
@@ -36,7 +39,7 @@ class SignUpViewModel
                     )
                 },
                 onFailure = { t ->
-                    AuthorizationUiState(
+                    SignInUiState(
                         loading = false,
                         error = t.message,
                         successful = false,
@@ -45,7 +48,14 @@ class SignUpViewModel
             )
         }
 
-        private fun updateUiState(state: AuthorizationUiState) {
+        @SuppressLint("DefaultLocale")
+        fun sendCode(email: String) {
+            val code = String.format("%04d", Random.nextInt(9999))
+            userService.get().sendVerificationCode(email = email, code = code)
+            updateUiState(uiState.value.copy(code = code))
+        }
+
+        private fun updateUiState(state: SignUpUiState) {
             uiState.value = state
         }
     }

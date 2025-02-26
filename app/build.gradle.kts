@@ -2,6 +2,7 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.jetbrains.kotlin.android)
     id("kotlin-kapt")
+    id("kotlin-parcelize")
     id("com.google.dagger.hilt.android") version "2.49"
     kotlin("plugin.serialization") version "1.9.0"
 }
@@ -99,5 +100,5 @@ dependencies {
     implementation(libs.logging.interceptor)
     implementation(libs.okhttp)
 
-    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.0-RC")
+    implementation(libs.kotlinx.serialization.json)
 }
