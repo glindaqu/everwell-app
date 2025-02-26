@@ -81,15 +81,15 @@ fun SignUpScreen(navHostController: NavHostController) {
             state = emailTextFieldState,
             labelText = stringResource(id = R.string.registration_screen_login_title),
             keyboardType = KeyboardType.Email,
-            errorHandler = { isError, isFocused ->
+            errorHandler = { errorMessage, isFocused ->
                 if (emailTextFieldState.value.text.isEmpty()) {
-                    isError.value = false
+                    errorMessage.value = null
                 } else if (isFocused.value) {
-                    isError.value = false
+                    errorMessage.value = null
                 } else if (!emailTextFieldState.value.text.contains('@')) {
-                    isError.value = true
+                    errorMessage.value = R.string.registration_screen_error_email_must_contain
                 } else if (!emailTextFieldState.value.text.contains('.')) {
-                    isError.value = true
+                    errorMessage.value = R.string.registration_screen_error_email_must_contain
                 }
             },
         )
@@ -106,15 +106,15 @@ fun SignUpScreen(navHostController: NavHostController) {
                 }
             },
             keyboardType = KeyboardType.Password,
-            errorHandler = { isError, _ ->
+            errorHandler = { errorMessage, _ ->
                 if (passwordTextFieldState.value.text.isEmpty() || passwordAgainTextFieldState.value.text.isEmpty()) {
-                    isError.value = false
+                    errorMessage.value = null
                 } else if (passwordTextFieldState.value.text != passwordAgainTextFieldState.value.text) {
-                    isError.value = true
+                    errorMessage.value = R.string.registration_screen_error_passwords_are_differ
                 } else if (passwordTextFieldState.value.text.length < 8) {
-                    isError.value = true
+                    errorMessage.value = R.string.registration_screen_error_password_too_short
                 } else {
-                    isError.value = false
+                    errorMessage.value = null
                 }
             },
         )
@@ -133,15 +133,15 @@ fun SignUpScreen(navHostController: NavHostController) {
                 }
             },
             keyboardType = KeyboardType.Password,
-            errorHandler = { isError, _ ->
+            errorHandler = { errorMessage, _ ->
                 if (passwordTextFieldState.value.text.isEmpty() || passwordAgainTextFieldState.value.text.isEmpty()) {
-                    isError.value = false
+                    errorMessage.value = null
                 } else if (passwordTextFieldState.value.text != passwordAgainTextFieldState.value.text) {
-                    isError.value = true
-                } else if (passwordAgainTextFieldState.value.text.length < 8) {
-                    isError.value = true
+                    errorMessage.value = R.string.registration_screen_error_passwords_are_differ
+                } else if (passwordTextFieldState.value.text.length < 8) {
+                    errorMessage.value = R.string.registration_screen_error_password_too_short
                 } else {
-                    isError.value = false
+                    errorMessage.value = null
                 }
             },
         )

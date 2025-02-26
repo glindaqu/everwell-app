@@ -37,15 +37,15 @@ fun RestoreScreen(navHostController: NavHostController) {
                 },
             state = emailTextFieldState,
             labelText = stringResource(id = R.string.restore_screen_email_title),
-            errorHandler = { isError, isFocused ->
+            errorHandler = { errorMessage, isFocused ->
                 if (emailTextFieldState.value.text.isEmpty()) {
-                    isError.value = false
+                    errorMessage.value = null
                 } else if (isFocused.value) {
-                    isError.value = false
+                    errorMessage.value = null
                 } else if (!emailTextFieldState.value.text.contains('@')) {
-                    isError.value = true
+                    errorMessage.value = R.string.registration_screen_error_email_must_contain
                 } else if (!emailTextFieldState.value.text.contains('.')) {
-                    isError.value = true
+                    errorMessage.value = R.string.registration_screen_error_email_must_contain
                 }
             },
             keyboardType = KeyboardType.Email,

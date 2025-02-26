@@ -29,10 +29,13 @@
     <string name="registration_screen_sign_up_text">Продолжить</string>
     <string name="registration_screen_sign_in_text">Уже есть аккаунт?</string>
     <string name="registration_screen_restore_access">Восстановить доступ</string>
+    <string name="registration_screen_error_passwords_are_differ">Пароли должны совпадать</string>
+    <string name="registration_screen_error_password_too_short">Длинна пароля должна быть более 8 символов</string>
+    <string name="registration_screen_error_email_must_contain">Адрес элетронной почты должен включать символы \'.\' и \'@\'</string>
 
     <!-- restore screen -->
     <string name="restore_screen_topbar_title">Восстановление</string>
-    <string name="restore_screen_email_title">E-mail</string>
+    <string name="restore_screen_email_title">Почта</string>
     <string name="restore_screen_code_title">Введите код</string>
     <string name="restore_screen_restore_text">Продолжить</string>
     <string name="restore_screen_sign_in_text">У меня уже есть аккаунт?</string>

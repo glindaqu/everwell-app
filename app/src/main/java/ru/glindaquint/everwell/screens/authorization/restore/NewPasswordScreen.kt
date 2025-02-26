@@ -82,15 +82,15 @@ fun NewPasswordScreen() {
                 }
             },
             keyboardType = KeyboardType.Password,
-            errorHandler = { isError, _ ->
+            errorHandler = { errorMessage, _ ->
                 if (passwordTextFieldState.value.text.isEmpty() || passwordAgainTextFieldState.value.text.isEmpty()) {
-                    isError.value = false
+                    errorMessage.value = null
                 } else if (passwordTextFieldState.value.text != passwordAgainTextFieldState.value.text) {
-                    isError.value = true
+                    errorMessage.value = R.string.registration_screen_error_passwords_are_differ
                 } else if (passwordTextFieldState.value.text.length < 8) {
-                    isError.value = true
+                    errorMessage.value = R.string.registration_screen_error_password_too_short
                 } else {
-                    isError.value = false
+                    errorMessage.value = null
                 }
             },
         )
@@ -109,15 +109,15 @@ fun NewPasswordScreen() {
                 }
             },
             keyboardType = KeyboardType.Password,
-            errorHandler = { isError, _ ->
+            errorHandler = { errorMessage, _ ->
                 if (passwordTextFieldState.value.text.isEmpty() || passwordAgainTextFieldState.value.text.isEmpty()) {
-                    isError.value = false
+                    errorMessage.value = null
                 } else if (passwordTextFieldState.value.text != passwordAgainTextFieldState.value.text) {
-                    isError.value = true
-                } else if (passwordAgainTextFieldState.value.text.length < 8) {
-                    isError.value = true
+                    errorMessage.value = R.string.registration_screen_error_passwords_are_differ
+                } else if (passwordTextFieldState.value.text.length < 8) {
+                    errorMessage.value = R.string.registration_screen_error_password_too_short
                 } else {
-                    isError.value = false
+                    errorMessage.value = null
                 }
             },
         )
