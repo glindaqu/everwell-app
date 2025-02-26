@@ -82,10 +82,16 @@ fun NewPasswordScreen() {
                 }
             },
             keyboardType = KeyboardType.Password,
-            errorHandler = { password, isError, isFocused ->
-                isError.value = (password.text.length < 8 && password.text.isNotEmpty()) ||
-                    !isFocused &&
-                    passwordTextFieldState.value.text != passwordAgainTextFieldState.value.text
+            errorHandler = { isError, _ ->
+                if (passwordTextFieldState.value.text.isEmpty() || passwordAgainTextFieldState.value.text.isEmpty()) {
+                    isError.value = false
+                } else if (passwordTextFieldState.value.text != passwordAgainTextFieldState.value.text) {
+                    isError.value = true
+                } else if (passwordTextFieldState.value.text.length < 8) {
+                    isError.value = true
+                } else {
+                    isError.value = false
+                }
             },
         )
         LabeledTextField(
@@ -103,10 +109,16 @@ fun NewPasswordScreen() {
                 }
             },
             keyboardType = KeyboardType.Password,
-            errorHandler = { password, isError, isFocused ->
-                isError.value = (password.text.length < 8 && password.text.isNotEmpty()) ||
-                    !isFocused &&
-                    passwordTextFieldState.value.text != passwordAgainTextFieldState.value.text
+            errorHandler = { isError, _ ->
+                if (passwordTextFieldState.value.text.isEmpty() || passwordAgainTextFieldState.value.text.isEmpty()) {
+                    isError.value = false
+                } else if (passwordTextFieldState.value.text != passwordAgainTextFieldState.value.text) {
+                    isError.value = true
+                } else if (passwordAgainTextFieldState.value.text.length < 8) {
+                    isError.value = true
+                } else {
+                    isError.value = false
+                }
             },
         )
         ActionButton(

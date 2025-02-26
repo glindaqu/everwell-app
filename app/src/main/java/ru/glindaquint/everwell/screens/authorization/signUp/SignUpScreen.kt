@@ -1,12 +1,9 @@
 package ru.glindaquint.everwell.screens.authorization.signUp
 
 import android.annotation.SuppressLint
-import android.app.Activity
-import androidx.activity.compose.LocalActivity
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -16,8 +13,6 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.input.VisualTransformation
-import androidx.compose.ui.tooling.preview.Preview
-import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import ru.glindaquint.everwell.R
 import ru.glindaquint.everwell.navigation.authorization.AuthorizationRoutes
@@ -27,16 +22,11 @@ import ru.glindaquint.everwell.sharedComponents.authorization.ActionButton
 import ru.glindaquint.everwell.sharedComponents.authorization.ContentContainer
 import ru.glindaquint.everwell.sharedComponents.authorization.Option
 import ru.glindaquint.everwell.sharedComponents.authorization.OptionsContainer
-import ru.glindaquint.everwell.viewModels.impl.SignUpViewModel
 
 @Suppress("ktlint:standard:function-naming")
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 fun SignUpScreen(navHostController: NavHostController) {
-    val viewModel = hiltViewModel<SignUpViewModel>()
-    val uiState = viewModel.uiState.collectAsState()
-    val context = LocalActivity.current as Activity
-
     val emailTextFieldState = remember { mutableStateOf(TextFieldValue()) }
     val passwordTextFieldState = remember { mutableStateOf(TextFieldValue()) }
     val passwordAgainTextFieldState = remember { mutableStateOf(TextFieldValue()) }
@@ -91,13 +81,15 @@ fun SignUpScreen(navHostController: NavHostController) {
             state = emailTextFieldState,
             labelText = stringResource(id = R.string.registration_screen_login_title),
             keyboardType = KeyboardType.Email,
-            errorHandler = { textFieldValue, isErrorState, isFocused ->
-                if (isFocused || textFieldValue.text.isEmpty()) {
-                    isErrorState.value = false
-                } else {
-                    isErrorState.value =
-                        !textFieldValue.text.contains('@') ||
-                        !textFieldValue.text.contains('.')
+            errorHandler = { isError, isFocused ->
+                if (emailTextFieldState.value.text.isEmpty()) {
+                    isError.value = false
+                } else if (isFocused.value) {
+                    isError.value = false
+                } else if (!emailTextFieldState.value.text.contains('@')) {
+                    isError.value = true
+                } else if (!emailTextFieldState.value.text.contains('.')) {
+                    isError.value = true
                 }
             },
         )
@@ -114,10 +106,16 @@ fun SignUpScreen(navHostController: NavHostController) {
                 }
             },
             keyboardType = KeyboardType.Password,
-            errorHandler = { password, isError, isFocused ->
-                isError.value = (password.text.length < 8 && password.text.isNotEmpty()) ||
-                    !isFocused &&
-                    passwordTextFieldState.value.text != passwordAgainTextFieldState.value.text
+            errorHandler = { isError, _ ->
+                if (passwordTextFieldState.value.text.isEmpty() || passwordAgainTextFieldState.value.text.isEmpty()) {
+                    isError.value = false
+                } else if (passwordTextFieldState.value.text != passwordAgainTextFieldState.value.text) {
+                    isError.value = true
+                } else if (passwordTextFieldState.value.text.length < 8) {
+                    isError.value = true
+                } else {
+                    isError.value = false
+                }
             },
         )
         LabeledTextField(
@@ -135,10 +133,16 @@ fun SignUpScreen(navHostController: NavHostController) {
                 }
             },
             keyboardType = KeyboardType.Password,
-            errorHandler = { password, isError, isFocused ->
-                isError.value = (password.text.length < 8 && password.text.isNotEmpty()) ||
-                    !isFocused &&
-                    passwordTextFieldState.value.text != passwordAgainTextFieldState.value.text
+            errorHandler = { isError, _ ->
+                if (passwordTextFieldState.value.text.isEmpty() || passwordAgainTextFieldState.value.text.isEmpty()) {
+                    isError.value = false
+                } else if (passwordTextFieldState.value.text != passwordAgainTextFieldState.value.text) {
+                    isError.value = true
+                } else if (passwordAgainTextFieldState.value.text.length < 8) {
+                    isError.value = true
+                } else {
+                    isError.value = false
+                }
             },
         )
         ActionButton(
@@ -166,10 +170,4 @@ fun SignUpScreen(navHostController: NavHostController) {
             )
         }
     }
-}
-
-@Suppress("ktlint:standard:function-naming")
-@Preview
-@Composable
-fun Registration_Preview() {
 }

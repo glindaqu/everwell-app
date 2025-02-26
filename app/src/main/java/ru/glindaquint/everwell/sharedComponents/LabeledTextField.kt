@@ -33,9 +33,10 @@ fun LabeledTextField(
     textTransform: VisualTransformation = VisualTransformation.None,
     keyboardType: KeyboardType = KeyboardType.Text,
     trailingIcon: @Composable (() -> Unit)? = null,
-    errorHandler: ((TextFieldValue, MutableState<Boolean>, Boolean) -> Unit)? = null,
+    errorHandler: ((MutableState<Boolean>, MutableState<Boolean>) -> Unit)? = null,
 ) {
     val error = remember { mutableStateOf(false) }
+    val focusState = remember { mutableStateOf(false) }
     Column(verticalArrangement = Arrangement.spacedBy(5.dp)) {
         Text(
             text = labelText,
@@ -47,11 +48,13 @@ fun LabeledTextField(
             value = state.value,
             onValueChange = {
                 state.value = it
+                errorHandler?.invoke(error, focusState)
             },
             shape = RoundedCornerShape(10.dp),
             modifier =
-                modifier.fillMaxWidth().onFocusChanged { focusState ->
-                    errorHandler?.invoke(state.value, error, focusState.isFocused)
+                modifier.fillMaxWidth().onFocusChanged {
+                    focusState.value = it.isFocused
+                    errorHandler?.invoke(error, focusState)
                 },
             colors =
                 TextFieldDefaults.colors(
