@@ -1,13 +1,11 @@
 package ru.glindaquint.everwell.screens.authorization.signUp
 
 import android.annotation.SuppressLint
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
@@ -17,133 +15,150 @@ import androidx.navigation.NavHostController
 import ru.glindaquint.everwell.R
 import ru.glindaquint.everwell.navigation.authorization.AuthorizationRoutes
 import ru.glindaquint.everwell.network.dto.authorization.signUp.SignUpRequest
-import ru.glindaquint.everwell.sharedComponents.LabeledTextField
 import ru.glindaquint.everwell.sharedComponents.authorization.ActionButton
 import ru.glindaquint.everwell.sharedComponents.authorization.ContentContainer
 import ru.glindaquint.everwell.sharedComponents.authorization.Option
 import ru.glindaquint.everwell.sharedComponents.authorization.OptionsContainer
+import ru.glindaquint.everwell.sharedComponents.labeledTextField.LabeledTextField
+import ru.glindaquint.everwell.sharedComponents.passwordTrailingIcon.PasswordTrailingIcon
 
 @Suppress("ktlint:standard:function-naming")
-@SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
+@SuppressLint("UnusedMaterial3ScaffoldPaddingParameter", "UnrememberedMutableState")
 @Composable
 fun SignUpScreen(navHostController: NavHostController) {
-    val emailTextFieldState = remember { mutableStateOf(TextFieldValue()) }
-    val passwordTextFieldState = remember { mutableStateOf(TextFieldValue()) }
-    val passwordAgainTextFieldState = remember { mutableStateOf(TextFieldValue()) }
+    val email = remember { mutableStateOf(TextFieldValue()) }
+    val password = remember { mutableStateOf(TextFieldValue()) }
+    val passwordAgain = remember { mutableStateOf(TextFieldValue()) }
+
+    val emailFocused = remember { mutableStateOf(false) }
 
     val canSeePassword = remember { mutableStateOf(false) }
     val canSeePasswordAgain = remember { mutableStateOf(false) }
 
-    val passwordTextTransform =
-        remember {
-            derivedStateOf {
+    val emailError = remember { mutableStateOf(false) }
+    val passwordError = remember { mutableStateOf(false) }
+    val passwordAgainError = remember { mutableStateOf(false) }
+
+    val emailTitle = remember { mutableStateOf("") }
+    val passwordTitle = remember { mutableStateOf("") }
+    val passwordAgainTitle = remember { mutableStateOf("") }
+
+    when {
+        (
+            !email.value.text
+                .contains('@') ||
+                !email.value.text
+                    .contains('.')
+        ) &&
+            email.value.text
+                .isNotEmpty() &&
+            !emailFocused.value -> {
+            emailError.value = true
+            emailTitle.value =
+                stringResource(id = R.string.registration_screen_error_email_must_contain)
+        }
+
+        else -> {
+            emailError.value = false
+            emailTitle.value = stringResource(id = R.string.registration_screen_email_title)
+        }
+    }
+
+    when {
+        password.value.text.length < 8 &&
+            password.value.text
+                .isNotEmpty() -> {
+            passwordError.value = true
+            passwordTitle.value =
+                stringResource(id = R.string.registration_screen_error_password_too_short)
+        }
+
+        password.value.text != passwordAgain.value.text &&
+            password.value.text
+                .isNotEmpty() &&
+            passwordAgain.value.text
+                .isNotEmpty() -> {
+            passwordError.value = true
+            passwordTitle.value =
+                stringResource(id = R.string.registration_screen_error_passwords_are_differ)
+        }
+
+        else -> {
+            passwordError.value = false
+            passwordTitle.value = stringResource(id = R.string.registration_screen_password_title)
+        }
+    }
+
+    when {
+        passwordAgain.value.text.length < 8 &&
+            passwordAgain.value.text
+                .isNotEmpty() -> {
+            passwordAgainError.value = true
+            passwordAgainTitle.value =
+                stringResource(id = R.string.registration_screen_error_password_too_short)
+        }
+
+        password.value.text != passwordAgain.value.text &&
+            password.value.text
+                .isNotEmpty() &&
+            passwordAgain.value.text
+                .isNotEmpty() -> {
+            passwordAgainError.value = true
+            passwordAgainTitle.value =
+                stringResource(id = R.string.registration_screen_error_passwords_are_differ)
+        }
+
+        else -> {
+            passwordAgainError.value = false
+            passwordAgainTitle.value =
+                stringResource(id = R.string.registration_screen_password_again_title)
+        }
+    }
+
+    ContentContainer(topBarTitle = stringResource(id = R.string.registration_screen_topbar_title)) {
+        LabeledTextField(
+            state = email,
+            labelText = emailTitle.value,
+            keyboardType = KeyboardType.Email,
+            isError = emailError.value,
+            modifier =
+                Modifier.onFocusChanged {
+                    emailFocused.value = it.isFocused
+                },
+        )
+        LabeledTextField(
+            state = password,
+            labelText = passwordTitle.value,
+            keyboardType = KeyboardType.Password,
+            visualTransformation =
                 if (!canSeePassword.value) {
                     PasswordVisualTransformation('•')
                 } else {
                     VisualTransformation.None
+                },
+            trailingIcon = {
+                PasswordTrailingIcon(icon = if (canSeePassword.value) R.drawable.visibility_on else R.drawable.visibility_off) {
+                    canSeePassword.value = !canSeePassword.value
                 }
-            }
-        }
-    val passwordAgainTextTransform =
-        remember {
-            derivedStateOf {
+            },
+            isError = passwordError.value,
+        )
+        LabeledTextField(
+            state = passwordAgain,
+            labelText = passwordAgainTitle.value,
+            keyboardType = KeyboardType.Password,
+            visualTransformation =
                 if (!canSeePasswordAgain.value) {
                     PasswordVisualTransformation('•')
                 } else {
                     VisualTransformation.None
-                }
-            }
-        }
-
-    val passwordTrailingIcon =
-        remember {
-            derivedStateOf {
-                if (canSeePassword.value) {
-                    R.drawable.visibility_on
-                } else {
-                    R.drawable.visibility_off
-                }
-            }
-        }
-    val passwordAgainTrailingIcon =
-        remember {
-            derivedStateOf {
-                if (canSeePasswordAgain.value) {
-                    R.drawable.visibility_on
-                } else {
-                    R.drawable.visibility_off
-                }
-            }
-        }
-
-    ContentContainer(topBarTitle = stringResource(id = R.string.registration_screen_topbar_title)) {
-        LabeledTextField(
-            state = emailTextFieldState,
-            labelText = stringResource(id = R.string.registration_screen_login_title),
-            keyboardType = KeyboardType.Email,
-            errorHandler = { errorMessage, isFocused ->
-                if (emailTextFieldState.value.text.isEmpty()) {
-                    errorMessage.value = null
-                } else if (isFocused.value) {
-                    errorMessage.value = null
-                } else if (!emailTextFieldState.value.text.contains('@')) {
-                    errorMessage.value = R.string.registration_screen_error_email_must_contain
-                } else if (!emailTextFieldState.value.text.contains('.')) {
-                    errorMessage.value = R.string.registration_screen_error_email_must_contain
-                }
-            },
-        )
-        LabeledTextField(
-            state = passwordTextFieldState,
-            labelText = stringResource(id = R.string.registration_screen_password_title),
-            textTransform = passwordTextTransform.value,
+                },
             trailingIcon = {
-                IconButton(onClick = { canSeePassword.value = !canSeePassword.value }) {
-                    Icon(
-                        painter = painterResource(id = passwordTrailingIcon.value),
-                        contentDescription = "Hide/Display password",
-                    )
-                }
-            },
-            keyboardType = KeyboardType.Password,
-            errorHandler = { errorMessage, _ ->
-                if (passwordTextFieldState.value.text.isEmpty() || passwordAgainTextFieldState.value.text.isEmpty()) {
-                    errorMessage.value = null
-                } else if (passwordTextFieldState.value.text != passwordAgainTextFieldState.value.text) {
-                    errorMessage.value = R.string.registration_screen_error_passwords_are_differ
-                } else if (passwordTextFieldState.value.text.length < 8) {
-                    errorMessage.value = R.string.registration_screen_error_password_too_short
-                } else {
-                    errorMessage.value = null
-                }
-            },
-        )
-        LabeledTextField(
-            state = passwordAgainTextFieldState,
-            labelText = stringResource(id = R.string.registration_screen_password_again_title),
-            textTransform = passwordAgainTextTransform.value,
-            trailingIcon = {
-                IconButton(onClick = {
+                PasswordTrailingIcon(icon = if (canSeePasswordAgain.value) R.drawable.visibility_on else R.drawable.visibility_off) {
                     canSeePasswordAgain.value = !canSeePasswordAgain.value
-                }) {
-                    Icon(
-                        painter = painterResource(id = passwordAgainTrailingIcon.value),
-                        contentDescription = "Hide/Display password (again)",
-                    )
                 }
             },
-            keyboardType = KeyboardType.Password,
-            errorHandler = { errorMessage, _ ->
-                if (passwordTextFieldState.value.text.isEmpty() || passwordAgainTextFieldState.value.text.isEmpty()) {
-                    errorMessage.value = null
-                } else if (passwordTextFieldState.value.text != passwordAgainTextFieldState.value.text) {
-                    errorMessage.value = R.string.registration_screen_error_passwords_are_differ
-                } else if (passwordTextFieldState.value.text.length < 8) {
-                    errorMessage.value = R.string.registration_screen_error_password_too_short
-                } else {
-                    errorMessage.value = null
-                }
-            },
+            isError = passwordAgainError.value,
         )
         ActionButton(
             text = stringResource(id = R.string.registration_screen_sign_up_text),
@@ -151,9 +166,11 @@ fun SignUpScreen(navHostController: NavHostController) {
                 navHostController.navigate(
                     "${AuthorizationRoutes.CONFIRM_EMAIL}/${
                         SignUpRequest(
-                            username = emailTextFieldState.value.text.split('@')[0],
-                            email = emailTextFieldState.value.text,
-                            password = passwordTextFieldState.value.text,
+                            username =
+                                email.value.text
+                                    .split('@')[0],
+                            email = email.value.text,
+                            password = email.value.text,
                         ).toJson()
                     }",
                 )

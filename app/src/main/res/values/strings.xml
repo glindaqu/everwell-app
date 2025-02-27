@@ -23,7 +23,7 @@
 
     <!-- registration screen -->
     <string name="registration_screen_topbar_title">Регистрация</string>
-    <string name="registration_screen_login_title">Почта</string>
+    <string name="registration_screen_email_title">Почта</string>
     <string name="registration_screen_password_title">Пароль</string>
     <string name="registration_screen_password_again_title">Повторите пароль</string>
     <string name="registration_screen_sign_up_text">Продолжить</string>

@@ -1,4 +1,4 @@
-package ru.glindaquint.everwell.sharedComponents
+package ru.glindaquint.everwell.sharedComponents.labeledTextField
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.Arrangement
@@ -12,18 +12,14 @@ import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.derivedStateOf
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import ru.glindaquint.everwell.dto.colors.labeledTextField.LabeledTextFieldColors
 import ru.glindaquint.everwell.ui.theme.MainContainerError
 import ru.glindaquint.everwell.ui.theme.MainSecondary
 
@@ -32,62 +28,49 @@ import ru.glindaquint.everwell.ui.theme.MainSecondary
 @Composable
 fun LabeledTextField(
     modifier: Modifier = Modifier,
+    colors: LabeledTextFieldColors =
+        LabeledTextFieldColors(
+            containerColor = MainSecondary,
+            contentColor = Color.Black,
+            errorContainerColor = MainContainerError,
+            errorContentColor = MainContainerError,
+        ),
+    isError: Boolean = false,
+    visualTransformation: VisualTransformation = VisualTransformation.None,
+    trailingIcon: (@Composable () -> Unit)? = null,
     state: MutableState<TextFieldValue>,
     labelText: String,
-    textTransform: VisualTransformation = VisualTransformation.None,
     keyboardType: KeyboardType = KeyboardType.Text,
-    trailingIcon: @Composable (() -> Unit)? = null,
-    errorHandler: ((MutableState<Int?>, MutableState<Boolean>) -> Unit)? = null,
 ) {
-    val focusState = remember { mutableStateOf(false) }
-    val errorMessageResource = remember { mutableStateOf<Int?>(null) }
-    val error =
-        derivedStateOf {
-            when {
-                errorMessageResource.value == null -> false
-                else -> true
-            }
-        }
-
     Column(verticalArrangement = Arrangement.spacedBy(5.dp)) {
         Text(
-            text =
-                if (errorMessageResource.value != null) {
-                    "$labelText (${stringResource(id = errorMessageResource.value!!)})"
-                } else {
-                    labelText
-                },
-            color = if (errorMessageResource.value == null) Color.Black else MainContainerError,
+            text = labelText,
+            color = if (isError) colors.errorContentColor else colors.contentColor,
             fontStyle = MaterialTheme.typography.bodySmall.fontStyle,
             fontSize = 14.sp,
         )
         TextField(
-            value = state.value,
+            value = state.value.text,
             onValueChange = {
-                state.value = it
-                errorHandler?.invoke(errorMessageResource, focusState)
+                state.value = state.value.copy(text = it)
             },
             shape = RoundedCornerShape(10.dp),
-            modifier =
-                modifier.fillMaxWidth().onFocusChanged {
-                    focusState.value = it.isFocused
-                    errorHandler?.invoke(errorMessageResource, focusState)
-                },
+            modifier = modifier.fillMaxWidth(),
             colors =
                 TextFieldDefaults.colors(
                     focusedIndicatorColor = Color.Transparent,
                     unfocusedIndicatorColor = Color.Transparent,
                     disabledIndicatorColor = Color.Transparent,
-                    focusedContainerColor = MainSecondary,
-                    unfocusedContainerColor = MainSecondary,
-                    errorContainerColor = MainContainerError,
+                    focusedContainerColor = colors.containerColor,
+                    unfocusedContainerColor = colors.containerColor,
+                    errorContainerColor = colors.errorContainerColor,
                     errorIndicatorColor = Color.Transparent,
                 ),
-            visualTransformation = textTransform,
+            visualTransformation = visualTransformation,
             trailingIcon = {
                 trailingIcon?.invoke()
             },
-            isError = error.value,
+            isError = isError,
             singleLine = true,
             keyboardOptions = KeyboardOptions(keyboardType = keyboardType),
         )
