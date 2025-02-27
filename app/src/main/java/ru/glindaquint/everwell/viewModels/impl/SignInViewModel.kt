@@ -23,10 +23,10 @@ class SignInViewModel
         val uiState: MutableStateFlow<SignInUiState>,
     ) : ViewModel(),
         ISignInViewModel {
-        private val savedUsername = preferenceManager.getString("username")
-        private val savedPassword = preferenceManager.getString("password")
+        private val savedUsername = preferenceManager.getString(PreferencesKeys.USERNAME)
+        private val savedPassword = preferenceManager.getString(PreferencesKeys.PASSWORD)
 
-        init {
+        fun loadSavedUser() {
             if (savedPassword != null && savedUsername != null) {
                 signIn(SignInRequest(username = savedUsername, password = savedPassword))
             }
@@ -42,7 +42,7 @@ class SignInViewModel
                     SignInUiState(
                         loading = false,
                         error = null,
-                        successful = true,
+                        successful = false,
                     ),
                 )
             } else {
@@ -65,10 +65,12 @@ class SignInViewModel
                         )
                     },
                     onFailure = { t ->
-                        SignInUiState(
-                            loading = false,
-                            error = t.message,
-                            successful = false,
+                        updateUiState(
+                            SignInUiState(
+                                loading = false,
+                                error = t.message,
+                                successful = false,
+                            ),
                         )
                     },
                 )

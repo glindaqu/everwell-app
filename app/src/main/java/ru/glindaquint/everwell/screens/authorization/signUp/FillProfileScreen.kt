@@ -1,11 +1,11 @@
 package ru.glindaquint.everwell.screens.authorization.signUp
 
 import androidx.compose.runtime.Composable
-import ru.glindaquint.everwell.sharedComponents.authorization.ContentContainer
+import ru.glindaquint.everwell.sharedComponents.authorization.AuthorizationContentContainer
 
 @Suppress("ktlint:standard:function-naming")
 @Composable
 fun FillProfileScreen() {
-    ContentContainer(topBarTitle = "Fill profile") {
+    AuthorizationContentContainer(topBarTitle = "Fill profile") {
     }
 }

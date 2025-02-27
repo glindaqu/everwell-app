@@ -15,7 +15,7 @@ import ru.glindaquint.everwell.activities.MainActivity
 import ru.glindaquint.everwell.network.dto.authorization.signUp.SignUpRequest
 import ru.glindaquint.everwell.screens.authorization.restore.components.CodeTextField
 import ru.glindaquint.everwell.sharedComponents.authorization.ActionButton
-import ru.glindaquint.everwell.sharedComponents.authorization.ContentContainer
+import ru.glindaquint.everwell.sharedComponents.authorization.AuthorizationContentContainer
 import ru.glindaquint.everwell.viewModels.impl.SignUpViewModel
 
 @Suppress("ktlint:standard:function-naming")
@@ -40,7 +40,7 @@ fun ConfirmEmailScreen(request: SignUpRequest) {
         }
     }
 
-    ContentContainer(topBarTitle = stringResource(id = R.string.registration_screen_topbar_title)) {
+    AuthorizationContentContainer(topBarTitle = stringResource(id = R.string.registration_screen_topbar_title)) {
         CodeTextField(state = codeTextFieldState)
         ActionButton(
             text = stringResource(id = R.string.restore_screen_restore_text),

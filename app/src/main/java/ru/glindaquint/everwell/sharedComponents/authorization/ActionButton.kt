@@ -18,6 +18,7 @@ import ru.glindaquint.everwell.ui.theme.MainSecondary
 @Composable
 fun ActionButton(
     text: String,
+    enabled: Boolean = true,
     action: () -> Unit,
 ) {
     Button(
@@ -27,6 +28,7 @@ fun ActionButton(
                 .fillMaxWidth()
                 .padding(top = 33.dp),
         shape = RoundedCornerShape(10.dp),
+        enabled = enabled,
         colors = ButtonDefaults.buttonColors(containerColor = MainPrimary),
     ) {
         Text(

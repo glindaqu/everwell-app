@@ -21,10 +21,11 @@ import ru.glindaquint.everwell.activities.MainActivity
 import ru.glindaquint.everwell.navigation.authorization.AuthorizationRoutes
 import ru.glindaquint.everwell.network.dto.authorization.signIn.SignInRequest
 import ru.glindaquint.everwell.sharedComponents.authorization.ActionButton
-import ru.glindaquint.everwell.sharedComponents.authorization.ContentContainer
+import ru.glindaquint.everwell.sharedComponents.authorization.AuthorizationContentContainer
 import ru.glindaquint.everwell.sharedComponents.authorization.Option
 import ru.glindaquint.everwell.sharedComponents.authorization.OptionsContainer
 import ru.glindaquint.everwell.sharedComponents.labeledTextField.LabeledTextField
+import ru.glindaquint.everwell.sharedComponents.passwordTrailingIcon.PasswordTrailingIcon
 import ru.glindaquint.everwell.viewModels.impl.SignInViewModel
 
 @Suppress("ktlint:standard:function-naming")
@@ -57,7 +58,7 @@ fun SignInScreen(
         }
     }
 
-    ContentContainer(topBarTitle = stringResource(id = R.string.authorization_screen_topbar_title)) {
+    AuthorizationContentContainer(topBarTitle = stringResource(id = R.string.authorization_screen_topbar_title)) {
         if (uiState.value.loading) {
             SignInLoadingScreen()
         }
@@ -75,6 +76,11 @@ fun SignInScreen(
                 } else {
                     VisualTransformation.None
                 },
+            trailingIcon = {
+                PasswordTrailingIcon(icon = if (canSeePassword.value) R.drawable.visibility_on else R.drawable.visibility_off) {
+                    canSeePassword.value = !canSeePassword.value
+                }
+            },
         )
         ActionButton(
             text = stringResource(id = R.string.authorization_screen_sign_in_text),

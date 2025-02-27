@@ -16,7 +16,7 @@ import ru.glindaquint.everwell.R
 import ru.glindaquint.everwell.navigation.authorization.AuthorizationRoutes
 import ru.glindaquint.everwell.network.dto.authorization.signUp.SignUpRequest
 import ru.glindaquint.everwell.sharedComponents.authorization.ActionButton
-import ru.glindaquint.everwell.sharedComponents.authorization.ContentContainer
+import ru.glindaquint.everwell.sharedComponents.authorization.AuthorizationContentContainer
 import ru.glindaquint.everwell.sharedComponents.authorization.Option
 import ru.glindaquint.everwell.sharedComponents.authorization.OptionsContainer
 import ru.glindaquint.everwell.sharedComponents.labeledTextField.LabeledTextField
@@ -115,7 +115,7 @@ fun SignUpScreen(navHostController: NavHostController) {
         }
     }
 
-    ContentContainer(topBarTitle = stringResource(id = R.string.registration_screen_topbar_title)) {
+    AuthorizationContentContainer(topBarTitle = stringResource(id = R.string.registration_screen_topbar_title)) {
         LabeledTextField(
             state = email,
             labelText = emailTitle.value,
@@ -175,6 +175,12 @@ fun SignUpScreen(navHostController: NavHostController) {
                     }",
                 )
             },
+            enabled =
+                email.value.text.contains('@') &&
+                    email.value.text.contains('.') &&
+                    password.value.text.length >= 8 &&
+                    passwordAgain.value.text.length >= 8 &&
+                    passwordAgain.value.text == password.value.text,
         )
         OptionsContainer {
             Option(
