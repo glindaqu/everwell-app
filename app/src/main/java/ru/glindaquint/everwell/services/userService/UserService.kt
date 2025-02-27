@@ -1,6 +1,5 @@
 package ru.glindaquint.everwell.services.userService
 
-import android.util.Log
 import dagger.hilt.android.scopes.ActivityRetainedScoped
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -65,6 +64,8 @@ class UserService
                     ) {
                         if (response.body() != null) {
                             onSuccess?.invoke(response.body()!!.token)
+                        } else {
+                            onFailure?.invoke(Throwable("Something went wrong"))
                         }
                     }
 
@@ -91,6 +92,8 @@ class UserService
                         if (response.body() != null) {
                             _user.value = response.body()!!
                             onSuccess?.invoke()
+                        } else {
+                            onFailure?.invoke(Throwable("Something went wrong"))
                         }
                     }
 
@@ -99,7 +102,6 @@ class UserService
                         t: Throwable,
                     ) {
                         onFailure?.invoke(t)
-                        Log.d("", "onFailure: ${t.message}")
                     }
                 },
             )
