@@ -6,6 +6,7 @@ import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import ru.glindaquint.everwell.network.interceptors.AuthorizationInterceptor
+import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 @ActivityRetainedScoped
@@ -42,6 +43,8 @@ class RetrofitFactory
                 client =
                     OkHttpClient
                         .Builder()
+                        .readTimeout(10, TimeUnit.SECONDS)
+                        .connectTimeout(10, TimeUnit.SECONDS)
                         .addInterceptor(authorizationInterceptor)
                         .build()
             }
