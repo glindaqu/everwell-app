@@ -20,17 +20,17 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import ru.glindaquint.everwell.ui.extensions.dropShadow
 import ru.glindaquint.everwell.ui.theme.MainBackground
 import ru.glindaquint.everwell.ui.theme.MainOnBackground
 import ru.glindaquint.everwell.ui.theme.MainPrimary
 import ru.glindaquint.everwell.ui.theme.MainSecondary
-import ru.glindaquint.everwell.ui.extensions.dropShadow
 import ru.glindaquint.everwell.utils.pxToDp
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Suppress("ktlint:standard:function-naming")
 @Composable
-fun ContentContainer(
+fun AuthorizationContentContainer(
     topBarTitle: String,
     content: @Composable () -> Unit,
 ) {
