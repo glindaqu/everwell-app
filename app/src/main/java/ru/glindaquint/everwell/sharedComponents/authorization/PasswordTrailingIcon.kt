@@ -1,4 +1,4 @@
-package ru.glindaquint.everwell.sharedComponents.passwordTrailingIcon
+package ru.glindaquint.everwell.sharedComponents.authorization
 
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton

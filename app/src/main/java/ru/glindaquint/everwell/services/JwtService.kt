@@ -1,4 +1,4 @@
-package ru.glindaquint.everwell.services.jwtService
+package ru.glindaquint.everwell.services
 
 import dagger.hilt.android.scopes.ActivityRetainedScoped
 import ru.glindaquint.everwell.services.preferencesManager.PreferencesKeys

@@ -20,12 +20,12 @@ import ru.glindaquint.everwell.R
 import ru.glindaquint.everwell.activities.MainActivity
 import ru.glindaquint.everwell.navigation.authorization.AuthorizationRoutes
 import ru.glindaquint.everwell.network.dto.authorization.signIn.SignInRequest
+import ru.glindaquint.everwell.sharedComponents.LabeledTextField
 import ru.glindaquint.everwell.sharedComponents.authorization.ActionButton
 import ru.glindaquint.everwell.sharedComponents.authorization.AuthorizationContentContainer
 import ru.glindaquint.everwell.sharedComponents.authorization.Option
 import ru.glindaquint.everwell.sharedComponents.authorization.OptionsContainer
-import ru.glindaquint.everwell.sharedComponents.labeledTextField.LabeledTextField
-import ru.glindaquint.everwell.sharedComponents.passwordTrailingIcon.PasswordTrailingIcon
+import ru.glindaquint.everwell.sharedComponents.authorization.PasswordTrailingIcon
 import ru.glindaquint.everwell.viewModels.impl.SignInViewModel
 
 @Suppress("ktlint:standard:function-naming")

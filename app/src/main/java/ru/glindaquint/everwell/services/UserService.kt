@@ -1,4 +1,4 @@
-package ru.glindaquint.everwell.services.userService
+package ru.glindaquint.everwell.services
 
 import dagger.hilt.android.scopes.ActivityRetainedScoped
 import kotlinx.coroutines.flow.MutableStateFlow

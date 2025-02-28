@@ -28,12 +28,12 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import ru.glindaquint.everwell.R
 import ru.glindaquint.everwell.navigation.authorization.AuthorizationRoutes
+import ru.glindaquint.everwell.sharedComponents.LabeledTextField
 import ru.glindaquint.everwell.sharedComponents.authorization.ActionButton
 import ru.glindaquint.everwell.sharedComponents.authorization.AuthorizationContentContainer
 import ru.glindaquint.everwell.sharedComponents.authorization.Option
 import ru.glindaquint.everwell.sharedComponents.authorization.OptionsContainer
 import ru.glindaquint.everwell.sharedComponents.authorization.codeTextField.CodeTextField
-import ru.glindaquint.everwell.sharedComponents.labeledTextField.LabeledTextField
 import ru.glindaquint.everwell.ui.theme.MainPrimary
 import ru.glindaquint.everwell.utils.pxToDp
 

@@ -1,4 +1,4 @@
-package ru.glindaquint.everwell.dto.colors.labeledTextField
+package ru.glindaquint.everwell.dto.colors
 
 import androidx.compose.ui.graphics.Color
 

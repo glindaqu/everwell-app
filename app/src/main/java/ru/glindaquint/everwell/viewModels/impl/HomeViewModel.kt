@@ -8,8 +8,8 @@ import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.stateIn
-import ru.glindaquint.everwell.services.tasksService.TasksService
-import ru.glindaquint.everwell.services.userService.UserService
+import ru.glindaquint.everwell.services.TasksService
+import ru.glindaquint.everwell.services.UserService
 import ru.glindaquint.everwell.uiStates.homeUiState.HomeUiState
 import ru.glindaquint.everwell.viewModels.api.IHomeViewModel
 import javax.inject.Inject

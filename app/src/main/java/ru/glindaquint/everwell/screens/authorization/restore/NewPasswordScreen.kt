@@ -10,10 +10,10 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.input.VisualTransformation
 import ru.glindaquint.everwell.R
+import ru.glindaquint.everwell.sharedComponents.LabeledTextField
 import ru.glindaquint.everwell.sharedComponents.authorization.ActionButton
 import ru.glindaquint.everwell.sharedComponents.authorization.AuthorizationContentContainer
-import ru.glindaquint.everwell.sharedComponents.labeledTextField.LabeledTextField
-import ru.glindaquint.everwell.sharedComponents.passwordTrailingIcon.PasswordTrailingIcon
+import ru.glindaquint.everwell.sharedComponents.authorization.PasswordTrailingIcon
 
 @SuppressLint("UnrememberedMutableState")
 @Suppress("ktlint:standard:function-naming")

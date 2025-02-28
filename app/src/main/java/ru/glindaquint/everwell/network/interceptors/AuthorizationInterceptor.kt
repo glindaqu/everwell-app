@@ -2,7 +2,7 @@ package ru.glindaquint.everwell.network.interceptors
 
 import okhttp3.Interceptor
 import okhttp3.Response
-import ru.glindaquint.everwell.services.jwtService.JwtService
+import ru.glindaquint.everwell.services.JwtService
 import javax.inject.Inject
 
 class AuthorizationInterceptor

@@ -36,7 +36,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import ru.glindaquint.everwell.R
-import ru.glindaquint.everwell.dto.colors.codeTextField.CodeTextFieldColors
+import ru.glindaquint.everwell.dto.colors.CodeTextFieldColors
 import ru.glindaquint.everwell.ui.theme.MainOnBackground
 import ru.glindaquint.everwell.ui.theme.MainSecondary
 

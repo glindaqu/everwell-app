@@ -1,4 +1,4 @@
-package ru.glindaquint.everwell.sharedComponents.labeledTextField
+package ru.glindaquint.everwell.sharedComponents
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.Arrangement
@@ -19,7 +19,7 @@ import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import ru.glindaquint.everwell.dto.colors.labeledTextField.LabeledTextFieldColors
+import ru.glindaquint.everwell.dto.colors.LabeledTextFieldColors
 import ru.glindaquint.everwell.ui.theme.MainContainerError
 import ru.glindaquint.everwell.ui.theme.MainSecondary
 

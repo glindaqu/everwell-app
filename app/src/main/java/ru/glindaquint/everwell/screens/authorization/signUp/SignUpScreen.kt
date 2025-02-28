@@ -15,12 +15,12 @@ import androidx.navigation.NavHostController
 import ru.glindaquint.everwell.R
 import ru.glindaquint.everwell.navigation.authorization.AuthorizationRoutes
 import ru.glindaquint.everwell.network.dto.authorization.signUp.SignUpRequest
+import ru.glindaquint.everwell.sharedComponents.LabeledTextField
 import ru.glindaquint.everwell.sharedComponents.authorization.ActionButton
 import ru.glindaquint.everwell.sharedComponents.authorization.AuthorizationContentContainer
 import ru.glindaquint.everwell.sharedComponents.authorization.Option
 import ru.glindaquint.everwell.sharedComponents.authorization.OptionsContainer
-import ru.glindaquint.everwell.sharedComponents.labeledTextField.LabeledTextField
-import ru.glindaquint.everwell.sharedComponents.passwordTrailingIcon.PasswordTrailingIcon
+import ru.glindaquint.everwell.sharedComponents.authorization.PasswordTrailingIcon
 
 @Suppress("ktlint:standard:function-naming")
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter", "UnrememberedMutableState")

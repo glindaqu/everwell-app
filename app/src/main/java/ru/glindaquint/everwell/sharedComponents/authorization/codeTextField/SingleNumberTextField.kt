@@ -18,7 +18,7 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.Dp
-import ru.glindaquint.everwell.dto.colors.codeTextField.CodeTextFieldColors
+import ru.glindaquint.everwell.dto.colors.CodeTextFieldColors
 
 @SuppressLint("UnrememberedMutableState")
 @Suppress("ktlint:standard:function-naming")

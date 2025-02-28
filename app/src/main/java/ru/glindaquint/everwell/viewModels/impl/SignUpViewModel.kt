@@ -6,9 +6,9 @@ import dagger.Lazy
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import ru.glindaquint.everwell.network.dto.authorization.signUp.SignUpRequest
+import ru.glindaquint.everwell.services.UserService
 import ru.glindaquint.everwell.services.preferencesManager.PreferenceManagerImpl
 import ru.glindaquint.everwell.services.preferencesManager.PreferencesKeys
-import ru.glindaquint.everwell.services.userService.UserService
 import ru.glindaquint.everwell.uiStates.SignInUiState
 import ru.glindaquint.everwell.uiStates.SignUpUiState
 import javax.inject.Inject
