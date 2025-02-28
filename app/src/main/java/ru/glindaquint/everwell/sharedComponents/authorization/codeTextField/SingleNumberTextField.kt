@@ -1,4 +1,4 @@
-package ru.glindaquint.everwell.screens.authorization.restore.components
+package ru.glindaquint.everwell.sharedComponents.authorization.codeTextField
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.size
@@ -20,8 +20,7 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.Dp
-import ru.glindaquint.everwell.ui.theme.MainBackground
-import ru.glindaquint.everwell.ui.theme.MainSecondary
+import ru.glindaquint.everwell.dto.colors.codeTextField.CodeTextFieldColors
 
 @SuppressLint("UnrememberedMutableState")
 @Suppress("ktlint:standard:function-naming")
@@ -30,6 +29,8 @@ fun SingleNumberTextField(
     state: MutableState<String>,
     shape: Shape,
     size: Dp,
+    enabled: Boolean,
+    colors: CodeTextFieldColors,
     focusRequester: MutableState<FocusRequester>,
     targetFocusRequester: MutableState<FocusRequester>?,
 ) {
@@ -44,6 +45,7 @@ fun SingleNumberTextField(
                 targetFocusRequester?.value?.requestFocus()
             }
         },
+        enabled = enabled,
         modifier =
             Modifier
                 .size(size)
@@ -54,13 +56,14 @@ fun SingleNumberTextField(
                 focusedIndicatorColor = Color.Transparent,
                 unfocusedIndicatorColor = Color.Transparent,
                 disabledIndicatorColor = Color.Transparent,
-                focusedContainerColor = MainSecondary,
-                unfocusedContainerColor = MainSecondary,
+                focusedContainerColor = colors.containerColor,
+                unfocusedContainerColor = colors.containerColor,
+                disabledContainerColor = colors.disabledContainerColor,
             ),
         textStyle =
             LocalTextStyle.current.copy(
                 textAlign = TextAlign.Center,
-                color = MainBackground,
+                color = colors.contentColor,
             ),
         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
         singleLine = true,

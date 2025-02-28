@@ -13,9 +13,9 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import ru.glindaquint.everwell.R
 import ru.glindaquint.everwell.activities.MainActivity
 import ru.glindaquint.everwell.network.dto.authorization.signUp.SignUpRequest
-import ru.glindaquint.everwell.screens.authorization.restore.components.CodeTextField
 import ru.glindaquint.everwell.sharedComponents.authorization.ActionButton
 import ru.glindaquint.everwell.sharedComponents.authorization.AuthorizationContentContainer
+import ru.glindaquint.everwell.sharedComponents.authorization.codeTextField.CodeTextField
 import ru.glindaquint.everwell.viewModels.impl.SignUpViewModel
 
 @Suppress("ktlint:standard:function-naming")

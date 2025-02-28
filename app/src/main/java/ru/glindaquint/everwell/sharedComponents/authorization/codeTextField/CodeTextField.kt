@@ -1,4 +1,4 @@
-package ru.glindaquint.everwell.screens.authorization.restore.components
+package ru.glindaquint.everwell.sharedComponents.authorization.codeTextField
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -21,12 +21,23 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import ru.glindaquint.everwell.R
+import ru.glindaquint.everwell.dto.colors.codeTextField.CodeTextFieldColors
+import ru.glindaquint.everwell.ui.theme.MainOnBackground
+import ru.glindaquint.everwell.ui.theme.MainSecondary
 
 @Suppress("ktlint:standard:function-naming")
 @Composable
 fun CodeTextField(
     state: MutableState<String>,
+    enabled: Boolean = true,
     size: Dp = TextFieldDefaults.MinHeight,
+    colors: CodeTextFieldColors =
+        CodeTextFieldColors(
+            containerColor = MainSecondary,
+            contentColor = MainOnBackground,
+            disabledContentColor = MainOnBackground,
+            disabledContainerColor = MainSecondary.copy(0.3f),
+        ),
 ) {
     val firstFocusRequester = remember { mutableStateOf(FocusRequester()) }
     val secondFocusRequester = remember { mutableStateOf(FocusRequester()) }
@@ -50,6 +61,8 @@ fun CodeTextField(
                 size = size,
                 focusRequester = firstFocusRequester,
                 targetFocusRequester = secondFocusRequester,
+                enabled = enabled,
+                colors = colors,
             )
             SingleNumberTextField(
                 state = state,
@@ -57,6 +70,8 @@ fun CodeTextField(
                 size = size,
                 focusRequester = secondFocusRequester,
                 targetFocusRequester = thirdFocusRequester,
+                enabled = enabled,
+                colors = colors,
             )
             SingleNumberTextField(
                 state = state,
@@ -64,6 +79,8 @@ fun CodeTextField(
                 size = size,
                 focusRequester = thirdFocusRequester,
                 targetFocusRequester = fourthFocusRequester,
+                enabled = enabled,
+                colors = colors,
             )
             SingleNumberTextField(
                 state = state,
@@ -71,6 +88,8 @@ fun CodeTextField(
                 size = size,
                 focusRequester = fourthFocusRequester,
                 targetFocusRequester = null,
+                enabled = enabled,
+                colors = colors,
             )
         }
     }
