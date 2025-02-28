@@ -120,11 +120,14 @@ fun RestoreScreen(navHostController: NavHostController) {
             size = textFieldHeight.value,
             state = code,
             enabled = codeEnabled.value,
+            verifyInput = {
+                code.value == "0000"
+            },
         )
         ActionButton(
             text = stringResource(id = R.string.restore_screen_restore_text),
             action = { /*TODO*/ },
-            enabled = code.value.length == 4,
+            enabled = code.value == "0000",
         )
         OptionsContainer {
             Option(text = stringResource(id = R.string.restore_screen_sign_in_text), action = {

@@ -8,8 +8,6 @@ import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
@@ -27,6 +25,7 @@ import ru.glindaquint.everwell.dto.colors.codeTextField.CodeTextFieldColors
 @Composable
 fun SingleNumberTextField(
     state: MutableState<String>,
+    numberState: MutableState<TextFieldValue>,
     shape: Shape,
     size: Dp,
     enabled: Boolean,
@@ -34,8 +33,6 @@ fun SingleNumberTextField(
     focusRequester: MutableState<FocusRequester>,
     targetFocusRequester: MutableState<FocusRequester>?,
 ) {
-    val numberState = remember { mutableStateOf(TextFieldValue()) }
-
     TextField(
         value = numberState.value,
         onValueChange = {
