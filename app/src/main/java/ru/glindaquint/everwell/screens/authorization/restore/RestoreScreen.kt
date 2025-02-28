@@ -1,6 +1,7 @@
 package ru.glindaquint.everwell.screens.authorization.restore
 
 import android.annotation.SuppressLint
+import android.provider.ContactsContract.CommonDataKinds.Email
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
@@ -15,6 +16,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -26,6 +28,7 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
+import kotlinx.coroutines.launch
 import ru.glindaquint.everwell.R
 import ru.glindaquint.everwell.navigation.authorization.AuthorizationRoutes
 import ru.glindaquint.everwell.sharedComponents.LabeledTextField
@@ -34,6 +37,8 @@ import ru.glindaquint.everwell.sharedComponents.authorization.AuthorizationConte
 import ru.glindaquint.everwell.sharedComponents.authorization.Option
 import ru.glindaquint.everwell.sharedComponents.authorization.OptionsContainer
 import ru.glindaquint.everwell.sharedComponents.authorization.codeTextField.CodeTextField
+import ru.glindaquint.everwell.sharedComponents.timer.Timer
+import ru.glindaquint.everwell.sharedComponents.timer.rememberTimerState
 import ru.glindaquint.everwell.ui.theme.MainPrimary
 import ru.glindaquint.everwell.utils.pxToDp
 
@@ -50,6 +55,10 @@ fun RestoreScreen(navHostController: NavHostController) {
     val codeEnabled = remember { mutableStateOf(false) }
 
     val textFieldHeight = remember { mutableStateOf(0.dp) }
+
+    val timerState = rememberTimerState(initialValue = 0)
+
+    val scope = rememberCoroutineScope()
 
     when {
         (
@@ -86,33 +95,23 @@ fun RestoreScreen(navHostController: NavHostController) {
                     },
             isError = emailError.value,
             trailingIcon = {
-                OutlinedButton(
-                    modifier =
-                        Modifier
-                            .wrapContentWidth()
-                            .clip(RoundedCornerShape(12.dp)),
-                    onClick = { codeEnabled.value = true },
-                    border = null,
-                    contentPadding = PaddingValues(10.dp),
-                    colors =
-                        ButtonDefaults.buttonColors(
-                            containerColor = Color.Transparent,
-                            disabledContainerColor = Color.Transparent,
-                            contentColor = MainPrimary,
-                            disabledContentColor = MainPrimary.copy(0.5f),
-                        ),
-                    enabled = email.value.text.contains('@') && email.value.text.contains('.'),
-                ) {
-                    Row(
-                        verticalAlignment = Alignment.CenterVertically,
-                        horizontalArrangement = Arrangement.spacedBy(5.dp),
-                    ) {
-                        Text(text = "Send")
-                        Icon(
-                            imageVector = Icons.Filled.Email,
-                            contentDescription = "Send verification code",
-                        )
-                    }
+                if (timerState.isRunning.value) {
+                    Timer(state = timerState)
+                } else {
+                    SendEmailTrailingIcon(
+                        enabled =
+                            email.value.text.contains('@') &&
+                                email.value.text.contains(
+                                    '.',
+                                ),
+                        onClick = {
+                            timerState.reset(180)
+                            codeEnabled.value = true
+                            scope.launch {
+                                timerState.start()
+                            }
+                        },
+                    )
                 }
             },
         )
@@ -133,6 +132,42 @@ fun RestoreScreen(navHostController: NavHostController) {
             Option(text = stringResource(id = R.string.restore_screen_sign_in_text), action = {
                 navHostController.navigate(AuthorizationRoutes.SIGN_IN)
             })
+        }
+    }
+}
+
+@Suppress("ktlint:standard:function-naming")
+@Composable
+private fun SendEmailTrailingIcon(
+    enabled: Boolean,
+    onClick: () -> Unit,
+) {
+    OutlinedButton(
+        modifier =
+            Modifier
+                .wrapContentWidth()
+                .clip(RoundedCornerShape(12.dp)),
+        onClick = onClick,
+        border = null,
+        contentPadding = PaddingValues(10.dp),
+        colors =
+            ButtonDefaults.buttonColors(
+                containerColor = Color.Transparent,
+                disabledContainerColor = Color.Transparent,
+                contentColor = MainPrimary,
+                disabledContentColor = MainPrimary.copy(0.5f),
+            ),
+        enabled = enabled,
+    ) {
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.spacedBy(5.dp),
+        ) {
+            Text(text = "Send")
+            Icon(
+                imageVector = Icons.Filled.Email,
+                contentDescription = "Send verification code",
+            )
         }
     }
 }
