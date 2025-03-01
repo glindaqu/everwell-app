@@ -1,7 +1,6 @@
 package ru.glindaquint.everwell.screens.authorization.restore
 
 import android.annotation.SuppressLint
-import android.provider.ContactsContract.CommonDataKinds.Email
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
@@ -14,6 +13,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
@@ -37,12 +37,15 @@ import ru.glindaquint.everwell.sharedComponents.authorization.AuthorizationConte
 import ru.glindaquint.everwell.sharedComponents.authorization.Option
 import ru.glindaquint.everwell.sharedComponents.authorization.OptionsContainer
 import ru.glindaquint.everwell.sharedComponents.authorization.codeTextField.CodeTextField
-import ru.glindaquint.everwell.sharedComponents.timer.Timer
 import ru.glindaquint.everwell.sharedComponents.timer.rememberTimerState
 import ru.glindaquint.everwell.ui.theme.MainPrimary
 import ru.glindaquint.everwell.utils.pxToDp
 
-@SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
+@SuppressLint(
+    "UnusedMaterial3ScaffoldPaddingParameter",
+    "UnrememberedMutableState",
+    "DefaultLocale",
+)
 @Suppress("ktlint:standard:function-naming")
 @Composable
 fun RestoreScreen(navHostController: NavHostController) {
@@ -59,6 +62,30 @@ fun RestoreScreen(navHostController: NavHostController) {
     val timerState = rememberTimerState(initialValue = 0)
 
     val scope = rememberCoroutineScope()
+
+    val trailingIconText =
+        derivedStateOf {
+            when {
+                timerState.isRunning.value ->
+                    String.format(
+                        "%d:%02d",
+                        timerState.timeRemaining.intValue / 60,
+                        timerState.timeRemaining.intValue % 60,
+                    )
+
+                else -> "Send"
+            }
+        }
+    val trailingIconEnabled =
+        derivedStateOf {
+            when {
+                email.value.text.contains('@') &&
+                    email.value.text.contains('.') &&
+                    !timerState.isRunning.value -> true
+
+                else -> false
+            }
+        }
 
     when {
         (
@@ -95,24 +122,17 @@ fun RestoreScreen(navHostController: NavHostController) {
                     },
             isError = emailError.value,
             trailingIcon = {
-                if (timerState.isRunning.value) {
-                    Timer(state = timerState)
-                } else {
-                    SendEmailTrailingIcon(
-                        enabled =
-                            email.value.text.contains('@') &&
-                                email.value.text.contains(
-                                    '.',
-                                ),
-                        onClick = {
-                            timerState.reset(180)
-                            codeEnabled.value = true
-                            scope.launch {
-                                timerState.start()
-                            }
-                        },
-                    )
-                }
+                SendEmailTrailingIcon(
+                    text = trailingIconText.value,
+                    enabled = trailingIconEnabled.value,
+                    onClick = {
+                        timerState.reset(180)
+                        codeEnabled.value = true
+                        scope.launch {
+                            timerState.start()
+                        }
+                    },
+                )
             },
         )
         CodeTextField(
@@ -139,6 +159,7 @@ fun RestoreScreen(navHostController: NavHostController) {
 @Suppress("ktlint:standard:function-naming")
 @Composable
 private fun SendEmailTrailingIcon(
+    text: String,
     enabled: Boolean,
     onClick: () -> Unit,
 ) {
@@ -163,7 +184,7 @@ private fun SendEmailTrailingIcon(
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.spacedBy(5.dp),
         ) {
-            Text(text = "Send")
+            Text(text = text)
             Icon(
                 imageVector = Icons.Filled.Email,
                 contentDescription = "Send verification code",
