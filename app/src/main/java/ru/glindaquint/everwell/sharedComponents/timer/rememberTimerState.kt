@@ -6,7 +6,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 
 @Composable
-fun rememberTimerState(initialValue: Int = 10): TimerState =
+fun rememberTimerState(): TimerState =
     remember {
-        TimerState(initialTime = initialValue)
+        TimerState()
     }

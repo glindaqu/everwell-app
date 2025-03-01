@@ -13,6 +13,8 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -27,6 +29,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import kotlinx.coroutines.launch
 import ru.glindaquint.everwell.R
@@ -37,9 +40,9 @@ import ru.glindaquint.everwell.sharedComponents.authorization.AuthorizationConte
 import ru.glindaquint.everwell.sharedComponents.authorization.Option
 import ru.glindaquint.everwell.sharedComponents.authorization.OptionsContainer
 import ru.glindaquint.everwell.sharedComponents.authorization.codeTextField.CodeTextField
-import ru.glindaquint.everwell.sharedComponents.timer.rememberTimerState
 import ru.glindaquint.everwell.ui.theme.MainPrimary
 import ru.glindaquint.everwell.utils.pxToDp
+import ru.glindaquint.everwell.viewModels.impl.RestoreViewModel
 
 @SuppressLint(
     "UnusedMaterial3ScaffoldPaddingParameter",
@@ -49,6 +52,11 @@ import ru.glindaquint.everwell.utils.pxToDp
 @Suppress("ktlint:standard:function-naming")
 @Composable
 fun RestoreScreen(navHostController: NavHostController) {
+    val viewModel = hiltViewModel<RestoreViewModel>()
+    val uiState = viewModel.uiState.collectAsState()
+
+    val timerState = viewModel.timerState
+
     val email = remember { mutableStateOf(TextFieldValue()) }
     val emailFocused = remember { mutableStateOf(false) }
     val emailError = remember { mutableStateOf(false) }
@@ -59,9 +67,15 @@ fun RestoreScreen(navHostController: NavHostController) {
 
     val textFieldHeight = remember { mutableStateOf(0.dp) }
 
-    val timerState = rememberTimerState(initialValue = 0)
-
     val scope = rememberCoroutineScope()
+
+    LaunchedEffect(Unit) {
+        if (timerState.isRunning.value) {
+            scope.launch {
+                timerState.start()
+            }
+        }
+    }
 
     val trailingIconText =
         derivedStateOf {
@@ -79,24 +93,14 @@ fun RestoreScreen(navHostController: NavHostController) {
     val trailingIconEnabled =
         derivedStateOf {
             when {
-                email.value.text.contains('@') &&
-                    email.value.text.contains('.') &&
-                    !timerState.isRunning.value -> true
+                email.value.text.contains('@') && email.value.text.contains('.') && !timerState.isRunning.value -> true
 
                 else -> false
             }
         }
 
     when {
-        (
-            !email.value.text
-                .contains('@') ||
-                !email.value.text
-                    .contains('.')
-        ) &&
-            email.value.text
-                .isNotEmpty() &&
-            !emailFocused.value -> {
+        (!email.value.text.contains('@') || !email.value.text.contains('.')) && email.value.text.isNotEmpty() && !emailFocused.value -> {
             emailError.value = true
             emailTitle.value =
                 stringResource(id = R.string.registration_screen_error_email_must_contain)
@@ -126,6 +130,7 @@ fun RestoreScreen(navHostController: NavHostController) {
                     text = trailingIconText.value,
                     enabled = trailingIconEnabled.value,
                     onClick = {
+                        viewModel.sendVerificationCode(email = email.value.text)
                         timerState.reset(180)
                         codeEnabled.value = true
                         scope.launch {
@@ -140,13 +145,13 @@ fun RestoreScreen(navHostController: NavHostController) {
             state = code,
             enabled = codeEnabled.value,
             verifyInput = {
-                code.value == "0000"
+                code.value == uiState.value.code
             },
         )
         ActionButton(
             text = stringResource(id = R.string.restore_screen_restore_text),
             action = { /*TODO*/ },
-            enabled = code.value == "0000",
+            enabled = code.value == uiState.value.code,
         )
         OptionsContainer {
             Option(text = stringResource(id = R.string.restore_screen_sign_in_text), action = {
