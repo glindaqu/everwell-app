@@ -7,6 +7,7 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import ru.glindaquint.everwell.network.dto.authorization.AuthorizationResponse
+import ru.glindaquint.everwell.network.dto.authorization.RestoreRequest
 import ru.glindaquint.everwell.network.dto.authorization.signIn.SignInRequest
 import ru.glindaquint.everwell.network.dto.authorization.signUp.SignUpRequest
 import ru.glindaquint.everwell.network.dto.users.GetUserResponse
@@ -38,6 +39,8 @@ class UserService
                         if (response.body() != null) {
                             onSuccess?.invoke(response.body()!!.token)
                             refreshUser()
+                        } else {
+                            onFailure?.invoke(Throwable("Something went wrong"))
                         }
                     }
 
@@ -131,5 +134,29 @@ class UserService
                         }
                     },
                 )
+        }
+
+        fun restorePassword(
+            request: RestoreRequest,
+            onSuccess: (() -> Unit)? = null,
+            onFailure: ((Throwable) -> Unit)? = null,
+        ) {
+            authorizationNetworkService.restorePassword(request).enqueue(
+                object : Callback<Void> {
+                    override fun onResponse(
+                        call: Call<Void>,
+                        response: Response<Void>,
+                    ) {
+                        onSuccess?.invoke()
+                    }
+
+                    override fun onFailure(
+                        call: Call<Void>,
+                        t: Throwable,
+                    ) {
+                        onFailure?.invoke(t)
+                    }
+                },
+            )
         }
     }

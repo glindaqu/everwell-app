@@ -19,7 +19,7 @@ import ru.glindaquint.everwell.screens.authorization.signUp.SignUpScreen
 fun AuthorizationNavHost(navHostController: NavHostController) {
     NavHost(
         navController = navHostController,
-        startDestination = AuthorizationRoutes.RESTORE,
+        startDestination = AuthorizationRoutes.SIGN_IN,
     ) {
         composable(
             route = AuthorizationRoutes.SIGN_IN,
@@ -34,8 +34,11 @@ fun AuthorizationNavHost(navHostController: NavHostController) {
             content = { RestoreScreen(navHostController = navHostController) },
         )
         composable(
-            route = AuthorizationRoutes.NEW_PASSWORD,
-            content = { NewPasswordScreen() },
+            route = "${AuthorizationRoutes.NEW_PASSWORD}/{email}",
+            content = { backStackEntry ->
+                val email = backStackEntry.arguments?.getString("email")
+                NewPasswordScreen(email = email, navHostController = navHostController)
+            },
         )
         composable(
             route = "${AuthorizationRoutes.CONFIRM_EMAIL}/{user}",

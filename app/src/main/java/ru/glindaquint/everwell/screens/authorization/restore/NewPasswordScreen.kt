@@ -9,16 +9,26 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.input.VisualTransformation
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavHostController
 import ru.glindaquint.everwell.R
+import ru.glindaquint.everwell.navigation.authorization.AuthorizationRoutes
+import ru.glindaquint.everwell.network.dto.authorization.RestoreRequest
 import ru.glindaquint.everwell.sharedComponents.LabeledTextField
 import ru.glindaquint.everwell.sharedComponents.authorization.ActionButton
 import ru.glindaquint.everwell.sharedComponents.authorization.AuthorizationContentContainer
 import ru.glindaquint.everwell.sharedComponents.authorization.PasswordTrailingIcon
+import ru.glindaquint.everwell.viewModels.impl.RestoreViewModel
 
 @SuppressLint("UnrememberedMutableState")
 @Suppress("ktlint:standard:function-naming")
 @Composable
-fun NewPasswordScreen() {
+fun NewPasswordScreen(
+    email: String?,
+    navHostController: NavHostController,
+) {
+    val viewModel = hiltViewModel<RestoreViewModel>()
+
     val password = remember { mutableStateOf(TextFieldValue()) }
     val passwordAgain = remember { mutableStateOf(TextFieldValue()) }
 
@@ -119,7 +129,14 @@ fun NewPasswordScreen() {
         )
         ActionButton(
             text = stringResource(id = R.string.registration_screen_sign_up_text),
-            action = { /*TODO*/ },
+            action = {
+                viewModel.resetPassword(
+                    request = RestoreRequest(password = password.value.text, email = email!!),
+                    callback = {
+                        navHostController.navigate(AuthorizationRoutes.SIGN_IN)
+                    },
+                )
+            },
             enabled =
                 password.value.text.length >= 8 &&
                     passwordAgain.value.text.length >= 8 &&

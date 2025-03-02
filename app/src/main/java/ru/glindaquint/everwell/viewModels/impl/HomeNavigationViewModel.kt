@@ -7,7 +7,7 @@ import ru.glindaquint.everwell.services.UserService
 import javax.inject.Inject
 
 @HiltViewModel
-class NavigationViewModel
+class HomeNavigationViewModel
     @Inject
     constructor(
         private val userService: Lazy<UserService>,

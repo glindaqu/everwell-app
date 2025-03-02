@@ -12,7 +12,11 @@ class AuthorizationInterceptor
     ) : Interceptor {
         override fun intercept(chain: Interceptor.Chain): Response {
             val original = chain.request()
-            if (!original.url.toString().contains("auth")) {
+            if (!original.url.toString().contains("auth") &&
+                !original.url
+                    .toString()
+                    .contains("email")
+            ) {
                 return chain.proceed(
                     original
                         .newBuilder()

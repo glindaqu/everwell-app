@@ -3,7 +3,7 @@ package ru.glindaquint.everwell.services.preferencesManager
 interface PreferencesManager {
     fun saveString(
         key: String,
-        value: String,
+        value: String?,
     )
 
     fun getString(

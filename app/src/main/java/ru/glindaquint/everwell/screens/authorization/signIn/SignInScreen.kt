@@ -31,10 +31,8 @@ import ru.glindaquint.everwell.viewModels.impl.SignInViewModel
 @Suppress("ktlint:standard:function-naming")
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter", "UnrememberedMutableState")
 @Composable
-fun SignInScreen(
-    viewModel: SignInViewModel = hiltViewModel<SignInViewModel>(),
-    navHostController: NavHostController,
-) {
+fun SignInScreen(navHostController: NavHostController) {
+    val viewModel = hiltViewModel<SignInViewModel>()
     val context = LocalActivity.current as Activity
 
     val login = remember { mutableStateOf(TextFieldValue()) }

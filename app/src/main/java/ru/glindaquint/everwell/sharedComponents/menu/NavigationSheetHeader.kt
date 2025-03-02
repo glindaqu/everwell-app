@@ -20,13 +20,13 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import coil3.compose.AsyncImage
 import ru.glindaquint.everwell.dto.colors.navigation.NavigationDrawerColors
 import ru.glindaquint.everwell.ui.theme.Typography
-import ru.glindaquint.everwell.viewModels.impl.NavigationViewModel
+import ru.glindaquint.everwell.viewModels.impl.HomeNavigationViewModel
 
 @SuppressLint("StateFlowValueCalledInComposition")
 @Suppress("ktlint:standard:function-naming")
 @Composable
 fun NavigationSheetHeader(navigationDrawerColors: NavigationDrawerColors) {
-    val viewModel = hiltViewModel<NavigationViewModel>()
+    val viewModel = hiltViewModel<HomeNavigationViewModel>()
     val user = viewModel.user.collectAsState()
     Column(
         modifier =

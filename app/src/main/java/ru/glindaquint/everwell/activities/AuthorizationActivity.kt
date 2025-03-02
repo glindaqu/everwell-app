@@ -1,5 +1,3 @@
-@file:Suppress("ktlint:standard:filename")
-
 package ru.glindaquint.everwell.activities
 
 import android.annotation.SuppressLint
@@ -16,6 +14,7 @@ import ru.glindaquint.everwell.ui.theme.EverwellTheme
 
 @AndroidEntryPoint
 class AuthorizationActivity : ComponentActivity() {
+    @RequiresApi(Build.VERSION_CODES.TIRAMISU)
     @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

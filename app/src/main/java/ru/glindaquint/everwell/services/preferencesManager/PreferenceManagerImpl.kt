@@ -12,7 +12,7 @@ class PreferenceManagerImpl
 
         override fun saveString(
             key: String,
-            value: String,
+            value: String?,
         ) {
             sharedPreferences.edit().putString(key, value).apply()
         }

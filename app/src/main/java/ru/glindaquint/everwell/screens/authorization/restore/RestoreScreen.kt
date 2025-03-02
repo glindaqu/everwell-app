@@ -150,8 +150,10 @@ fun RestoreScreen(navHostController: NavHostController) {
         )
         ActionButton(
             text = stringResource(id = R.string.restore_screen_restore_text),
-            action = { /*TODO*/ },
-            enabled = code.value == uiState.value.code,
+            action = {
+                navHostController.navigate("${AuthorizationRoutes.NEW_PASSWORD}/${email.value.text}")
+            },
+            enabled = code.value.length == 4 && code.value == uiState.value.code,
         )
         OptionsContainer {
             Option(text = stringResource(id = R.string.restore_screen_sign_in_text), action = {
