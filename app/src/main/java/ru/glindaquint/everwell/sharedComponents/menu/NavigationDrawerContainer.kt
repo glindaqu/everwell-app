@@ -5,6 +5,7 @@ import androidx.compose.material3.ModalNavigationDrawer
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.graphics.Color
+import androidx.navigation.NavHostController
 import kotlinx.coroutines.launch
 import ru.glindaquint.everwell.navigation.main.MainRoute
 import ru.glindaquint.everwell.navigation.main.MainRouteDto
@@ -24,6 +25,7 @@ fun NavigationDrawerContainer(
             }.sortedBy { field ->
                 field.routeId
             },
+    navHostController: NavHostController,
     drawerState: DrawerState,
     content: @Composable () -> Unit,
 ) {
@@ -35,7 +37,10 @@ fun NavigationDrawerContainer(
             NavigationSheet(
                 navigationItems = navigationItems,
                 onItemClick = {
-                    scope.launch { drawerState.close() }
+                    scope.launch {
+                        drawerState.close()
+                        navHostController.navigate(it.routeName)
+                    }
                 },
             )
         },

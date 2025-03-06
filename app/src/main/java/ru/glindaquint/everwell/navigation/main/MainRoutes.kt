@@ -5,6 +5,9 @@ package ru.glindaquint.everwell.navigation.main
 import androidx.compose.ui.graphics.Color
 import ru.glindaquint.everwell.R
 import ru.glindaquint.everwell.dto.colors.navigation.NavigationDrawerColors
+import ru.glindaquint.everwell.ui.theme.BloodPressureAccent
+import ru.glindaquint.everwell.ui.theme.BloodPressurePrimary
+import ru.glindaquint.everwell.ui.theme.BloodPressureSecondary
 import ru.glindaquint.everwell.ui.theme.MainAccent
 import ru.glindaquint.everwell.ui.theme.MainOnBackground
 import ru.glindaquint.everwell.ui.theme.MainPrimary
@@ -57,12 +60,12 @@ class MainRoutes {
                 navigationDrawerColors =
                     NavigationDrawerColors(
                         headerColor = Color.White,
-                        bodyColor = MainOnBackground,
-                        itemBackgroundColor = MainOnBackground,
-                        itemForegroundColor = MainSecondary,
-                        accentColor = MainAccent,
+                        bodyColor = BloodPressurePrimary,
+                        itemBackgroundColor = BloodPressurePrimary,
+                        itemForegroundColor = BloodPressureSecondary,
+                        accentColor = BloodPressureAccent,
                         selectedItemColor = Color.Black.copy(0.2f),
-                        nicknameColor = MainPrimary,
+                        nicknameColor = BloodPressureAccent,
                     ),
             )
 

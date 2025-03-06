@@ -6,6 +6,7 @@ import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.material3.DrawerValue
 import androidx.compose.material3.rememberDrawerState
+import androidx.navigation.compose.rememberNavController
 import dagger.hilt.android.AndroidEntryPoint
 import ru.glindaquint.everwell.navigation.main.MainNavHost
 import ru.glindaquint.everwell.sharedComponents.menu.NavigationDrawerContainer
@@ -19,9 +20,13 @@ class MainActivity : ComponentActivity() {
         setContent {
             EverwellTheme {
                 val drawerState = rememberDrawerState(DrawerValue.Closed)
+                val navHostController = rememberNavController()
 
-                NavigationDrawerContainer(drawerState = drawerState) {
-                    MainNavHost(drawerState = drawerState)
+                NavigationDrawerContainer(
+                    drawerState = drawerState,
+                    navHostController = navHostController,
+                ) {
+                    MainNavHost(drawerState = drawerState, navHostController = navHostController)
                 }
             }
         }

@@ -17,7 +17,6 @@ import androidx.compose.ui.unit.dp
 import ru.glindaquint.everwell.dto.colors.navigation.NavigationSheetItemColors
 import ru.glindaquint.everwell.navigation.main.MainRouteDto
 import ru.glindaquint.everwell.navigation.main.MainRoutes
-import ru.glindaquint.everwell.ui.theme.MainOnBackground
 
 @Suppress("ktlint:standard:function-naming")
 @Composable
@@ -39,7 +38,7 @@ fun NavigationSheet(
         )
 
     ModalDrawerSheet(
-        drawerContainerColor = MainOnBackground,
+        drawerContainerColor = selectedItem.value.navigationDrawerColors.bodyColor,
         windowInsets = WindowInsets(0),
         modifier = Modifier.widthIn(max = (metrics.widthPixels / LocalDensity.current.density * 0.75f).dp),
     ) {
