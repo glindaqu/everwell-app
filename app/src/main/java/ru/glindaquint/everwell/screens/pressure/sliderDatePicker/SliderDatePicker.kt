@@ -14,10 +14,14 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.unit.IntSize
 import ru.glindaquint.everwell.ui.theme.BloodPressurePrimary
+import java.util.Date
 
 @Suppress("ktlint:standard:function-naming")
 @Composable
-fun SliderDatePicker() {
+fun SliderDatePicker(
+    state: SliderDatePickerState,
+    onDateSelected: (Date) -> Unit,
+) {
     val viewSize = remember { mutableStateOf(IntSize(0, 0)) }
     val brush =
         Brush.linearGradient(
@@ -53,7 +57,7 @@ fun SliderDatePicker() {
                 },
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
-        SliderDatePickerMonth()
-        SliderDatePickerDay()
+        SliderDatePickerMonth(state = state)
+        SliderDatePickerDay(state = state)
     }
 }

@@ -23,6 +23,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import kotlinx.coroutines.launch
+import ru.glindaquint.everwell.ui.theme.BloodPressureBackground
 import ru.glindaquint.everwell.ui.theme.BloodPressurePrimary
 import ru.glindaquint.everwell.utils.pxToDp
 
@@ -36,6 +37,7 @@ fun BloodPressureTopBar(drawerState: DrawerState) {
             Modifier
                 .fillMaxWidth()
                 .wrapContentHeight()
+                .background(BloodPressureBackground)
                 .background(
                     color = BloodPressurePrimary,
                     shape = RoundedCornerShape(bottomEnd = 18.dp, bottomStart = 18.dp),

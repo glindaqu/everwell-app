@@ -30,6 +30,6 @@ fun BloodPressureScaleHandle(height: Dp) {
                     .height(height)
                     .background(Color.White),
         )
-        Text(text = "119/79", fontSize = 12.sp, color = Color.White)
+        Text(text = "119/79", fontSize = 12.sp, color = Color.Black)
     }
 }

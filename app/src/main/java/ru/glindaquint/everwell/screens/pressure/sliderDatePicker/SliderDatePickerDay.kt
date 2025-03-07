@@ -19,10 +19,10 @@ import ru.glindaquint.everwell.ui.theme.BloodPressureAccent
 
 @Suppress("ktlint:standard:function-naming")
 @Composable
-fun SliderDatePickerDay() {
+fun SliderDatePickerDay(state: SliderDatePickerState) {
     LazyRow(
         horizontalArrangement = Arrangement.spacedBy(10.dp),
-        contentPadding = PaddingValues(start = 16.dp, bottom = 35.dp),
+        contentPadding = PaddingValues(start = 16.dp, end = 16.dp, bottom = 35.dp),
     ) {
         items((1..30).toList()) {
             Box(

@@ -14,6 +14,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.onGloballyPositioned
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
 import ru.glindaquint.everwell.utils.pxToDp
@@ -58,4 +59,11 @@ fun BloodPressureScale() {
         )
         BloodPressureScaleHandle(height = viewSize.value.height.pxToDp())
     }
+}
+
+@Suppress("ktlint:standard:function-naming")
+@Composable
+@Preview(backgroundColor = 0xffEED2CC)
+fun Scale_Test() {
+    BloodPressureScale()
 }

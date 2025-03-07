@@ -19,10 +19,11 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import ru.glindaquint.everwell.ui.theme.BloodPressureAccent
-import ru.glindaquint.everwell.ui.theme.BloodPressureSecondary
+import ru.glindaquint.everwell.ui.theme.BloodPressureAlternatePrimary
 
 @Suppress("ktlint:standard:function-naming")
 @Composable
@@ -32,7 +33,7 @@ fun ActionTile() {
             Modifier
                 .fillMaxWidth()
                 .padding(horizontal = 16.dp)
-                .background(color = BloodPressureSecondary, shape = RoundedCornerShape(12.dp)),
+                .background(color = BloodPressureAlternatePrimary, shape = RoundedCornerShape(12.dp)),
     ) {
         Row(
             horizontalArrangement = Arrangement.SpaceBetween,
@@ -76,6 +77,7 @@ fun ActionTile() {
                     .fillMaxWidth(0.7f)
                     .padding(vertical = 12.dp)
                     .padding(start = 24.dp),
+            color = Color.White,
         )
     }
 }
