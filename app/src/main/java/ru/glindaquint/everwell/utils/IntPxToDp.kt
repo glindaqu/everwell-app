@@ -9,3 +9,8 @@ fun Int.pxToDp(): Dp {
     val density = Resources.getSystem().displayMetrics.density
     return (this / density).roundToInt().dp
 }
+
+fun Int.spToDp(): Dp {
+    val density = Resources.getSystem().displayMetrics.density
+    return (this * (density / 160)).roundToInt().dp
+}
