@@ -14,7 +14,7 @@ fun MainNavHost(
     drawerState: DrawerState,
     navHostController: NavHostController,
 ) {
-    NavHost(navController = navHostController, startDestination = MainRoutes.pressure.routeName) {
+    NavHost(navController = navHostController, startDestination = MainRoutes.home.routeName) {
         composable(route = MainRoutes.home.routeName) { HomeScreen(drawerState = drawerState) }
         composable(route = MainRoutes.pressure.routeName) { BloodPressureScreen(drawerState = drawerState) }
     }

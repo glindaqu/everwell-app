@@ -39,7 +39,7 @@ fun BloodPressureMeasure() {
     val diastolicPressureState = remember { mutableStateOf(TextFieldValue()) }
     val heartRateState = remember { mutableStateOf(TextFieldValue()) }
 
-    val showAction = remember { mutableStateOf(true) }
+    val showAction = remember { mutableStateOf(false) }
     val viewSize = remember { mutableStateOf(IntSize(0, 0)) }
 
     LaunchedEffect(
