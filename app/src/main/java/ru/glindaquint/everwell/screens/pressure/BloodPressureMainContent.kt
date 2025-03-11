@@ -21,9 +21,9 @@ import ru.glindaquint.everwell.viewModels.impl.BloodPressureViewModel
 @Suppress("ktlint:standard:function-naming")
 @Composable
 fun BloodPressureMainContent() {
-    val sliderDatePickerState = rememberSliderDatePickerState()
     val viewModel = hiltViewModel<BloodPressureViewModel>()
     val uiState = viewModel.uiState.collectAsState()
+    val sliderDatePickerState = rememberSliderDatePickerState()
 
     Column(
         modifier =
@@ -39,7 +39,7 @@ fun BloodPressureMainContent() {
     ) {
         SliderDatePicker(
             state = sliderDatePickerState,
-            onDateSelected = { /*TODO*/ },
+            onDateSelected = { viewModel.filterBloodPressures(sliderDatePickerState.date.value) },
         )
         Column(
             verticalArrangement = Arrangement.spacedBy(7.dp),

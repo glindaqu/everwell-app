@@ -9,6 +9,8 @@ import kotlinx.coroutines.launch
 import ru.glindaquint.everwell.network.dto.bloodPressure.AddBloodPressureRequest
 import ru.glindaquint.everwell.services.BloodPressureService
 import ru.glindaquint.everwell.uiStates.BloodPressureUiState
+import ru.glindaquint.everwell.utils.isSameDay
+import java.util.Date
 import javax.inject.Inject
 
 @HiltViewModel
@@ -23,9 +25,27 @@ class BloodPressureViewModel
         init {
             viewModelScope.launch {
                 bloodPressureService.bloodPressures.collect {
-                    updateUiState(uiState.value.copy(bloodPressures = it))
+                    updateUiState(
+                        uiState.value.copy(
+                            bloodPressures =
+                                it.filter { record ->
+                                    isSameDay(record.measurementDateTime, Date())
+                                },
+                        ),
+                    )
                 }
             }
+        }
+
+        fun filterBloodPressures(date: Date) {
+            updateUiState(
+                uiState.value.copy(
+                    bloodPressures =
+                        bloodPressureService.bloodPressures.value.filter { record ->
+                            isSameDay(record.measurementDateTime, date)
+                        },
+                ),
+            )
         }
 
         fun addBloodPressure(request: AddBloodPressureRequest) {

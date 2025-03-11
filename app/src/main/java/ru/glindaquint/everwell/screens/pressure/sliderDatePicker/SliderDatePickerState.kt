@@ -15,6 +15,15 @@ class SliderDatePickerState(
 ) {
     private val calendar = Calendar.getInstance()
 
+    init {
+        updateStates()
+    }
+
+    fun setDay(day: Int) {
+        calendar.set(Calendar.DAY_OF_MONTH, day)
+        updateStates()
+    }
+
     fun incrementMonth() {
         calendar.set(Calendar.MONTH, month.intValue + 1)
         updateStates()
