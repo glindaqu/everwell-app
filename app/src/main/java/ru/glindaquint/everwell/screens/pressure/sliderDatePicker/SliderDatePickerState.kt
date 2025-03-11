@@ -12,6 +12,7 @@ class SliderDatePickerState(
     val day: MutableIntState = mutableIntStateOf(0),
     val year: MutableIntState = mutableIntStateOf(0),
     val date: MutableState<Date> = mutableStateOf(Date()),
+    val selectedDate: MutableState<Date> = mutableStateOf(Date()),
 ) {
     private val calendar = Calendar.getInstance()
 
@@ -19,9 +20,16 @@ class SliderDatePickerState(
         updateStates()
     }
 
-    fun setDay(day: Int) {
+    fun updateSelectedDate(
+        day: Int = this.day.intValue,
+        month: Int = this.month.intValue,
+        year: Int = this.year.intValue,
+    ) {
         calendar.set(Calendar.DAY_OF_MONTH, day)
+        calendar.set(Calendar.MONTH, month)
+        calendar.set(Calendar.YEAR, year)
         updateStates()
+        selectedDate.value = date.value
     }
 
     fun incrementMonth() {
