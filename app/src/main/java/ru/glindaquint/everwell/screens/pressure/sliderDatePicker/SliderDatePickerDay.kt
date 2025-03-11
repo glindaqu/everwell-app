@@ -32,13 +32,13 @@ fun SliderDatePickerDay(
     state: SliderDatePickerState,
     onClick: () -> Unit,
 ) {
-    val calendar = Calendar.getInstance()
     val maxDaysInMonth =
-        remember { mutableIntStateOf(calendar.getActualMaximum(Calendar.DAY_OF_MONTH)) }
+        remember { mutableIntStateOf(0) }
 
     val lazyRowState = rememberLazyListState()
 
     LaunchedEffect(state.date.value) {
+        val calendar = Calendar.getInstance()
         calendar.set(Calendar.YEAR, state.year.intValue)
         calendar.set(Calendar.MONTH, state.month.intValue)
         maxDaysInMonth.intValue = calendar.getActualMaximum(Calendar.DAY_OF_MONTH)
@@ -54,6 +54,10 @@ fun SliderDatePickerDay(
         horizontalArrangement = Arrangement.spacedBy(10.dp),
         contentPadding = PaddingValues(start = 16.dp, end = 16.dp, bottom = 35.dp),
     ) {
+        val calendar = Calendar.getInstance()
+        calendar.set(Calendar.YEAR, state.year.intValue)
+        calendar.set(Calendar.MONTH, state.month.intValue)
+
         items((1..maxDaysInMonth.intValue).toList()) {
             calendar.set(Calendar.DAY_OF_MONTH, it)
             Box(
