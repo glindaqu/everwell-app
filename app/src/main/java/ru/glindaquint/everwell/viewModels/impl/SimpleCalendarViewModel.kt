@@ -3,9 +3,10 @@ package ru.glindaquint.everwell.viewModels.impl
 import androidx.lifecycle.ViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
-import ru.glindaquint.everwell.models.simpleCalendar.SimpleCalendarModel
 import ru.glindaquint.everwell.dto.objective.simpleCalendar.SimpleCalendarBodyItemDto
+import ru.glindaquint.everwell.models.simpleCalendar.SimpleCalendarModel
 import ru.glindaquint.everwell.uiStates.homeUiState.SimpleCalendarUiState
+import ru.glindaquint.everwell.utils.isSameDay
 import ru.glindaquint.everwell.viewModels.api.ISimpleCalendarViewModel
 import java.util.Calendar
 import java.util.Date
@@ -39,7 +40,7 @@ class SimpleCalendarViewModel
                             simpleCalendarModel.currentMonth ==
                                 calendar.get(Calendar.MONTH),
                         selected =
-                            SimpleCalendarModel.isDatesEqual(
+                            isSameDay(
                                 simpleCalendarModel.date,
                                 calendar.time,
                             ),
