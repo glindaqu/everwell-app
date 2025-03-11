@@ -6,6 +6,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
+import ru.glindaquint.everwell.network.dto.bloodPressure.AddBloodPressureRequest
 import ru.glindaquint.everwell.services.BloodPressureService
 import ru.glindaquint.everwell.uiStates.BloodPressureUiState
 import javax.inject.Inject
@@ -22,8 +23,34 @@ class BloodPressureViewModel
         init {
             viewModelScope.launch {
                 bloodPressureService.bloodPressures.collect {
-                    _uiState.value = _uiState.value.copy(bloodPressures = it)
+                    updateUiState(uiState.value.copy(bloodPressures = it))
                 }
             }
+        }
+
+        fun addBloodPressure(request: AddBloodPressureRequest) {
+            bloodPressureService.addBloodPressure(
+                request = request,
+                onSuccess = {
+                    updateUiState(
+                        _uiState.value.copy(
+                            error = null,
+                            loading = false,
+                        ),
+                    )
+                },
+                onFailure = { t ->
+                    updateUiState(
+                        _uiState.value.copy(
+                            error = t.message,
+                            loading = false,
+                        ),
+                    )
+                },
+            )
+        }
+
+        private fun updateUiState(state: BloodPressureUiState) {
+            _uiState.value = state
         }
     }

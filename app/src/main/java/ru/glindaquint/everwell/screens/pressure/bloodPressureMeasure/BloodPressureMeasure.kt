@@ -26,10 +26,13 @@ import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import kotlinx.coroutines.delay
+import ru.glindaquint.everwell.network.dto.bloodPressure.AddBloodPressureRequest
 import ru.glindaquint.everwell.ui.theme.BloodPressurePrimary
 import ru.glindaquint.everwell.ui.theme.BloodPressureSecondary
 import ru.glindaquint.everwell.utils.pxToDp
+import ru.glindaquint.everwell.viewModels.impl.BloodPressureViewModel
 
 @SuppressLint("UseOfNonLambdaOffsetOverload")
 @Suppress("ktlint:standard:function-naming")
@@ -41,6 +44,8 @@ fun BloodPressureMeasure() {
 
     val showAction = remember { mutableStateOf(false) }
     val viewSize = remember { mutableStateOf(IntSize(0, 0)) }
+
+    val viewModel = hiltViewModel<BloodPressureViewModel>()
 
     LaunchedEffect(
         systolicPressureState.value,
@@ -100,7 +105,19 @@ fun BloodPressureMeasure() {
                 modifier = Modifier.height(viewSize.value.height.pxToDp()),
                 contentAlignment = Alignment.Center,
             ) {
-                ActionButton(contentDescription = "Save", icon = Icons.Filled.Done, onClick = {})
+                ActionButton(
+                    contentDescription = "Save",
+                    icon = Icons.Filled.Done,
+                    onClick = {
+                        viewModel.addBloodPressure(
+                            AddBloodPressureRequest(
+                                systolicPressure = systolicPressureState.value.text.toInt(),
+                                diastolicPressure = diastolicPressureState.value.text.toInt(),
+                                heartRate = heartRateState.value.text.toInt(),
+                            ),
+                        )
+                    },
+                )
             }
         }
     }

@@ -37,6 +37,7 @@ class BloodPressureService
                         response: Response<Void>,
                     ) {
                         onSuccess?.invoke()
+                        refreshBloodPressures()
                     }
 
                     override fun onFailure(
@@ -47,7 +48,6 @@ class BloodPressureService
                     }
                 },
             )
-            refreshBloodPressures()
         }
 
         private fun refreshBloodPressures(
