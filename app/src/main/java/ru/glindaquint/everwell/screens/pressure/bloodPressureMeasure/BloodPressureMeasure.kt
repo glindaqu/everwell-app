@@ -117,6 +117,7 @@ fun BloodPressureMeasure(
                                 heartRate = heartRateState.value.text.toInt(),
                             ),
                         )
+                        showAction.value = false
                     },
                 )
             }
