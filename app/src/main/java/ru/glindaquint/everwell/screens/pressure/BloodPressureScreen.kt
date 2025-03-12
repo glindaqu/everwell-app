@@ -88,7 +88,10 @@ fun BloodPressureScreen(drawerState: DrawerState) {
                 diastolic = diastolicValue.value,
                 systolic = systolicValue.value,
             )
-            BloodPressureCharacteristic()
+            BloodPressureCharacteristic(
+                diastolic = diastolicValue.value,
+                systolic = systolicValue.value,
+            )
             BloodPressureMainContent()
         }
     }
