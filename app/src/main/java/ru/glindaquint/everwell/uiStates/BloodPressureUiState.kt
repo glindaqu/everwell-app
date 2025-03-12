@@ -6,4 +6,5 @@ data class BloodPressureUiState(
     val bloodPressures: List<BloodPressureDto> = listOf(),
     val error: String? = null,
     val loading: Boolean = false,
+    val measurementsCount: Int = 0,
 )

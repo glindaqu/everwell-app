@@ -26,3 +26,22 @@ fun isSameDay(
                 )
         )
 }
+
+fun isSameMonth(
+    date1: Date,
+    date2: Date,
+): Boolean {
+    val calendar1 = Calendar.getInstance()
+    calendar1.time = date1
+
+    val calendar2 = Calendar.getInstance()
+    calendar2.time = date2
+
+    return (calendar1.get(Calendar.YEAR) == calendar2.get(Calendar.YEAR)) &&
+        (
+            calendar1.get(Calendar.MONTH) ==
+                calendar2.get(
+                    Calendar.MONTH,
+                )
+        )
+}

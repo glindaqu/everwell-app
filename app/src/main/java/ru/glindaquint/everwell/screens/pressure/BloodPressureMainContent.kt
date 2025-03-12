@@ -48,8 +48,9 @@ fun BloodPressureMainContent() {
             uiState.value.bloodPressures.forEach { bloodPressure ->
                 BloodPressureRecord(bloodPressureDto = bloodPressure)
             }
-            ActionTile()
-            ActionTile()
+            ActionTile(
+                text = "Количество измерений давления за текущий месяц: ${uiState.value.measurementsCount}",
+            )
         }
     }
 }

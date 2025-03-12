@@ -10,6 +10,7 @@ import ru.glindaquint.everwell.network.dto.bloodPressure.AddBloodPressureRequest
 import ru.glindaquint.everwell.services.BloodPressureService
 import ru.glindaquint.everwell.uiStates.BloodPressureUiState
 import ru.glindaquint.everwell.utils.isSameDay
+import ru.glindaquint.everwell.utils.isSameMonth
 import java.util.Date
 import javax.inject.Inject
 
@@ -31,6 +32,11 @@ class BloodPressureViewModel
                                 it.filter { record ->
                                     isSameDay(record.measurementDateTime, Date())
                                 },
+                            measurementsCount =
+                                it
+                                    .filter { record ->
+                                        isSameMonth(record.measurementDateTime, Date())
+                                    }.size,
                         ),
                     )
                 }
@@ -44,6 +50,11 @@ class BloodPressureViewModel
                         bloodPressureService.bloodPressures.value.filter { record ->
                             isSameDay(record.measurementDateTime, date)
                         },
+                    measurementsCount =
+                        bloodPressureService.bloodPressures.value
+                            .filter { record ->
+                                isSameMonth(record.measurementDateTime, Date())
+                            }.size,
                 ),
             )
         }

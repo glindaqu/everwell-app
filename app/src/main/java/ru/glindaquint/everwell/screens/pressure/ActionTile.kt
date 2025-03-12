@@ -26,7 +26,7 @@ import ru.glindaquint.everwell.ui.theme.BloodPressureSecondary
 
 @Suppress("ktlint:standard:function-naming")
 @Composable
-fun ActionTile() {
+fun ActionTile(text: String) {
     Column(
         modifier =
             Modifier
@@ -70,7 +70,7 @@ fun ActionTile() {
                     .background(BloodPressureAccent),
         )
         Text(
-            text = "Количество измерений давления за текущий месяц: 38",
+            text = text,
             modifier =
                 Modifier
                     .fillMaxWidth(0.7f)
