@@ -17,6 +17,7 @@ import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -37,11 +38,11 @@ import ru.glindaquint.everwell.viewModels.impl.BloodPressureViewModel
 @SuppressLint("UseOfNonLambdaOffsetOverload")
 @Suppress("ktlint:standard:function-naming")
 @Composable
-fun BloodPressureMeasure() {
-    val systolicPressureState = remember { mutableStateOf(TextFieldValue()) }
-    val diastolicPressureState = remember { mutableStateOf(TextFieldValue()) }
-    val heartRateState = remember { mutableStateOf(TextFieldValue()) }
-
+fun BloodPressureMeasure(
+    systolicPressureState: MutableState<TextFieldValue>,
+    diastolicPressureState: MutableState<TextFieldValue>,
+    heartRateState: MutableState<TextFieldValue>,
+) {
     val showAction = remember { mutableStateOf(false) }
     val viewSize = remember { mutableStateOf(IntSize(0, 0)) }
 

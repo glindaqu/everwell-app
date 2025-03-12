@@ -13,9 +13,13 @@ import androidx.compose.material3.DrawerValue
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.rememberDrawerState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.derivedStateOf
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import ru.glindaquint.everwell.screens.pressure.bloodPressureMeasure.BloodPressureMeasure
@@ -30,6 +34,34 @@ fun BloodPressureScreen(drawerState: DrawerState) {
         statusBarColor = Color.Transparent,
         navBarColor = Color.Transparent,
     )
+
+    val systolicPressureState = remember { mutableStateOf(TextFieldValue()) }
+    val diastolicPressureState = remember { mutableStateOf(TextFieldValue()) }
+    val heartRateState = remember { mutableStateOf(TextFieldValue()) }
+
+    val diastolicValue =
+        remember {
+            derivedStateOf {
+                when {
+                    systolicPressureState.value.text.isEmpty() ||
+                        diastolicPressureState.value.text.isEmpty() -> 0
+
+                    else -> diastolicPressureState.value.text.toInt()
+                }
+            }
+        }
+
+    val systolicValue =
+        remember {
+            derivedStateOf {
+                when {
+                    systolicPressureState.value.text.isEmpty() ||
+                        diastolicPressureState.value.text.isEmpty() -> 0
+
+                    else -> systolicPressureState.value.text.toInt()
+                }
+            }
+        }
 
     Scaffold(
         contentWindowInsets = WindowInsets(0.dp),
@@ -47,8 +79,15 @@ fun BloodPressureScreen(drawerState: DrawerState) {
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.spacedBy(20.dp),
         ) {
-            BloodPressureMeasure()
-            BloodPressureScale()
+            BloodPressureMeasure(
+                systolicPressureState = systolicPressureState,
+                diastolicPressureState = diastolicPressureState,
+                heartRateState = heartRateState,
+            )
+            BloodPressureScale(
+                diastolic = diastolicValue.value,
+                systolic = systolicValue.value,
+            )
             BloodPressureCharacteristic()
             BloodPressureMainContent()
         }

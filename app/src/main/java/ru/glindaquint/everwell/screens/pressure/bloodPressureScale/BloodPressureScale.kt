@@ -21,7 +21,10 @@ import ru.glindaquint.everwell.utils.pxToDp
 
 @Suppress("ktlint:standard:function-naming")
 @Composable
-fun BloodPressureScale() {
+fun BloodPressureScale(
+    systolic: Int,
+    diastolic: Int,
+) {
     val viewSize = remember { mutableStateOf(IntSize(0, 0)) }
     val brush =
         Brush.linearGradient(
@@ -34,6 +37,10 @@ fun BloodPressureScale() {
                     Color(0xffDA5552),
                 ),
         )
+
+    val percents =
+        if (systolic * diastolic < 3500) 0.05f else (systolic * diastolic - 3500) / 13800f
+    val handlePosition = viewSize.value.width.pxToDp() * percents
 
     Box(
         modifier =
@@ -57,7 +64,11 @@ fun BloodPressureScale() {
                         viewSize.value = it.size
                     },
         )
-        BloodPressureScaleHandle(height = viewSize.value.height.pxToDp())
+        BloodPressureScaleHandle(
+            text = "$systolic/$diastolic",
+            height = viewSize.value.height.pxToDp(),
+            position = handlePosition,
+        )
     }
 }
 
@@ -65,5 +76,5 @@ fun BloodPressureScale() {
 @Composable
 @Preview(backgroundColor = 0xffEED2CC)
 fun Scale_Test() {
-    BloodPressureScale()
+    BloodPressureScale(119, 46)
 }
