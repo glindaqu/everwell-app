@@ -80,6 +80,7 @@ fun BloodPressureScreen(drawerState: DrawerState) {
                     MainTopBarColors(
                         backgroundColor = BloodPressurePrimary,
                         foregroundColor = Color.White,
+                        behindContainerColor = BloodPressureBackground,
                     ),
             )
         },

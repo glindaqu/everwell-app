@@ -22,7 +22,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import kotlinx.coroutines.launch
 import ru.glindaquint.everwell.dto.colors.MainTopBarColors
-import ru.glindaquint.everwell.ui.theme.BloodPressureBackground
 import ru.glindaquint.everwell.utils.pxToDp
 
 @Suppress("ktlint:standard:function-naming")
@@ -40,7 +39,7 @@ fun MainTopBar(
             Modifier
                 .fillMaxWidth()
                 .wrapContentHeight()
-                .background(BloodPressureBackground)
+                .background(colors.behindContainerColor)
                 .background(
                     color = colors.backgroundColor,
                     shape = RoundedCornerShape(bottomEnd = 18.dp, bottomStart = 18.dp),
