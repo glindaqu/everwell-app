@@ -5,6 +5,7 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import ru.glindaquint.everwell.screens.feed.FeedScreen
 import ru.glindaquint.everwell.screens.home.HomeScreen
 import ru.glindaquint.everwell.screens.pressure.BloodPressureScreen
 
@@ -17,5 +18,6 @@ fun MainNavHost(
     NavHost(navController = navHostController, startDestination = MainRoutes.home.routeName) {
         composable(route = MainRoutes.home.routeName) { HomeScreen(drawerState = drawerState) }
         composable(route = MainRoutes.pressure.routeName) { BloodPressureScreen(drawerState = drawerState) }
+        composable(route = MainRoutes.feed.routeName) { FeedScreen(drawerState = drawerState) }
     }
 }
