@@ -1,5 +1,7 @@
 package ru.glindaquint.everwell.screens.feed
 
+import androidx.compose.animation.core.Animatable
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -22,12 +24,14 @@ import androidx.compose.material3.DrawerState
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.geometry.Rect
+import androidx.compose.ui.graphics.BlendMode
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Path
@@ -39,6 +43,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import ru.glindaquint.everwell.dto.colors.MainTopBarColors
 import ru.glindaquint.everwell.sharedComponents.MainTopBar
 import ru.glindaquint.everwell.ui.theme.FeedAccent
@@ -175,6 +181,25 @@ fun RowScope.CircularProgress(
         progress * 260f / maxProgress > 260f -> 260f
         else -> progress * 260f / maxProgress
     }
+    val sweepAngleAnimated = remember { Animatable(0f) }
+    val caloriesLeftAnimated = remember { Animatable(maxProgress.toFloat()) }
+
+    LaunchedEffect(Unit) {
+        delay(1500)
+        launch {
+            sweepAngleAnimated.animateTo(
+                targetValue = sweepAngle,
+                animationSpec = tween(2000),
+                initialVelocity = 260f
+            )
+        }
+        launch {
+            caloriesLeftAnimated.animateTo(
+                targetValue = caloriesLeft.toFloat(),
+                animationSpec = tween(2000)
+            )
+        }
+    }
 
     Box(
         modifier = Modifier
@@ -210,7 +235,7 @@ fun RowScope.CircularProgress(
                         bottom = size.height
                     ),
                     startAngleDegrees = 140f,
-                    sweepAngleDegrees = sweepAngle,
+                    sweepAngleDegrees = sweepAngleAnimated.value,
                     forceMoveTo = true
                 )
             }
@@ -221,7 +246,8 @@ fun RowScope.CircularProgress(
                 style = Stroke(
                     width = 20f,
                     cap = StrokeCap.Round
-                )
+                ),
+                blendMode = BlendMode.Lighten
             )
             drawPath(
                 path = foregroundArc,
@@ -229,7 +255,8 @@ fun RowScope.CircularProgress(
                 style = Stroke(
                     width = 20f,
                     cap = StrokeCap.Round
-                )
+                ),
+                blendMode = BlendMode.SrcOver
             )
         }
 
@@ -238,7 +265,7 @@ fun RowScope.CircularProgress(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Text(
-                text = caloriesLeft.toString(),
+                text = caloriesLeftAnimated.value.toInt().toString(),
                 fontSize = 32.sp,
                 fontWeight = FontWeight.Bold,
                 color = FeedSecondary
