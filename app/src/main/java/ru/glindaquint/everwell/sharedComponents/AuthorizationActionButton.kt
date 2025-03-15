@@ -1,4 +1,4 @@
-package ru.glindaquint.everwell.sharedComponents.authorization
+package ru.glindaquint.everwell.sharedComponents
 
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -16,7 +16,7 @@ import ru.glindaquint.everwell.ui.theme.MainSecondary
 
 @Suppress("ktlint:standard:function-naming")
 @Composable
-fun ActionButton(
+fun AuthorizationActionButton(
     text: String,
     enabled: Boolean = true,
     action: () -> Unit,

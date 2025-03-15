@@ -1,4 +1,4 @@
-package ru.glindaquint.everwell.sharedComponents.authorization
+package ru.glindaquint.everwell.sharedComponents
 
 import androidx.compose.foundation.clickable
 import androidx.compose.material3.MaterialTheme
@@ -9,7 +9,7 @@ import ru.glindaquint.everwell.ui.theme.MainAccent
 
 @Suppress("ktlint:standard:function-naming")
 @Composable
-fun Option(
+fun AuthorizationOption(
     text: String,
     action: () -> Unit,
 ) {

@@ -1,4 +1,4 @@
-package ru.glindaquint.everwell.sharedComponents.authorization
+package ru.glindaquint.everwell.sharedComponents
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -10,7 +10,7 @@ import androidx.compose.ui.unit.dp
 
 @Suppress("ktlint:standard:function-naming")
 @Composable
-fun OptionsContainer(content: @Composable () -> Unit) {
+fun AuthorizationOptionsContainer(content: @Composable () -> Unit) {
     Column(
         modifier =
             Modifier

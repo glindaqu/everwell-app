@@ -1,4 +1,4 @@
-package ru.glindaquint.everwell.sharedComponents.authorization
+package ru.glindaquint.everwell.sharedComponents
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.background

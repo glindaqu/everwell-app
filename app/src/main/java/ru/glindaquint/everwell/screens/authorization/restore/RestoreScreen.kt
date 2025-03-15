@@ -34,12 +34,12 @@ import androidx.navigation.NavHostController
 import kotlinx.coroutines.launch
 import ru.glindaquint.everwell.R
 import ru.glindaquint.everwell.navigation.authorization.AuthorizationRoutes
+import ru.glindaquint.everwell.sharedComponents.AuthorizationActionButton
+import ru.glindaquint.everwell.sharedComponents.AuthorizationContentContainer
+import ru.glindaquint.everwell.sharedComponents.AuthorizationOption
+import ru.glindaquint.everwell.sharedComponents.AuthorizationOptionsContainer
 import ru.glindaquint.everwell.sharedComponents.LabeledTextField
-import ru.glindaquint.everwell.sharedComponents.authorization.ActionButton
-import ru.glindaquint.everwell.sharedComponents.authorization.AuthorizationContentContainer
-import ru.glindaquint.everwell.sharedComponents.authorization.Option
-import ru.glindaquint.everwell.sharedComponents.authorization.OptionsContainer
-import ru.glindaquint.everwell.sharedComponents.authorization.codeTextField.CodeTextField
+import ru.glindaquint.everwell.sharedComponents.codeTextField.CodeTextField
 import ru.glindaquint.everwell.ui.theme.MainPrimary
 import ru.glindaquint.everwell.utils.pxToDp
 import ru.glindaquint.everwell.viewModels.impl.RestoreViewModel
@@ -148,15 +148,15 @@ fun RestoreScreen(navHostController: NavHostController) {
                 code.value == uiState.value.code
             },
         )
-        ActionButton(
+        AuthorizationActionButton(
             text = stringResource(id = R.string.restore_screen_restore_text),
             action = {
                 navHostController.navigate("${AuthorizationRoutes.NEW_PASSWORD}/${email.value.text}")
             },
             enabled = code.value.length == 4 && code.value == uiState.value.code,
         )
-        OptionsContainer {
-            Option(text = stringResource(id = R.string.restore_screen_sign_in_text), action = {
+        AuthorizationOptionsContainer {
+            AuthorizationOption(text = stringResource(id = R.string.restore_screen_sign_in_text), action = {
                 navHostController.navigate(AuthorizationRoutes.SIGN_IN)
             })
         }

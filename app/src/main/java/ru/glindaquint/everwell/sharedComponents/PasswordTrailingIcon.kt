@@ -1,4 +1,4 @@
-package ru.glindaquint.everwell.sharedComponents.authorization
+package ru.glindaquint.everwell.sharedComponents
 
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton

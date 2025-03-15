@@ -14,10 +14,10 @@ import androidx.navigation.NavHostController
 import ru.glindaquint.everwell.R
 import ru.glindaquint.everwell.navigation.authorization.AuthorizationRoutes
 import ru.glindaquint.everwell.network.dto.authorization.RestoreRequest
+import ru.glindaquint.everwell.sharedComponents.AuthorizationActionButton
+import ru.glindaquint.everwell.sharedComponents.AuthorizationContentContainer
 import ru.glindaquint.everwell.sharedComponents.LabeledTextField
-import ru.glindaquint.everwell.sharedComponents.authorization.ActionButton
-import ru.glindaquint.everwell.sharedComponents.authorization.AuthorizationContentContainer
-import ru.glindaquint.everwell.sharedComponents.authorization.PasswordTrailingIcon
+import ru.glindaquint.everwell.sharedComponents.PasswordTrailingIcon
 import ru.glindaquint.everwell.viewModels.impl.RestoreViewModel
 
 @SuppressLint("UnrememberedMutableState")
@@ -127,7 +127,7 @@ fun NewPasswordScreen(
             },
             isError = passwordAgainError.value,
         )
-        ActionButton(
+        AuthorizationActionButton(
             text = stringResource(id = R.string.registration_screen_sign_up_text),
             action = {
                 viewModel.resetPassword(

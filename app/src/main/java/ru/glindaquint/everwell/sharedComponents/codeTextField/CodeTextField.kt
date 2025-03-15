@@ -1,4 +1,4 @@
-package ru.glindaquint.everwell.sharedComponents.authorization.codeTextField
+package ru.glindaquint.everwell.sharedComponents.codeTextField
 
 import android.annotation.SuppressLint
 import android.content.Context
