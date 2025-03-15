@@ -8,7 +8,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.WindowInsets
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.navigationBarsPadding
@@ -48,7 +47,6 @@ import ru.glindaquint.everwell.ui.theme.FeedOnBackground
 import ru.glindaquint.everwell.ui.theme.FeedPrimary
 import ru.glindaquint.everwell.ui.theme.FeedSecondary
 import ru.glindaquint.everwell.utils.pxToDp
-import kotlin.math.max
 
 @Suppress("ktlint:standard:function-naming")
 @Composable
