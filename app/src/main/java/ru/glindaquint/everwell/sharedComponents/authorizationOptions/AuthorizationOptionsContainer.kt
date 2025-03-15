@@ -1,4 +1,4 @@
-package ru.glindaquint.everwell.sharedComponents
+package ru.glindaquint.everwell.sharedComponents.authorizationOptions
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column

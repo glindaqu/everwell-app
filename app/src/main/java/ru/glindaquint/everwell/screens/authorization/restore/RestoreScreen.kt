@@ -36,9 +36,9 @@ import ru.glindaquint.everwell.R
 import ru.glindaquint.everwell.navigation.authorization.AuthorizationRoutes
 import ru.glindaquint.everwell.sharedComponents.AuthorizationActionButton
 import ru.glindaquint.everwell.sharedComponents.AuthorizationContentContainer
-import ru.glindaquint.everwell.sharedComponents.AuthorizationOption
-import ru.glindaquint.everwell.sharedComponents.AuthorizationOptionsContainer
 import ru.glindaquint.everwell.sharedComponents.LabeledTextField
+import ru.glindaquint.everwell.sharedComponents.authorizationOptions.AuthorizationOption
+import ru.glindaquint.everwell.sharedComponents.authorizationOptions.AuthorizationOptionsContainer
 import ru.glindaquint.everwell.sharedComponents.codeTextField.CodeTextField
 import ru.glindaquint.everwell.ui.theme.MainPrimary
 import ru.glindaquint.everwell.utils.pxToDp

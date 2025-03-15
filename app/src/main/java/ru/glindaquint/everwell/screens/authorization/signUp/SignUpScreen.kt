@@ -17,10 +17,10 @@ import ru.glindaquint.everwell.navigation.authorization.AuthorizationRoutes
 import ru.glindaquint.everwell.network.dto.authorization.signUp.SignUpRequest
 import ru.glindaquint.everwell.sharedComponents.AuthorizationActionButton
 import ru.glindaquint.everwell.sharedComponents.AuthorizationContentContainer
-import ru.glindaquint.everwell.sharedComponents.AuthorizationOption
-import ru.glindaquint.everwell.sharedComponents.AuthorizationOptionsContainer
 import ru.glindaquint.everwell.sharedComponents.LabeledTextField
 import ru.glindaquint.everwell.sharedComponents.PasswordTrailingIcon
+import ru.glindaquint.everwell.sharedComponents.authorizationOptions.AuthorizationOption
+import ru.glindaquint.everwell.sharedComponents.authorizationOptions.AuthorizationOptionsContainer
 
 @Suppress("ktlint:standard:function-naming")
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter", "UnrememberedMutableState")
