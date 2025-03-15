@@ -1,4 +1,4 @@
-package ru.glindaquint.everwell.screens.pressure.sliderDatePicker
+package ru.glindaquint.everwell.sharedComponents.sliderDatePicker
 
 import androidx.compose.runtime.MutableIntState
 import androidx.compose.runtime.MutableState

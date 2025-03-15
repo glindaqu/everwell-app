@@ -1,4 +1,4 @@
-package ru.glindaquint.everwell.screens.pressure.sliderDatePicker
+package ru.glindaquint.everwell.sharedComponents.sliderDatePicker
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -18,11 +18,9 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import kotlinx.coroutines.delay
-import ru.glindaquint.everwell.ui.theme.BloodPressureAccent
 import ru.glindaquint.everwell.utils.isSameDay
 import java.util.Calendar
 
@@ -30,6 +28,7 @@ import java.util.Calendar
 @Composable
 fun SliderDatePickerDay(
     state: SliderDatePickerState,
+    colors: SliderDatePickerColors,
     onClick: () -> Unit,
 ) {
     val maxDaysInMonth =
@@ -71,19 +70,19 @@ fun SliderDatePickerDay(
                         }.then(
                             if (isSameDay(calendar.time, state.selectedDate.value)) {
                                 Modifier.background(
-                                    color = BloodPressureAccent.copy(0.4f),
+                                    color = colors.daySelectedBackgroundColor,
                                     shape = CircleShape,
                                 )
                             } else {
                                 Modifier.background(
-                                    color = BloodPressureAccent,
+                                    color = colors.dayBackgroundColor,
                                     shape = CircleShape,
                                 )
                             },
                         ),
                 contentAlignment = Alignment.Center,
             ) {
-                Text(text = it.toString(), fontSize = 16.sp, color = Color.White)
+                Text(text = it.toString(), fontSize = 16.sp, color = colors.dayForegroundColor)
             }
         }
     }

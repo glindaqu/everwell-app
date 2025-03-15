@@ -11,11 +11,15 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import ru.glindaquint.everwell.screens.pressure.sliderDatePicker.SliderDatePicker
-import ru.glindaquint.everwell.screens.pressure.sliderDatePicker.rememberSliderDatePickerState
+import ru.glindaquint.everwell.sharedComponents.sliderDatePicker.SliderDatePicker
+import ru.glindaquint.everwell.sharedComponents.sliderDatePicker.SliderDatePickerColors
+import ru.glindaquint.everwell.sharedComponents.sliderDatePicker.rememberSliderDatePickerState
+import ru.glindaquint.everwell.ui.theme.BloodPressureAccent
 import ru.glindaquint.everwell.ui.theme.BloodPressureOnBackground
+import ru.glindaquint.everwell.ui.theme.BloodPressurePrimary
 import ru.glindaquint.everwell.viewModels.impl.BloodPressureViewModel
 
 @Suppress("ktlint:standard:function-naming")
@@ -39,6 +43,15 @@ fun BloodPressureMainContent() {
     ) {
         SliderDatePicker(
             state = sliderDatePickerState,
+            colors =
+                SliderDatePickerColors(
+                    dayBackgroundColor = BloodPressureAccent,
+                    dayForegroundColor = Color.White,
+                    backgroundColors = listOf(BloodPressurePrimary, Color(0xffFF9E81)),
+                    monthColor = Color.White,
+                    actionsColor = BloodPressureAccent,
+                    daySelectedBackgroundColor = BloodPressureAccent.copy(0.4f),
+                ),
             onDateSelected = { viewModel.filterBloodPressures(sliderDatePickerState.date.value) },
         )
         Column(

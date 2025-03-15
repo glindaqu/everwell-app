@@ -41,6 +41,9 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import ru.glindaquint.everwell.dto.colors.MainTopBarColors
 import ru.glindaquint.everwell.sharedComponents.EverwellScaffold
+import ru.glindaquint.everwell.sharedComponents.sliderDatePicker.SliderDatePicker
+import ru.glindaquint.everwell.sharedComponents.sliderDatePicker.SliderDatePickerColors
+import ru.glindaquint.everwell.sharedComponents.sliderDatePicker.rememberSliderDatePickerState
 import ru.glindaquint.everwell.ui.theme.FeedAccent
 import ru.glindaquint.everwell.ui.theme.FeedBackground
 import ru.glindaquint.everwell.ui.theme.FeedOnBackground
@@ -51,6 +54,8 @@ import ru.glindaquint.everwell.utils.pxToDp
 @Suppress("ktlint:standard:function-naming")
 @Composable
 fun FeedScreen(drawerState: DrawerState) {
+    val sliderDatePickerState = rememberSliderDatePickerState()
+
     EverwellScaffold(
         drawerState = drawerState,
         topBarTitle = "Feed",
@@ -61,9 +66,22 @@ fun FeedScreen(drawerState: DrawerState) {
                 behindContainerColor = FeedBackground,
             ),
         containerColor = FeedBackground,
+        contentSpacing = Arrangement.spacedBy(15.dp),
         contentPadding = PaddingValues(start = 10.dp, end = 10.dp),
     ) {
         NutritionDashboard()
+        SliderDatePicker(
+            state = sliderDatePickerState,
+            colors =
+                SliderDatePickerColors(
+                    dayBackgroundColor = FeedPrimary,
+                    dayForegroundColor = FeedOnBackground,
+                    monthColor = FeedSecondary,
+                    actionsColor = FeedSecondary,
+                    daySelectedBackgroundColor = FeedSecondary.copy(0.3f),
+                ),
+            onDateSelected = {},
+        )
     }
 }
 

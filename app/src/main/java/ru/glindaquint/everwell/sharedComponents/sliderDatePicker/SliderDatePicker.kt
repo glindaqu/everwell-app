@@ -1,4 +1,4 @@
-package ru.glindaquint.everwell.screens.pressure.sliderDatePicker
+package ru.glindaquint.everwell.sharedComponents.sliderDatePicker
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -10,32 +10,40 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.drawWithCache
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush
-import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.unit.IntSize
-import ru.glindaquint.everwell.ui.theme.BloodPressurePrimary
 
 @Suppress("ktlint:standard:function-naming")
 @Composable
 fun SliderDatePicker(
     state: SliderDatePickerState,
+    colors: SliderDatePickerColors,
     onDateSelected: () -> Unit,
 ) {
     val viewSize = remember { mutableStateOf(IntSize(0, 0)) }
     val brush =
-        Brush.linearGradient(
-            colors = listOf(BloodPressurePrimary, Color(0xffFF9E81)),
-            start =
-                Offset(
-                    x = viewSize.value.width / 2f,
-                    y = viewSize.value.height / 3f,
-                ),
-            end =
-                Offset(
-                    x = viewSize.value.width / 2f,
-                    y = viewSize.value.height.toFloat(),
-                ),
-        )
+        when {
+            colors.backgroundColors.size > 1 -> {
+                Brush.linearGradient(
+                    colors = colors.backgroundColors,
+                    start =
+                        Offset(
+                            x = viewSize.value.width / 2f,
+                            y = viewSize.value.height / 3f,
+                        ),
+                    end =
+                        Offset(
+                            x = viewSize.value.width / 2f,
+                            y = viewSize.value.height.toFloat(),
+                        ),
+                )
+            }
+
+            else -> {
+                SolidColor(colors.backgroundColors[0])
+            }
+        }
 
     Column(
         modifier =
@@ -56,9 +64,13 @@ fun SliderDatePicker(
                 },
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
-        SliderDatePickerMonth(state = state)
-        SliderDatePickerDay(state = state, onClick = {
-            onDateSelected()
-        })
+        SliderDatePickerMonth(state = state, colors = colors)
+        SliderDatePickerDay(
+            state = state,
+            colors = colors,
+            onClick = {
+                onDateSelected()
+            },
+        )
     }
 }
