@@ -10,13 +10,21 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.RowScope
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentHeight
+import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.AddCircle
 import androidx.compose.material3.DrawerState
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -32,13 +40,18 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.drawscope.Stroke
+import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.layout.onGloballyPositioned
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import ru.glindaquint.everwell.R
 import ru.glindaquint.everwell.dto.colors.MainTopBarColors
 import ru.glindaquint.everwell.sharedComponents.EverwellScaffold
 import ru.glindaquint.everwell.sharedComponents.sliderDatePicker.SliderDatePicker
@@ -66,7 +79,7 @@ fun FeedScreen(drawerState: DrawerState) {
                 behindContainerColor = FeedBackground,
             ),
         containerColor = FeedBackground,
-        contentSpacing = Arrangement.spacedBy(15.dp),
+        contentSpacing = Arrangement.spacedBy(10.dp),
         contentPadding = PaddingValues(start = 10.dp, end = 10.dp),
     ) {
         NutritionDashboard()
@@ -81,6 +94,58 @@ fun FeedScreen(drawerState: DrawerState) {
                     daySelectedBackgroundColor = FeedSecondary.copy(0.5f),
                 ),
             onDateSelected = {},
+        )
+        FeedManagementWidget()
+    }
+}
+
+@Suppress("ktlint:standard:function-naming")
+@Composable
+fun FeedManagementWidget() {
+    Column(
+        modifier = Modifier.fillMaxWidth(),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.spacedBy(5.dp),
+    ) {
+        AddActivityTile(
+            backgroundColor = FeedOnBackground,
+            spacerColor = FeedPrimary,
+            icon = painterResource(id = R.drawable.feed_breakfast),
+            title = "Breakfast",
+            content = "Egg, tea",
+            placeholder = "Add breakfast",
+        )
+        AddActivityTile(
+            backgroundColor = FeedOnBackground,
+            spacerColor = FeedPrimary,
+            icon = painterResource(id = R.drawable.feed_lunch),
+            title = "Lunch",
+            content = "",
+            placeholder = "Add lunch",
+        )
+        AddActivityTile(
+            backgroundColor = FeedOnBackground,
+            spacerColor = FeedPrimary,
+            icon = painterResource(id = R.drawable.feed_dinner),
+            title = "Dinner",
+            content = "Egg, tea",
+            placeholder = "Add dinner",
+        )
+        AddActivityTile(
+            backgroundColor = FeedOnBackground,
+            spacerColor = FeedPrimary,
+            icon = painterResource(id = R.drawable.feed_snack),
+            title = "Snack",
+            content = "",
+            placeholder = "Add snack",
+        )
+        AddActivityTile(
+            backgroundColor = FeedOnBackground,
+            spacerColor = FeedPrimary,
+            icon = painterResource(id = R.drawable.fire),
+            title = "Activity",
+            content = "",
+            placeholder = "Add activity",
         )
     }
 }
@@ -341,6 +406,97 @@ fun LinearProgressBar(value: Float) {
                     width = 10f,
                     cap = StrokeCap.Round,
                 ),
+        )
+    }
+}
+
+@Suppress("ktlint:standard:function-naming")
+@Composable
+fun AddActivityTile(
+    backgroundColor: Color,
+    spacerColor: Color,
+    icon: Painter,
+    title: String,
+    content: String,
+    placeholder: String,
+) {
+    val buttonSize = remember { mutableStateOf(IntSize(0, 0)) }
+
+    Column(
+        modifier =
+            Modifier
+                .fillMaxWidth()
+                .background(color = backgroundColor, shape = RoundedCornerShape(12.dp)),
+        horizontalAlignment = Alignment.CenterHorizontally,
+    ) {
+        Row(
+            modifier = Modifier.fillMaxWidth(0.9f).padding(vertical = 4.dp),
+            horizontalArrangement = Arrangement.spacedBy(4.dp),
+            verticalAlignment = Alignment.CenterVertically,
+        ) {
+            Icon(painter = icon, contentDescription = "Tile icon", tint = FeedSecondary)
+            Text(text = title, color = FeedSecondary, fontWeight = FontWeight.Bold)
+        }
+        Spacer(modifier = Modifier.fillMaxWidth().height(1.dp).background(spacerColor))
+        Row(
+            modifier = Modifier.fillMaxWidth(0.9f).padding(vertical = 10.dp),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.SpaceBetween,
+        ) {
+            if (content.isEmpty()) {
+                Text(
+                    text = placeholder,
+                    fontWeight = FontWeight.Bold,
+                    modifier =
+                        Modifier
+                            .align(Alignment.CenterVertically)
+                            .weight(1f)
+                            .padding(start = buttonSize.value.width.pxToDp()),
+                    textAlign = TextAlign.Center,
+                )
+            } else {
+                Text(text = content)
+            }
+            IconButton(
+                onClick = { /*TODO*/ },
+                modifier =
+                    Modifier
+                        .wrapContentSize()
+                        .onGloballyPositioned {
+                            buttonSize.value = it.size
+                        },
+            ) {
+                Icon(
+                    imageVector = Icons.Filled.AddCircle,
+                    contentDescription = "Add new activity",
+                    tint = FeedPrimary,
+                    modifier = Modifier.fillMaxSize(0.75f),
+                )
+            }
+        }
+    }
+}
+
+@Suppress("ktlint:standard:function-naming")
+@Composable
+@Preview
+fun Test_Tile() {
+    Column(verticalArrangement = Arrangement.spacedBy(50.dp)) {
+        AddActivityTile(
+            backgroundColor = FeedOnBackground,
+            spacerColor = FeedPrimary,
+            icon = painterResource(id = R.drawable.feed_breakfast),
+            title = "Breakfast",
+            content = "Egg, tea",
+            placeholder = "Add breakfast",
+        )
+        AddActivityTile(
+            backgroundColor = FeedOnBackground,
+            spacerColor = FeedPrimary,
+            icon = painterResource(id = R.drawable.feed_breakfast),
+            title = "Breakfast",
+            content = "",
+            placeholder = "Add breakfast",
         )
     }
 }
