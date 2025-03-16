@@ -187,9 +187,9 @@ fun NutritionDashboard() {
                 horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically,
             ) {
-                NutritionCard(value = "1431", label = "Съедено", alignment = Alignment.CenterStart)
+                NutritionCard(value = 1431, label = "Съедено", alignment = Alignment.CenterStart)
                 CircularProgress(progress = 145, maxProgress = 200)
-                NutritionCard(value = "0", label = "Сожжено", alignment = Alignment.CenterEnd)
+                NutritionCard(value = 0, label = "Сожжено", alignment = Alignment.CenterEnd)
             }
             Row(
                 modifier =
@@ -197,9 +197,14 @@ fun NutritionDashboard() {
                         .fillMaxWidth(),
                 horizontalArrangement = Arrangement.spacedBy(32.dp),
             ) {
-                NutritionProgress(label = "Углеводы", progressText = "147/192г")
-                NutritionProgress(label = "Белки", progressText = "84/77г")
-                NutritionProgress(label = "Жиры", progressText = "50/51г")
+                NutritionProgress(
+                    label = "Углеводы",
+                    progress = 142,
+                    maxProgress = 192,
+                    units = "гр",
+                )
+                NutritionProgress(label = "Белки", progress = 84, maxProgress = 77, units = "гр")
+                NutritionProgress(label = "Жиры", progress = 50, maxProgress = 51, units = "гр")
             }
         }
     }
@@ -208,17 +213,27 @@ fun NutritionDashboard() {
 @Suppress("ktlint:standard:function-naming")
 @Composable
 fun RowScope.NutritionCard(
-    value: String,
+    value: Int,
     label: String,
     alignment: Alignment,
 ) {
+    val animatedValue = remember { Animatable(0f) }
+
+    LaunchedEffect(Unit) {
+        delay(1500)
+        animatedValue.animateTo(
+            targetValue = value.toFloat(),
+            animationSpec = tween(2000),
+        )
+    }
+
     Box(modifier = Modifier.weight(0.3f), contentAlignment = alignment) {
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
             modifier = Modifier.wrapContentWidth(),
         ) {
             Text(
-                text = value,
+                text = animatedValue.value.toInt().toString(),
                 fontSize = 22.sp,
                 color = FeedSecondary,
                 fontWeight = FontWeight.Bold,
@@ -355,22 +370,44 @@ fun RowScope.CircularProgress(
 @Composable
 fun RowScope.NutritionProgress(
     label: String,
-    progressText: String,
+    maxProgress: Int,
+    progress: Int,
+    units: String,
 ) {
+    val animatedValue = remember { Animatable(0f) }
+
+    LaunchedEffect(Unit) {
+        delay(1500)
+        animatedValue.animateTo(
+            targetValue = progress.toFloat(),
+            animationSpec = tween(2000),
+        )
+    }
+
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = Modifier.weight(0.3f),
         verticalArrangement = Arrangement.spacedBy(5.dp),
     ) {
         Text(text = label, color = FeedOnBackground)
-        LinearProgressBar(value = 0.6f)
-        Text(text = progressText, color = FeedOnBackground, fontSize = 12.sp)
+        LinearProgressBar(value = animatedValue.value / maxProgress)
+        Text(
+            text = "${animatedValue.value.toInt()}/$maxProgress$units",
+            color = FeedOnBackground,
+            fontSize = 12.sp,
+        )
     }
 }
 
 @Suppress("ktlint:standard:function-naming")
 @Composable
 fun LinearProgressBar(value: Float) {
+    val trustedValue =
+        when {
+            value > 1f -> 1f
+            else -> value
+        }
+
     Canvas(
         modifier =
             Modifier
@@ -386,7 +423,7 @@ fun LinearProgressBar(value: Float) {
         val foregroundScale =
             Path().apply {
                 moveTo(0f, 0f)
-                lineTo(size.width * value, 0f)
+                lineTo(size.width * trustedValue, 0f)
             }
 
         drawPath(
