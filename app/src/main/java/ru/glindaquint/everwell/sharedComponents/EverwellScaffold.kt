@@ -51,10 +51,11 @@ fun EverwellScaffold(
                     .fillMaxSize()
                     .padding(innerPadding)
                     .background(containerColor)
-                    .padding(top = 10.dp, bottom = 1.dp)
+                    .padding(bottom = 1.dp)
                     .padding(contentPadding)
                     .verticalScroll(rememberScrollState())
-                    .navigationBarsPadding(),
+                    .navigationBarsPadding()
+                    .padding(top = 10.dp),
             verticalArrangement = contentSpacing,
             horizontalAlignment = contentAlignment,
         ) {
