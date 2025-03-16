@@ -78,7 +78,7 @@ fun FeedScreen(drawerState: DrawerState) {
                     dayForegroundColor = FeedOnBackground,
                     monthColor = FeedSecondary,
                     actionsColor = FeedSecondary,
-                    daySelectedBackgroundColor = FeedSecondary.copy(0.3f),
+                    daySelectedBackgroundColor = FeedSecondary.copy(0.5f),
                 ),
             onDateSelected = {},
         )
