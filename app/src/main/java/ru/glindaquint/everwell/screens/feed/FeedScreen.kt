@@ -105,7 +105,7 @@ fun FeedManagementWidget() {
     Column(
         modifier = Modifier.fillMaxWidth(),
         horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.spacedBy(5.dp),
+        verticalArrangement = Arrangement.spacedBy(7.dp),
     ) {
         AddActivityTile(
             backgroundColor = FeedOnBackground,
