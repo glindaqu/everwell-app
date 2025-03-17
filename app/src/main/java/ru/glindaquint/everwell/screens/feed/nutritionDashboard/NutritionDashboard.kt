@@ -21,7 +21,6 @@ import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
 import ru.glindaquint.everwell.screens.feed.CircularProgress
-import ru.glindaquint.everwell.screens.feed.NutritionProgress
 
 @Suppress("ktlint:standard:function-naming")
 @Composable

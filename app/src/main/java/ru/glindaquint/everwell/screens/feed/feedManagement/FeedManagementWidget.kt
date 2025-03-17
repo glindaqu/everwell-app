@@ -9,7 +9,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import ru.glindaquint.everwell.R
-import ru.glindaquint.everwell.screens.feed.AddActivityTile
 import ru.glindaquint.everwell.ui.theme.FeedOnBackground
 import ru.glindaquint.everwell.ui.theme.FeedPrimary
 
