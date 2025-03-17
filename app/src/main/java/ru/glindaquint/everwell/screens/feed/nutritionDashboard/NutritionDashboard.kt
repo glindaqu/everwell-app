@@ -20,7 +20,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
-import ru.glindaquint.everwell.screens.feed.CircularProgress
+import ru.glindaquint.everwell.screens.feed.progresses.CircularProgress
 
 @Suppress("ktlint:standard:function-naming")
 @Composable

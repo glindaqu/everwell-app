@@ -1,4 +1,4 @@
-package ru.glindaquint.everwell.screens.feed
+package ru.glindaquint.everwell.screens.feed.progresses
 
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.layout.fillMaxWidth

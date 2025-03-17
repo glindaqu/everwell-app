@@ -1,4 +1,4 @@
-package ru.glindaquint.everwell.screens.feed
+package ru.glindaquint.everwell.screens.feed.progresses
 
 import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.tween

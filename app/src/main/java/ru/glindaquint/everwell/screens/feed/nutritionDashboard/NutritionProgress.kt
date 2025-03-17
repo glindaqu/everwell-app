@@ -14,7 +14,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import kotlinx.coroutines.delay
-import ru.glindaquint.everwell.screens.feed.LinearProgress
+import ru.glindaquint.everwell.screens.feed.progresses.LinearProgress
 import ru.glindaquint.everwell.ui.theme.FeedOnBackground
 
 @Suppress("ktlint:standard:function-naming")
