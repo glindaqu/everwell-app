@@ -37,7 +37,7 @@ fun ProfileInfoButton(
             Modifier
                 .padding(start = 19.pxToDp())
                 .clip(RoundedCornerShape(12.dp))
-                .clickable { },
+                .clickable { onClick() },
     ) {
         AsyncImage(
             model = "https://i.pinimg.com/originals/25/05/6a/25056adc1178c436437713d7444ba8a0.jpg",

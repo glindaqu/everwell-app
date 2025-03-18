@@ -28,7 +28,9 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavHostController
 import kotlinx.coroutines.launch
+import ru.glindaquint.everwell.navigation.main.MainRoutes
 import ru.glindaquint.everwell.screens.home.components.bottomSheet.BottomSheet
 import ru.glindaquint.everwell.screens.home.components.bottomSheet.BottomSheetDragHandle
 import ru.glindaquint.everwell.screens.home.components.simpleCalendar.SimpleCalendar
@@ -46,7 +48,10 @@ import ru.glindaquint.everwell.viewModels.impl.HomeViewModel
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Suppress("ktlint:standard:function-naming")
 @Composable
-fun HomeScreen(drawerState: DrawerState) {
+fun HomeScreen(
+    drawerState: DrawerState,
+    navHostController: NavHostController,
+) {
     val viewModel = hiltViewModel<HomeViewModel>()
     val uiState = viewModel.uiState.collectAsState()
     val coroutineScope = rememberCoroutineScope()
@@ -101,6 +106,9 @@ fun HomeScreen(drawerState: DrawerState) {
                     coroutineScope.launch {
                         drawerState.open()
                     }
+                },
+                onProfileButtonClick = {
+                    navHostController.navigate(MainRoutes.profile.routeName)
                 },
             )
         },

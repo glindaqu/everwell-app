@@ -8,6 +8,7 @@ import androidx.navigation.compose.composable
 import ru.glindaquint.everwell.screens.feed.FeedScreen
 import ru.glindaquint.everwell.screens.home.HomeScreen
 import ru.glindaquint.everwell.screens.pressure.BloodPressureScreen
+import ru.glindaquint.everwell.screens.profile.ProfileScreen
 
 @Suppress("ktlint:standard:function-naming")
 @Composable
@@ -16,8 +17,14 @@ fun MainNavHost(
     navHostController: NavHostController,
 ) {
     NavHost(navController = navHostController, startDestination = MainRoutes.home.routeName) {
-        composable(route = MainRoutes.home.routeName) { HomeScreen(drawerState = drawerState) }
+        composable(route = MainRoutes.home.routeName) {
+            HomeScreen(
+                drawerState = drawerState,
+                navHostController = navHostController,
+            )
+        }
         composable(route = MainRoutes.pressure.routeName) { BloodPressureScreen(drawerState = drawerState) }
         composable(route = MainRoutes.feed.routeName) { FeedScreen(drawerState = drawerState) }
+        composable(route = MainRoutes.profile.routeName) { ProfileScreen(navHostController = navHostController) }
     }
 }
