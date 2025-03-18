@@ -8,32 +8,27 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.DrawerState
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import kotlinx.coroutines.launch
 import ru.glindaquint.everwell.dto.colors.MainTopBarColors
 import ru.glindaquint.everwell.utils.pxToDp
 
 @Suppress("ktlint:standard:function-naming")
 @Composable
 fun MainTopBar(
-    drawerState: DrawerState,
     icon: ImageVector,
     title: String,
     colors: MainTopBarColors,
+    onIconClick: () -> Unit,
 ) {
-    val scope = rememberCoroutineScope()
-
     Row(
         modifier =
             Modifier
@@ -48,9 +43,7 @@ fun MainTopBar(
         verticalAlignment = Alignment.CenterVertically,
     ) {
         IconButton(onClick = {
-            scope.launch {
-                drawerState.open()
-            }
+            onIconClick()
         }) {
             Icon(
                 imageVector = icon,

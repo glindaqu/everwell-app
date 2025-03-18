@@ -10,9 +10,6 @@ import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Menu
-import androidx.compose.material3.DrawerState
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -24,26 +21,19 @@ import ru.glindaquint.everwell.dto.colors.MainTopBarColors
 @Suppress("ktlint:standard:function-naming")
 @Composable
 fun EverwellScaffold(
-    drawerState: DrawerState,
     topBarTitle: String,
     topBarColors: MainTopBarColors,
     containerColor: Color,
     contentPadding: PaddingValues = PaddingValues(0.dp),
     contentSpacing: Arrangement.Vertical = Arrangement.Top,
     contentAlignment: Alignment.Horizontal = Alignment.CenterHorizontally,
+    topBar: @Composable () -> Unit,
     content: @Composable () -> Unit,
 ) {
     Scaffold(
         modifier = Modifier.fillMaxSize(),
         contentWindowInsets = WindowInsets(0.dp),
-        topBar = {
-            MainTopBar(
-                drawerState = drawerState,
-                icon = Icons.Filled.Menu,
-                title = topBarTitle,
-                colors = topBarColors,
-            )
-        },
+        topBar = { topBar() },
     ) { innerPadding ->
         Column(
             modifier =
