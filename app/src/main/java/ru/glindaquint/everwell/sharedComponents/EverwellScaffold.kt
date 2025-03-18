@@ -16,13 +16,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import ru.glindaquint.everwell.dto.colors.MainTopBarColors
 
 @Suppress("ktlint:standard:function-naming")
 @Composable
 fun EverwellScaffold(
-    topBarTitle: String,
-    topBarColors: MainTopBarColors,
     containerColor: Color,
     contentPadding: PaddingValues = PaddingValues(0.dp),
     contentSpacing: Arrangement.Vertical = Arrangement.Top,

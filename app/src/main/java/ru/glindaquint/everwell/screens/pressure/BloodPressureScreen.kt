@@ -55,13 +55,6 @@ fun BloodPressureScreen(drawerState: DrawerState) {
         }
 
     EverwellScaffold(
-        topBarTitle = "Blood pressure",
-        topBarColors =
-            MainTopBarColors(
-                backgroundColor = BloodPressurePrimary,
-                foregroundColor = Color.White,
-                behindContainerColor = BloodPressureBackground,
-            ),
         containerColor = BloodPressureBackground,
         contentSpacing = Arrangement.spacedBy(20.dp),
         topBar = {

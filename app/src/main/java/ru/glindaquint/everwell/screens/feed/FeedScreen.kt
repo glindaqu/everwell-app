@@ -29,13 +29,6 @@ fun FeedScreen(drawerState: DrawerState) {
     val coroutineScope = rememberCoroutineScope()
 
     EverwellScaffold(
-        topBarTitle = "Feed",
-        topBarColors =
-            MainTopBarColors(
-                backgroundColor = FeedPrimary,
-                foregroundColor = FeedOnBackground,
-                behindContainerColor = FeedBackground,
-            ),
         containerColor = FeedBackground,
         contentSpacing = Arrangement.spacedBy(10.dp),
         contentPadding = PaddingValues(start = 10.dp, end = 10.dp),
