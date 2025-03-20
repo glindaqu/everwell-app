@@ -21,7 +21,7 @@ import androidx.compose.ui.unit.dp
 @Composable
 fun EverwellScaffold(
     containerColor: Color,
-    contentPadding: PaddingValues = PaddingValues(0.dp),
+    contentPadding: PaddingValues = PaddingValues(top = 10.dp),
     contentSpacing: Arrangement.Vertical = Arrangement.Top,
     contentAlignment: Alignment.Horizontal = Alignment.CenterHorizontally,
     topBar: @Composable () -> Unit,
@@ -39,10 +39,9 @@ fun EverwellScaffold(
                     .padding(innerPadding)
                     .background(containerColor)
                     .padding(bottom = 1.dp)
-                    .padding(contentPadding)
-                    .verticalScroll(rememberScrollState())
                     .navigationBarsPadding()
-                    .padding(top = 10.dp),
+                    .verticalScroll(rememberScrollState())
+                    .padding(contentPadding),
             verticalArrangement = contentSpacing,
             horizontalAlignment = contentAlignment,
         ) {
