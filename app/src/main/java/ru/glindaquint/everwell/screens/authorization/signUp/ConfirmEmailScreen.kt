@@ -41,7 +41,10 @@ fun ConfirmEmailScreen(request: SignUpRequest) {
     }
 
     AuthorizationContentContainer(topBarTitle = stringResource(id = R.string.registration_screen_topbar_title)) {
-        CodeTextField(state = codeTextFieldState)
+        CodeTextField(
+            state = codeTextFieldState,
+            verifyInput = { codeTextFieldState.value == uiState.value.code },
+        )
         AuthorizationActionButton(
             text = stringResource(id = R.string.restore_screen_restore_text),
             action = {

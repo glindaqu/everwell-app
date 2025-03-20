@@ -37,6 +37,23 @@ class MainRoutes {
                     ),
             )
 
+        val profileInfo =
+            MainRouteDto(
+                routeName = "profile_info",
+                routeTitleResource = R.string.profile,
+                routeIconResource = R.drawable.profile,
+                navigationDrawerColors =
+                    NavigationDrawerColors(
+                        headerColor = Color.White,
+                        bodyColor = MainOnBackground,
+                        itemBackgroundColor = MainOnBackground,
+                        itemForegroundColor = MainSecondary,
+                        accentColor = MainAccent,
+                        selectedItemColor = Color.Black.copy(0.2f),
+                        nicknameColor = MainPrimary,
+                    ),
+            )
+
         @MainRoute
         val home =
             MainRouteDto(
