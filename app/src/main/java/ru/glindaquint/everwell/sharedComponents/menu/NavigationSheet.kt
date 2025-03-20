@@ -24,7 +24,7 @@ fun NavigationSheet(
     navigationItems: List<MainRouteDto>,
     onItemClick: (MainRouteDto) -> Unit,
 ) {
-    val selectedItem = remember { mutableStateOf(navigationItems[0]) }
+    val selectedItem = remember { mutableStateOf(navigationItems[1]) }
     val metrics = LocalContext.current.resources.displayMetrics
     val itemColors =
         NavigationSheetItemColors(
