@@ -5,11 +5,14 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.ExperimentalLayoutApi
+import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
@@ -88,9 +91,11 @@ fun ProfileInfoScreen(navHostController: NavHostController) {
                 state = height,
                 labelText = "Height",
                 modifier =
-                    Modifier.fillMaxWidth(0.47f).onGloballyPositioned {
-                        textFieldHeight.value = it.size.height.pxToDp()
-                    },
+                    Modifier
+                        .fillMaxWidth(0.47f)
+                        .onGloballyPositioned {
+                            textFieldHeight.value = it.size.height.pxToDp()
+                        },
             )
             LabeledTextField(
                 state = weight,
@@ -121,9 +126,50 @@ fun ProfileInfoScreen(navHostController: NavHostController) {
                 modifier = Modifier.height(textFieldHeight.value),
             )
         }
-        LabeledTextField(state = patronymic, labelText = "Patronymic (optional)")
-        LabeledTextField(state = patronymic, labelText = "Patronymic (optional)")
+        LabeledTextField(state = patronymic, labelText = "Diseases (optional)")
+        BadHabitsPicker(title = "Bad habits")
         AuthorizationActionButton(text = "Save", action = {})
+    }
+}
+
+@OptIn(ExperimentalLayoutApi::class)
+@Suppress("ktlint:standard:function-naming")
+@Composable
+fun BadHabitsPicker(title: String) {
+    Column(verticalArrangement = Arrangement.spacedBy(5.dp)) {
+        Text(
+            text = title,
+            color = Color.Black,
+            fontStyle = MaterialTheme.typography.bodySmall.fontStyle,
+            fontSize = 14.sp,
+        )
+        FlowRow(
+            horizontalArrangement = Arrangement.spacedBy(10.dp),
+            verticalArrangement = Arrangement.spacedBy(10.dp),
+            modifier = Modifier.fillMaxWidth(),
+        ) {
+            listOf(
+                "Курение",
+                "Алкоголизм",
+                "Парение",
+                "Лекарственная зависимость",
+                "Недоедание",
+                "Переедание",
+            ).forEach { habit ->
+                Box(
+                    modifier =
+                        Modifier
+                            .background(
+                                color = MainSecondary,
+                                shape = RoundedCornerShape(12.dp),
+                            ).clip(RoundedCornerShape(12.dp))
+                            .padding(horizontal = 10.dp),
+                    contentAlignment = Alignment.Center,
+                ) {
+                    Text(text = habit)
+                }
+            }
+        }
     }
 }
 
