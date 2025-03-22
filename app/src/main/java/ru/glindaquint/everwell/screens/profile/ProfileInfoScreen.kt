@@ -21,6 +21,7 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -136,6 +137,7 @@ fun ProfileInfoScreen(navHostController: NavHostController) {
 @Suppress("ktlint:standard:function-naming")
 @Composable
 fun BadHabitsPicker(title: String) {
+    val selectedHabits = remember { mutableStateListOf("") }
     Column(verticalArrangement = Arrangement.spacedBy(5.dp)) {
         Text(
             text = title,
@@ -156,20 +158,43 @@ fun BadHabitsPicker(title: String) {
                 "Недоедание",
                 "Переедание",
             ).forEach { habit ->
-                Box(
-                    modifier =
-                        Modifier
-                            .background(
-                                color = MainSecondary,
-                                shape = RoundedCornerShape(12.dp),
-                            ).clip(RoundedCornerShape(12.dp))
-                            .padding(horizontal = 10.dp),
-                    contentAlignment = Alignment.Center,
-                ) {
-                    Text(text = habit)
-                }
+                BadHabitsItem(
+                    value = habit,
+                    selected = selectedHabits.contains(habit),
+                    onClick = {
+                        if (selectedHabits.contains(habit)) {
+                            selectedHabits.remove(habit)
+                        } else {
+                            selectedHabits.add(habit)
+                        }
+                    },
+                )
             }
         }
+    }
+}
+
+@Suppress("ktlint:standard:function-naming")
+@Composable
+fun BadHabitsItem(
+    value: String,
+    selected: Boolean,
+    onClick: () -> Unit,
+) {
+    Box(
+        modifier =
+            Modifier
+                .background(
+                    color = if (selected) MainPrimary else MainSecondary,
+                    shape = RoundedCornerShape(12.dp),
+                ).clip(RoundedCornerShape(12.dp))
+                .padding(horizontal = 10.dp)
+                .clickable {
+                    onClick()
+                },
+        contentAlignment = Alignment.Center,
+    ) {
+        Text(text = value, color = if (selected) MainSecondary else Color.Black)
     }
 }
 
