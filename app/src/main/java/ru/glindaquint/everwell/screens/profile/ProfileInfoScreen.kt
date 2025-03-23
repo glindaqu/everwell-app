@@ -24,6 +24,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -60,6 +61,7 @@ fun ProfileInfoScreen(navHostController: NavHostController) {
     val height = remember { mutableStateOf(TextFieldValue()) }
     val birthDate = remember { mutableStateOf(TextFieldValue()) }
     val sex = remember { mutableStateOf(SexPickerValue.MAN) }
+    val badHabits = remember { mutableStateListOf("") }
     val sicks = remember { mutableStateOf(TextFieldValue()) }
 
     val textFieldHeight = remember { mutableStateOf(0.dp) }
@@ -128,7 +130,7 @@ fun ProfileInfoScreen(navHostController: NavHostController) {
             )
         }
         LabeledTextField(state = patronymic, labelText = "Diseases (optional)")
-        BadHabitsPicker(title = "Bad habits")
+        BadHabitsPicker(title = "Bad habits", state = badHabits)
         AuthorizationActionButton(text = "Save", action = {})
     }
 }
@@ -136,8 +138,10 @@ fun ProfileInfoScreen(navHostController: NavHostController) {
 @OptIn(ExperimentalLayoutApi::class)
 @Suppress("ktlint:standard:function-naming")
 @Composable
-fun BadHabitsPicker(title: String) {
-    val selectedHabits = remember { mutableStateListOf("") }
+fun BadHabitsPicker(
+    title: String,
+    state: SnapshotStateList<String>,
+) {
     Column(verticalArrangement = Arrangement.spacedBy(5.dp)) {
         Text(
             text = title,
@@ -160,12 +164,12 @@ fun BadHabitsPicker(title: String) {
             ).forEach { habit ->
                 BadHabitsItem(
                     value = habit,
-                    selected = selectedHabits.contains(habit),
+                    selected = state.contains(habit),
                     onClick = {
-                        if (selectedHabits.contains(habit)) {
-                            selectedHabits.remove(habit)
+                        if (state.contains(habit)) {
+                            state.remove(habit)
                         } else {
-                            selectedHabits.add(habit)
+                            state.add(habit)
                         }
                     },
                 )
