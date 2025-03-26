@@ -46,12 +46,14 @@ import androidx.compose.ui.text.intl.Locale
 import androidx.compose.ui.text.toLowerCase
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import com.commandiron.wheel_picker_compose.WheelDatePicker
 import com.commandiron.wheel_picker_compose.core.WheelPickerDefaults
 import kotlinx.coroutines.launch
 import ru.glindaquint.everwell.R
 import ru.glindaquint.everwell.dto.colors.MainTopBarColors
+import ru.glindaquint.everwell.network.dto.users.UpdateProfileRequest
 import ru.glindaquint.everwell.sharedComponents.AuthorizationActionButton
 import ru.glindaquint.everwell.sharedComponents.EverwellScaffold
 import ru.glindaquint.everwell.sharedComponents.LabeledTextField
@@ -60,6 +62,7 @@ import ru.glindaquint.everwell.ui.theme.MainBackground
 import ru.glindaquint.everwell.ui.theme.MainPrimary
 import ru.glindaquint.everwell.ui.theme.MainSecondary
 import ru.glindaquint.everwell.utils.pxToDp
+import ru.glindaquint.everwell.viewModels.impl.ProfileViewModel
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 
@@ -78,6 +81,8 @@ fun ProfileInfoScreen(navHostController: NavHostController) {
     val sex = remember { mutableStateOf(SexPickerValue.MAN) }
     val badHabits = remember { mutableStateListOf("") }
     val sicks = remember { mutableStateOf(TextFieldValue()) }
+
+    val viewModel = hiltViewModel<ProfileViewModel>()
 
     val sheetState =
         rememberStandardBottomSheetState(
@@ -166,7 +171,21 @@ fun ProfileInfoScreen(navHostController: NavHostController) {
         }
         LabeledTextField(state = sicks, labelText = "Diseases (optional)")
         BadHabitsPicker(title = "Bad habits", state = badHabits)
-        AuthorizationActionButton(text = "Save", action = {})
+        AuthorizationActionButton(text = "Save", action = {
+            viewModel.updateProfile(
+                UpdateProfileRequest(
+                    lastname = lastname.value.text,
+                    firstname = firstname.value.text,
+                    patronymic = patronymic.value.text,
+                    badHabits = badHabits.toList(),
+                    birthDate = selectedBirthDate.value,
+                    diseases = sicks.value.text,
+                    sex = sex.value.name,
+                    weight = weight.value.text.toIntOrNull(),
+                    height = height.value.text.toIntOrNull(),
+                ),
+            )
+        })
 
         if (shouldShowBottomSheet.value) {
             ModalBottomSheet(

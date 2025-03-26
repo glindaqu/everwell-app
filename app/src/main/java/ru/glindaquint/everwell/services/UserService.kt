@@ -11,6 +11,7 @@ import ru.glindaquint.everwell.network.dto.authorization.RestoreRequest
 import ru.glindaquint.everwell.network.dto.authorization.signIn.SignInRequest
 import ru.glindaquint.everwell.network.dto.authorization.signUp.SignUpRequest
 import ru.glindaquint.everwell.network.dto.users.GetUserResponse
+import ru.glindaquint.everwell.network.dto.users.UpdateProfileRequest
 import ru.glindaquint.everwell.network.services.AuthorizationNetworkService
 import ru.glindaquint.everwell.network.services.UserNetworkService
 import javax.inject.Inject
@@ -155,6 +156,26 @@ class UserService
                         t: Throwable,
                     ) {
                         onFailure?.invoke(t)
+                    }
+                },
+            )
+        }
+
+        fun updateProfile(request: UpdateProfileRequest) {
+            userNetworkService.updateProfile(request).enqueue(
+                object : Callback<Void> {
+                    override fun onResponse(
+                        call: Call<Void>,
+                        response: Response<Void>,
+                    ) {
+                        TODO("Not yet implemented")
+                    }
+
+                    override fun onFailure(
+                        call: Call<Void>,
+                        t: Throwable,
+                    ) {
+                        TODO("Not yet implemented")
                     }
                 },
             )
