@@ -35,6 +35,7 @@ fun LabeledTextField(
             errorContainerColor = MainContainerError,
             errorContentColor = MainContainerError,
         ),
+    enabled: Boolean = true,
     isError: Boolean = false,
     visualTransformation: VisualTransformation = VisualTransformation.None,
     trailingIcon: (@Composable () -> Unit)? = null,
@@ -65,6 +66,8 @@ fun LabeledTextField(
                     unfocusedContainerColor = colors.containerColor,
                     errorContainerColor = colors.errorContainerColor,
                     errorIndicatorColor = Color.Transparent,
+                    disabledTextColor = colors.contentColor,
+                    disabledContainerColor = colors.containerColor,
                 ),
             visualTransformation = visualTransformation,
             trailingIcon = {
@@ -73,6 +76,7 @@ fun LabeledTextField(
             isError = isError,
             singleLine = true,
             keyboardOptions = KeyboardOptions(keyboardType = keyboardType),
+            enabled = enabled,
         )
     }
 }

@@ -1,5 +1,7 @@
 package ru.glindaquint.everwell.screens.profile
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -9,21 +11,26 @@ import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.ModalBottomSheet
+import androidx.compose.material3.SheetValue
 import androidx.compose.material3.Text
+import androidx.compose.material3.rememberStandardBottomSheetState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -40,6 +47,9 @@ import androidx.compose.ui.text.toLowerCase
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
+import com.commandiron.wheel_picker_compose.WheelDatePicker
+import com.commandiron.wheel_picker_compose.core.WheelPickerDefaults
+import kotlinx.coroutines.launch
 import ru.glindaquint.everwell.R
 import ru.glindaquint.everwell.dto.colors.MainTopBarColors
 import ru.glindaquint.everwell.sharedComponents.AuthorizationActionButton
@@ -50,7 +60,11 @@ import ru.glindaquint.everwell.ui.theme.MainBackground
 import ru.glindaquint.everwell.ui.theme.MainPrimary
 import ru.glindaquint.everwell.ui.theme.MainSecondary
 import ru.glindaquint.everwell.utils.pxToDp
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
 
+@OptIn(ExperimentalMaterial3Api::class)
+@RequiresApi(Build.VERSION_CODES.O)
 @Suppress("ktlint:standard:function-naming")
 @Composable
 fun ProfileInfoScreen(navHostController: NavHostController) {
@@ -60,11 +74,26 @@ fun ProfileInfoScreen(navHostController: NavHostController) {
     val weight = remember { mutableStateOf(TextFieldValue()) }
     val height = remember { mutableStateOf(TextFieldValue()) }
     val birthDate = remember { mutableStateOf(TextFieldValue()) }
+    val selectedBirthDate = remember { mutableStateOf(LocalDate.now()) }
     val sex = remember { mutableStateOf(SexPickerValue.MAN) }
     val badHabits = remember { mutableStateListOf("") }
     val sicks = remember { mutableStateOf(TextFieldValue()) }
 
+    val sheetState =
+        rememberStandardBottomSheetState(
+            initialValue = SheetValue.Hidden,
+            skipHiddenState = false,
+        )
+    val shouldShowBottomSheet = remember { mutableStateOf(false) }
     val textFieldHeight = remember { mutableStateOf(0.dp) }
+    val coroutineScope = rememberCoroutineScope()
+
+    LaunchedEffect(selectedBirthDate.value) {
+        if (selectedBirthDate.value != null) {
+            birthDate.value =
+                TextFieldValue(DateTimeFormatter.ofPattern("dd.MM.yyyy").format(selectedBirthDate.value))
+        }
+    }
 
     EverwellScaffold(
         containerColor = MainBackground,
@@ -110,8 +139,14 @@ fun ProfileInfoScreen(navHostController: NavHostController) {
                 state = birthDate,
                 labelText = "Birth date",
                 modifier = Modifier.fillMaxWidth(0.47f),
+                enabled = false,
                 trailingIcon = {
-                    IconButton(onClick = { /*TODO*/ }) {
+                    IconButton(onClick = {
+                        coroutineScope.launch {
+                            sheetState.show()
+                            shouldShowBottomSheet.value = true
+                        }
+                    }) {
                         Icon(
                             painter = painterResource(id = R.drawable.today),
                             contentDescription = "Select birth date",
@@ -129,9 +164,37 @@ fun ProfileInfoScreen(navHostController: NavHostController) {
                 modifier = Modifier.height(textFieldHeight.value),
             )
         }
-        LabeledTextField(state = patronymic, labelText = "Diseases (optional)")
+        LabeledTextField(state = sicks, labelText = "Diseases (optional)")
         BadHabitsPicker(title = "Bad habits", state = badHabits)
         AuthorizationActionButton(text = "Save", action = {})
+
+        if (shouldShowBottomSheet.value) {
+            ModalBottomSheet(
+                onDismissRequest = {
+                    coroutineScope.launch {
+                        sheetState.hide()
+                        shouldShowBottomSheet.value = false
+                    }
+                },
+                modifier = Modifier.fillMaxWidth(),
+            ) {
+                WheelDatePicker(
+                    modifier = Modifier.align(Alignment.CenterHorizontally),
+                    selectorProperties =
+                        WheelPickerDefaults.selectorProperties(
+                            color = MainPrimary.copy(0.1f),
+                            border = null,
+                            shape = RoundedCornerShape(12.dp),
+                        ),
+                    textColor = MainPrimary,
+                    maxDate = LocalDate.now(),
+                    onSnappedDate = {
+                        selectedBirthDate.value = it
+                    },
+                    startDate = selectedBirthDate.value,
+                )
+            }
+        }
     }
 }
 
@@ -223,9 +286,17 @@ fun SexPicker(
         ) {
             SexPickerValue.entries.toTypedArray().forEach {
                 SexPickerItem(
+                    modifier =
+                        Modifier
+                            .weight(
+                                if (it == SexPickerValue.OTHER) {
+                                    0.5f
+                                } else {
+                                    0.25f
+                                },
+                            ).then(modifier),
                     value = it,
                     selected = value == it,
-                    onClick = onValueChanged,
                     shape =
                         when (it) {
                             SexPickerValue.MAN ->
@@ -242,15 +313,7 @@ fun SexPicker(
                                     bottomEnd = 12.dp,
                                 )
                         },
-                    modifier =
-                        Modifier
-                            .weight(
-                                if (it == SexPickerValue.OTHER) {
-                                    0.5f
-                                } else {
-                                    0.25f
-                                },
-                            ).then(modifier),
+                    onClick = onValueChanged,
                 )
             }
         }
@@ -259,7 +322,7 @@ fun SexPicker(
 
 @Suppress("ktlint:standard:function-naming")
 @Composable
-fun RowScope.SexPickerItem(
+fun SexPickerItem(
     modifier: Modifier = Modifier,
     value: SexPickerValue,
     selected: Boolean,

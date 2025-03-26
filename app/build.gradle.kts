@@ -101,4 +101,6 @@ dependencies {
     implementation(libs.okhttp)
 
     implementation(libs.kotlinx.serialization.json)
+
+    implementation("com.github.commandiron:WheelPickerCompose:1.1.11")
 }
