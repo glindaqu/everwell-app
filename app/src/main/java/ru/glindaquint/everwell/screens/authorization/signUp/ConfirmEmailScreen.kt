@@ -48,10 +48,9 @@ fun ConfirmEmailScreen(request: SignUpRequest) {
         AuthorizationActionButton(
             text = stringResource(id = R.string.restore_screen_restore_text),
             action = {
-                if (codeTextFieldState.value == uiState.value.code) {
-                    viewModel.signUp(request = request)
-                }
+                viewModel.signUp(request = request)
             },
+            enabled = codeTextFieldState.value == uiState.value.code,
         )
     }
 }
