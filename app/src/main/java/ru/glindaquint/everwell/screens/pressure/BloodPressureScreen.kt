@@ -60,7 +60,7 @@ fun BloodPressureScreen(drawerState: DrawerState) {
         topBar = {
             MainTopBar(
                 icon = Icons.Filled.Menu,
-                title = "Feed",
+                title = "Blood Pressure",
                 colors =
                     MainTopBarColors(
                         backgroundColor = BloodPressurePrimary,
