@@ -22,7 +22,11 @@ class SignUpViewModel
         private val userService: Lazy<UserService>,
         val uiState: MutableStateFlow<SignUpUiState>,
     ) : ViewModel() {
-        fun signUp(request: SignUpRequest) {
+        fun signUp(
+            request: SignUpRequest,
+            onSuccess: (() -> Unit)? = null,
+            onFailure: (() -> Unit)? = null,
+        ) {
             updateUiState(uiState.value.copy(loading = true))
             userService.get().signUp(
                 request = request,
