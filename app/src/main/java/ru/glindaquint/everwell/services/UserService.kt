@@ -168,14 +168,12 @@ class UserService
                         call: Call<Void>,
                         response: Response<Void>,
                     ) {
-                        TODO("Not yet implemented")
                     }
 
                     override fun onFailure(
                         call: Call<Void>,
                         t: Throwable,
                     ) {
-                        TODO("Not yet implemented")
                     }
                 },
             )

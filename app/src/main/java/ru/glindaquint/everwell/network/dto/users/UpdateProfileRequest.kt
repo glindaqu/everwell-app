@@ -1,6 +1,6 @@
 package ru.glindaquint.everwell.network.dto.users
 
-import java.time.LocalDate
+import java.util.Date
 
 data class UpdateProfileRequest(
     val lastname: String?,
@@ -8,7 +8,7 @@ data class UpdateProfileRequest(
     val patronymic: String?,
     val height: Int?,
     val weight: Int?,
-    val birthDate: LocalDate?,
+    val birthDate: Date?,
     val sex: String?,
     val diseases: String?,
     val badHabits: List<String>,

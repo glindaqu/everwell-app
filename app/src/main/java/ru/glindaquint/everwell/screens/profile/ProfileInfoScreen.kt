@@ -61,6 +61,7 @@ import ru.glindaquint.everwell.sharedComponents.MainTopBar
 import ru.glindaquint.everwell.ui.theme.MainBackground
 import ru.glindaquint.everwell.ui.theme.MainPrimary
 import ru.glindaquint.everwell.ui.theme.MainSecondary
+import ru.glindaquint.everwell.utils.convertLocalDate2Date
 import ru.glindaquint.everwell.utils.pxToDp
 import ru.glindaquint.everwell.viewModels.impl.ProfileViewModel
 import java.time.LocalDate
@@ -96,7 +97,9 @@ fun ProfileInfoScreen(navHostController: NavHostController) {
     LaunchedEffect(selectedBirthDate.value) {
         if (selectedBirthDate.value != null) {
             birthDate.value =
-                TextFieldValue(DateTimeFormatter.ofPattern("dd.MM.yyyy").format(selectedBirthDate.value))
+                TextFieldValue(
+                    DateTimeFormatter.ofPattern("dd.MM.yyyy").format(selectedBirthDate.value),
+                )
         }
     }
 
@@ -178,7 +181,7 @@ fun ProfileInfoScreen(navHostController: NavHostController) {
                     firstname = firstname.value.text,
                     patronymic = patronymic.value.text,
                     badHabits = badHabits.toList(),
-                    birthDate = selectedBirthDate.value,
+                    birthDate = convertLocalDate2Date(selectedBirthDate.value),
                     diseases = sicks.value.text,
                     sex = sex.value.name,
                     weight = weight.value.text.toIntOrNull(),
