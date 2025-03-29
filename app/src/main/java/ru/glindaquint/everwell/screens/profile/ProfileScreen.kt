@@ -1,6 +1,9 @@
 package ru.glindaquint.everwell.screens.profile
 
 import android.annotation.SuppressLint
+import android.app.Activity
+import android.content.Intent
+import androidx.activity.compose.LocalActivity
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -17,7 +20,6 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.automirrored.filled.ExitToApp
-import androidx.compose.material.icons.filled.ExitToApp
 import androidx.compose.material.icons.outlined.Edit
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -42,6 +44,7 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import coil3.compose.AsyncImage
+import ru.glindaquint.everwell.activities.AuthorizationActivity
 import ru.glindaquint.everwell.dto.colors.MainTopBarColors
 import ru.glindaquint.everwell.navigation.main.MainRoutes
 import ru.glindaquint.everwell.sharedComponents.EverwellScaffold
@@ -62,6 +65,8 @@ fun ProfileScreen(navHostController: NavHostController) {
     val viewModel = hiltViewModel<ProfileViewModel>()
     val user = viewModel.user.collectAsState()
     val viewSize = remember { mutableStateOf(IntSize(0, 0)) }
+
+    val activity = LocalActivity.current as Activity
 
     EverwellScaffold(
         contentPadding = PaddingValues(0.dp),
@@ -122,7 +127,15 @@ fun ProfileScreen(navHostController: NavHostController) {
                 )
             }
             Row(horizontalArrangement = Arrangement.spacedBy(5.dp)) {
-                IconButton(onClick = { /*TODO*/ }) {
+                IconButton(onClick = {
+                    viewModel.logout {
+                        activity.startActivity(
+                            Intent(activity, AuthorizationActivity::class.java),
+                            null,
+                        )
+                        activity.finish()
+                    }
+                }) {
                     Icon(
                         imageVector = Icons.AutoMirrored.Filled.ExitToApp,
                         contentDescription = "Logout",
