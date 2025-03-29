@@ -168,6 +168,7 @@ class UserService
                         call: Call<Void>,
                         response: Response<Void>,
                     ) {
+                        refreshUser()
                     }
 
                     override fun onFailure(

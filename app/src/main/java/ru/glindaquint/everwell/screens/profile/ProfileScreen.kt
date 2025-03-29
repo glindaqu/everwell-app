@@ -1,5 +1,6 @@
 package ru.glindaquint.everwell.screens.profile
 
+import android.annotation.SuppressLint
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -52,7 +53,9 @@ import ru.glindaquint.everwell.ui.theme.MainPrimary
 import ru.glindaquint.everwell.ui.theme.MainSecondary
 import ru.glindaquint.everwell.utils.pxToDp
 import ru.glindaquint.everwell.viewModels.impl.ProfileViewModel
+import java.text.SimpleDateFormat
 
+@SuppressLint("SimpleDateFormat")
 @Suppress("ktlint:standard:function-naming")
 @Composable
 fun ProfileScreen(navHostController: NavHostController) {
@@ -100,7 +103,14 @@ fun ProfileScreen(navHostController: NavHostController) {
                             .size((viewSize.value.height * 2 / 3).pxToDp()),
                 )
                 Text(
-                    text = "${user.value?.lastname} ${user.value?.firstname}",
+                    text =
+                        if (user.value?.lastname?.isNotEmpty() == true ||
+                            user.value?.firstname?.isNotEmpty() == true
+                        ) {
+                            "${user.value?.lastname} ${user.value?.firstname}"
+                        } else {
+                            "None"
+                        },
                     fontSize = 20.sp,
                     fontWeight = FontWeight.Medium,
                 )
@@ -136,19 +146,58 @@ fun ProfileScreen(navHostController: NavHostController) {
             verticalArrangement = Arrangement.spacedBy(10.dp),
         ) {
             ProfileDataTile(title = "Main data") {
-                ProfileDataTileContentItem(title = "Birth date: ", value = "20.02.2001")
-                ProfileDataTileContentItem(title = "Sex: ", value = "Male")
+                ProfileDataTileContentItem(
+                    title = "Birth date: ",
+                    value =
+                        if (user.value?.birthDate != null) {
+                            SimpleDateFormat("dd.MM.yyyy").format(user.value?.birthDate!!)
+                        } else {
+                            "null"
+                        },
+                )
+                ProfileDataTileContentItem(title = "Sex: ", value = user.value?.sex.toString())
             }
             ProfileDataTile(title = "Body metrics") {
-                ProfileDataTileContentItem(title = "Weight: ", value = "65kg")
-                ProfileDataTileContentItem(title = "Height: ", value = "188cm")
+                ProfileDataTileContentItem(
+                    title = "Weight: ",
+                    value =
+                        if (user.value?.weight != null) {
+                            "${user.value?.weight}kg"
+                        } else {
+                            "null"
+                        },
+                )
+                ProfileDataTileContentItem(
+                    title = "Height: ",
+                    value =
+                        if (user.value?.weight != null) {
+                            "${user.value?.height}cm"
+                        } else {
+                            "null"
+                        },
+                )
             }
             ProfileDataTile(title = "Sicks") {
-                ProfileDataTileContentItem(title = "", value = "None")
+                ProfileDataTileContentItem(
+                    title = "",
+                    value =
+                        if (user.value?.diseases?.isNotEmpty() == true) {
+                            user.value?.diseases.toString()
+                        } else {
+                            "None"
+                        },
+                )
             }
             ProfileDataTile(title = "Bad habits") {
-                ProfileDataTileContentItem(title = "Smoke: ", value = "None")
-                ProfileDataTileContentItem(title = "Alcohol: ", value = "None")
+                ProfileDataTileContentItem(
+                    title = "",
+                    value =
+                        if (user.value?.badHabits?.isNotEmpty() == true) {
+                            user.value?.badHabits!!.joinToString(", ")
+                        } else {
+                            "None"
+                        },
+                )
             }
         }
     }
