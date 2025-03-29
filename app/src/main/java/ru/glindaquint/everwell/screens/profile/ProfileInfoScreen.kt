@@ -80,7 +80,7 @@ fun ProfileInfoScreen(navHostController: NavHostController) {
     val birthDate = remember { mutableStateOf(TextFieldValue()) }
     val selectedBirthDate = remember { mutableStateOf(LocalDate.now()) }
     val sex = remember { mutableStateOf(SexPickerValue.MAN) }
-    val badHabits = remember { mutableStateListOf("") }
+    val badHabits = remember { mutableStateListOf<String>() }
     val sicks = remember { mutableStateOf(TextFieldValue()) }
 
     val viewModel = hiltViewModel<ProfileViewModel>()
