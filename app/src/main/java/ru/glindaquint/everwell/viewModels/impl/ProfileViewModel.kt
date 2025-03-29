@@ -14,7 +14,15 @@ class ProfileViewModel
     ) : ViewModel() {
         val user = userService.user
 
-        fun updateProfile(request: UpdateProfileRequest) {
-            userService.updateProfile(request)
+        fun updateProfile(
+            request: UpdateProfileRequest,
+            onSuccess: (() -> Unit)? = null,
+            onFailure: ((Throwable) -> Unit)? = null,
+        ) {
+            userService.updateProfile(
+                request = request,
+                onSuccess = onSuccess,
+                onFailure = onFailure,
+            )
         }
     }

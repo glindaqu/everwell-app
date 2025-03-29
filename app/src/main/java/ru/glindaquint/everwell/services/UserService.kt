@@ -161,7 +161,11 @@ class UserService
             )
         }
 
-        fun updateProfile(request: UpdateProfileRequest) {
+        fun updateProfile(
+            request: UpdateProfileRequest,
+            onSuccess: (() -> Unit)? = null,
+            onFailure: ((Throwable) -> Unit)? = null,
+        ) {
             userNetworkService.updateProfile(request).enqueue(
                 object : Callback<Void> {
                     override fun onResponse(
@@ -169,12 +173,14 @@ class UserService
                         response: Response<Void>,
                     ) {
                         refreshUser()
+                        onSuccess?.invoke()
                     }
 
                     override fun onFailure(
                         call: Call<Void>,
                         t: Throwable,
                     ) {
+                        onFailure?.invoke(t)
                     }
                 },
             )

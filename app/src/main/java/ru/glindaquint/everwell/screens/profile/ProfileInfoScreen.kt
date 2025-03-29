@@ -1,5 +1,6 @@
 package ru.glindaquint.everwell.screens.profile
 
+import android.annotation.SuppressLint
 import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.background
@@ -27,6 +28,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.rememberStandardBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -64,26 +66,68 @@ import ru.glindaquint.everwell.ui.theme.MainSecondary
 import ru.glindaquint.everwell.utils.convertLocalDate2Date
 import ru.glindaquint.everwell.utils.pxToDp
 import ru.glindaquint.everwell.viewModels.impl.ProfileViewModel
+import java.text.SimpleDateFormat
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 
+@SuppressLint("SimpleDateFormat")
 @OptIn(ExperimentalMaterial3Api::class)
 @RequiresApi(Build.VERSION_CODES.O)
 @Suppress("ktlint:standard:function-naming")
 @Composable
 fun ProfileInfoScreen(navHostController: NavHostController) {
-    val firstname = remember { mutableStateOf(TextFieldValue()) }
-    val lastname = remember { mutableStateOf(TextFieldValue()) }
-    val patronymic = remember { mutableStateOf(TextFieldValue()) }
-    val weight = remember { mutableStateOf(TextFieldValue()) }
-    val height = remember { mutableStateOf(TextFieldValue()) }
-    val birthDate = remember { mutableStateOf(TextFieldValue()) }
-    val selectedBirthDate = remember { mutableStateOf(LocalDate.now()) }
-    val sex = remember { mutableStateOf(SexPickerValue.MAN) }
-    val badHabits = remember { mutableStateListOf<String>() }
-    val sicks = remember { mutableStateOf(TextFieldValue()) }
-
     val viewModel = hiltViewModel<ProfileViewModel>()
+    val user = viewModel.user.collectAsState()
+
+    val firstname = remember { mutableStateOf(TextFieldValue(user.value?.firstname ?: "")) }
+    val lastname = remember { mutableStateOf(TextFieldValue(user.value?.lastname ?: "")) }
+    val patronymic = remember { mutableStateOf(TextFieldValue(user.value?.patronymic ?: "")) }
+    val weight =
+        remember {
+            mutableStateOf(
+                TextFieldValue(
+                    if (user.value?.weight != null) {
+                        user.value?.weight.toString()
+                    } else {
+                        ""
+                    },
+                ),
+            )
+        }
+    val height =
+        remember {
+            mutableStateOf(
+                TextFieldValue(
+                    if (user.value?.height != null) {
+                        user.value?.height.toString()
+                    } else {
+                        ""
+                    },
+                ),
+            )
+        }
+    val birthDate =
+        remember {
+            mutableStateOf(
+                TextFieldValue(
+                    if (user.value?.birthDate != null) {
+                        SimpleDateFormat("dd.MM.yyyy").format(user.value?.birthDate!!)
+                    } else {
+                        ""
+                    },
+                ),
+            )
+        }
+    val selectedBirthDate = remember { mutableStateOf(LocalDate.now()) }
+    val sex = remember { mutableStateOf(SexPickerValue.getByString(user.value?.sex)) }
+    val badHabits =
+        remember {
+            mutableStateListOf<String>()
+                .apply {
+                    user.value?.badHabits?.let { addAll(it) }
+                }
+        }
+    val sicks = remember { mutableStateOf(TextFieldValue(user.value?.diseases.let { it!! })) }
 
     val sheetState =
         rememberStandardBottomSheetState(
@@ -176,17 +220,21 @@ fun ProfileInfoScreen(navHostController: NavHostController) {
         BadHabitsPicker(title = "Bad habits", state = badHabits)
         AuthorizationActionButton(text = "Save", action = {
             viewModel.updateProfile(
-                UpdateProfileRequest(
-                    lastname = lastname.value.text,
-                    firstname = firstname.value.text,
-                    patronymic = patronymic.value.text,
-                    badHabits = badHabits.toList(),
-                    birthDate = convertLocalDate2Date(selectedBirthDate.value),
-                    diseases = sicks.value.text,
-                    sex = sex.value.name,
-                    weight = weight.value.text.toIntOrNull(),
-                    height = height.value.text.toIntOrNull(),
-                ),
+                request =
+                    UpdateProfileRequest(
+                        lastname = lastname.value.text,
+                        firstname = firstname.value.text,
+                        patronymic = patronymic.value.text,
+                        badHabits = badHabits.toList(),
+                        birthDate = convertLocalDate2Date(selectedBirthDate.value),
+                        diseases = sicks.value.text,
+                        sex = sex.value.name,
+                        weight = weight.value.text.toIntOrNull(),
+                        height = height.value.text.toIntOrNull(),
+                    ),
+                onSuccess = {
+                    navHostController.navigateUp()
+                },
             )
         })
 
@@ -390,4 +438,14 @@ enum class SexPickerValue {
     MAN,
     WOMAN,
     OTHER,
+    ;
+
+    companion object {
+        fun getByString(value: String?): SexPickerValue =
+            when (value) {
+                "MAN" -> MAN
+                "WOMAN" -> WOMAN
+                else -> OTHER
+            }
+    }
 }
