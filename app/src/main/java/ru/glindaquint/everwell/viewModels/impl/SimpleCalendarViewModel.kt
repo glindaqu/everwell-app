@@ -24,7 +24,7 @@ class SimpleCalendarViewModel
             setDate()
         }
 
-        override fun setDate(date: Date) {
+        fun setDate(date: Date = Date()) {
             simpleCalendarModel.setDate(date)
             val days: MutableList<SimpleCalendarBodyItemDto> = mutableListOf()
             val calendar = Calendar.getInstance()

@@ -50,18 +50,19 @@ class SimpleCalendarModel
             currentYear = calendar.get(Calendar.YEAR)
             currentMonthDaysCount = calendar.getActualMaximum(Calendar.DAY_OF_MONTH)
 
-            calendar.set(Calendar.MONTH, calendar.get(Calendar.MONTH) - 1)
+            val currentMonthIndex = calendar.get(Calendar.MONTH)
+            calendar.set(Calendar.MONTH, currentMonthIndex - 1)
 
             previousMonthDaysCount = calendar.getActualMaximum(Calendar.DAY_OF_MONTH)
 
-            calendar.set(Calendar.MONTH, calendar.get(Calendar.MONTH) + 1)
+            calendar.set(Calendar.MONTH, currentMonthIndex)
             calendar.set(Calendar.DAY_OF_MONTH, 1)
 
             firstDayOffset = calendar.get(Calendar.DAY_OF_WEEK) - 2
 
             calendar.set(Calendar.DAY_OF_MONTH, calendar.getActualMaximum(Calendar.DAY_OF_MONTH))
 
-            lastDayOffset = 7 - calendar.get(android.icu.util.Calendar.DAY_OF_WEEK)
+            lastDayOffset = 7 - calendar.get(Calendar.DAY_OF_WEEK)
 
             calendar.set(Calendar.DAY_OF_MONTH, currentMonthDay)
 
