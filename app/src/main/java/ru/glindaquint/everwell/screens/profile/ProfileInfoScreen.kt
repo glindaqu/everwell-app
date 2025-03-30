@@ -127,7 +127,18 @@ fun ProfileInfoScreen(navHostController: NavHostController) {
                     user.value?.badHabits?.let { addAll(it) }
                 }
         }
-    val sicks = remember { mutableStateOf(TextFieldValue(user.value?.diseases.let { it!! })) }
+    val sicks =
+        remember {
+            mutableStateOf(
+                TextFieldValue(
+                    if (user.value?.diseases != null) {
+                        user.value?.diseases!!
+                    } else {
+                        ""
+                    },
+                ),
+            )
+        }
 
     val sheetState =
         rememberStandardBottomSheetState(
