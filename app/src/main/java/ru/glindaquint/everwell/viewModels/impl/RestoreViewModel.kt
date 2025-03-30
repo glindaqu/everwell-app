@@ -44,6 +44,8 @@ class RestoreViewModel
                 request = request,
                 onSuccess = {
                     preferencesManager.saveString(PreferencesKeys.PASSWORD, null)
+                    preferencesManager.saveString(PreferencesKeys.USERNAME, null)
+                    preferencesManager.saveString(PreferencesKeys.NETWORK_TOKEN, null)
                     callback()
                 },
             )
