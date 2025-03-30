@@ -1,5 +1,7 @@
 package ru.glindaquint.everwell.navigation.main
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.material3.DrawerState
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
@@ -7,10 +9,12 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import ru.glindaquint.everwell.screens.feed.FeedScreen
 import ru.glindaquint.everwell.screens.home.HomeScreen
+import ru.glindaquint.everwell.screens.home.NotificationScreen
 import ru.glindaquint.everwell.screens.pressure.BloodPressureScreen
 import ru.glindaquint.everwell.screens.profile.ProfileInfoScreen
 import ru.glindaquint.everwell.screens.profile.ProfileScreen
 
+@RequiresApi(Build.VERSION_CODES.O)
 @Suppress("ktlint:standard:function-naming")
 @Composable
 fun MainNavHost(
@@ -29,6 +33,9 @@ fun MainNavHost(
         composable(route = MainRoutes.profile.routeName) { ProfileScreen(navHostController = navHostController) }
         composable(route = MainRoutes.profileInfo.routeName) {
             ProfileInfoScreen(navHostController = navHostController)
+        }
+        composable(route = MainRoutes.notifications.routeName) {
+            NotificationScreen(navHostController = navHostController)
         }
     }
 }

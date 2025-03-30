@@ -39,5 +39,6 @@
     <string name="restore_screen_code_title">Введите код</string>
     <string name="restore_screen_restore_text">Продолжить</string>
     <string name="restore_screen_sign_in_text">У меня уже есть аккаунт</string>
+    <string name="notifications">Notifications</string>
 
 </resources>

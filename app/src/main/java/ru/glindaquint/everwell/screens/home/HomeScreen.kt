@@ -110,6 +110,9 @@ fun HomeScreen(
                 onProfileButtonClick = {
                     navHostController.navigate(MainRoutes.profile.routeName)
                 },
+                onNotificationButtonClick = {
+                    navHostController.navigate(MainRoutes.notifications.routeName)
+                },
             )
         },
     ) { padding ->

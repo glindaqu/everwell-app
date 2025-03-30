@@ -73,6 +73,24 @@ class MainRoutes {
             )
 
         @MainRoute
+        val notifications =
+            MainRouteDto(
+                routeName = "notifications",
+                routeTitleResource = R.string.notifications,
+                routeIconResource = R.drawable.home,
+                navigationDrawerColors =
+                    NavigationDrawerColors(
+                        headerColor = MainSecondary,
+                        bodyColor = MainOnBackground,
+                        itemBackgroundColor = MainOnBackground,
+                        itemForegroundColor = MainSecondary,
+                        accentColor = MainAccent,
+                        selectedItemColor = Color.Black.copy(0.2f),
+                        nicknameColor = MainPrimary,
+                    ),
+            )
+
+        @MainRoute
         val pressure =
             MainRouteDto(
                 routeName = "pressure",
