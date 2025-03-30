@@ -170,7 +170,7 @@ fun SignUpScreen(navHostController: NavHostController) {
                                 email.value.text
                                     .split('@')[0],
                             email = email.value.text,
-                            password = email.value.text,
+                            password = password.value.text,
                         ).toJson()
                     }",
                 )
