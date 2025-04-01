@@ -45,7 +45,9 @@ fun SliderDatePickerDay(
 
     LaunchedEffect(Unit) {
         delay(1000)
-        lazyRowState.animateScrollToItem(state.day.intValue - 3)
+        if (state.day.intValue > 3) {
+            lazyRowState.animateScrollToItem(state.day.intValue - 3)
+        }
     }
 
     LazyRow(
