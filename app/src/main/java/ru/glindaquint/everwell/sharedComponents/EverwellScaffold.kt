@@ -1,5 +1,6 @@
 package ru.glindaquint.everwell.sharedComponents
 
+import android.annotation.SuppressLint
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -17,6 +18,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 
+@SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Suppress("ktlint:standard:function-naming")
 @Composable
 fun EverwellScaffold(
@@ -25,6 +27,8 @@ fun EverwellScaffold(
     contentSpacing: Arrangement.Vertical = Arrangement.Top,
     contentAlignment: Alignment.Horizontal = Alignment.CenterHorizontally,
     topBar: @Composable () -> Unit,
+    floatingActionButton: (@Composable () -> Unit)? = null,
+    navigationBar: (@Composable () -> Unit)? = null,
     content: @Composable () -> Unit,
 ) {
     Scaffold(
@@ -32,20 +36,25 @@ fun EverwellScaffold(
         contentWindowInsets = WindowInsets(0.dp),
         topBar = { topBar() },
     ) { innerPadding ->
-        Column(
-            modifier =
-                Modifier
-                    .fillMaxSize()
-                    .padding(innerPadding)
-                    .background(containerColor)
-                    .padding(bottom = 1.dp)
-                    .navigationBarsPadding()
-                    .verticalScroll(rememberScrollState())
-                    .padding(contentPadding),
-            verticalArrangement = contentSpacing,
-            horizontalAlignment = contentAlignment,
+        Scaffold(
+            floatingActionButton = { floatingActionButton?.invoke() },
+            bottomBar = { navigationBar?.invoke() },
         ) {
-            content()
+            Column(
+                modifier =
+                    Modifier
+                        .fillMaxSize()
+                        .padding(innerPadding)
+                        .background(containerColor)
+                        .padding(bottom = 1.dp)
+                        .navigationBarsPadding()
+                        .verticalScroll(rememberScrollState())
+                        .padding(contentPadding),
+                verticalArrangement = contentSpacing,
+                horizontalAlignment = contentAlignment,
+            ) {
+                content()
+            }
         }
     }
 }
