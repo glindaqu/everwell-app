@@ -7,10 +7,6 @@ import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.KeyboardArrowRight
-import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -43,12 +39,6 @@ internal fun TaskListContainer(
                 color = MainPrimary,
                 fontSize = Typography.bodySmall.fontSize,
                 fontWeight = Typography.bodySmall.fontWeight,
-            )
-            Icon(
-                modifier = Modifier.size(20.dp),
-                tint = MainPrimary,
-                imageVector = Icons.AutoMirrored.Filled.KeyboardArrowRight,
-                contentDescription = "all tasks button",
             )
         }
         Column(
