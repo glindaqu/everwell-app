@@ -72,7 +72,6 @@ class MainRoutes {
                     ),
             )
 
-        @MainRoute
         val notifications =
             MainRouteDto(
                 routeName = "notifications",
