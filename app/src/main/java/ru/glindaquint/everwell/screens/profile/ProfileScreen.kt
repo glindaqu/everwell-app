@@ -18,9 +18,10 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.automirrored.filled.ExitToApp
+import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material.icons.outlined.Edit
+import androidx.compose.material3.DrawerState
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
@@ -28,6 +29,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -44,6 +46,7 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import coil3.compose.AsyncImage
+import kotlinx.coroutines.launch
 import ru.glindaquint.everwell.activities.AuthorizationActivity
 import ru.glindaquint.everwell.dto.colors.MainTopBarColors
 import ru.glindaquint.everwell.navigation.main.MainRoutes
@@ -61,19 +64,23 @@ import java.text.SimpleDateFormat
 @SuppressLint("SimpleDateFormat")
 @Suppress("ktlint:standard:function-naming")
 @Composable
-fun ProfileScreen(navHostController: NavHostController) {
+fun ProfileScreen(
+    navHostController: NavHostController,
+    drawerState: DrawerState,
+) {
     val viewModel = hiltViewModel<ProfileViewModel>()
     val user = viewModel.user.collectAsState()
     val viewSize = remember { mutableStateOf(IntSize(0, 0)) }
 
     val activity = LocalActivity.current as Activity
+    val coroutineScope = rememberCoroutineScope()
 
     EverwellScaffold(
         contentPadding = PaddingValues(0.dp),
         containerColor = MainBackground,
         topBar = {
             MainTopBar(
-                icon = Icons.AutoMirrored.Filled.ArrowBack,
+                icon = Icons.Filled.Menu,
                 title = "Profile",
                 colors =
                     MainTopBarColors(
@@ -82,7 +89,9 @@ fun ProfileScreen(navHostController: NavHostController) {
                         behindContainerColor = MainSecondary,
                     ),
                 onIconClick = {
-                    navHostController.navigateUp()
+                    coroutineScope.launch {
+                        drawerState.open()
+                    }
                 },
             )
         },

@@ -30,7 +30,12 @@ fun MainNavHost(
         }
         composable(route = MainRoutes.pressure.routeName) { BloodPressureScreen(drawerState = drawerState) }
         composable(route = MainRoutes.feed.routeName) { FeedScreen(drawerState = drawerState) }
-        composable(route = MainRoutes.profile.routeName) { ProfileScreen(navHostController = navHostController) }
+        composable(route = MainRoutes.profile.routeName) {
+            ProfileScreen(
+                navHostController = navHostController,
+                drawerState = drawerState,
+            )
+        }
         composable(route = MainRoutes.profileInfo.routeName) {
             ProfileInfoScreen(navHostController = navHostController)
         }
