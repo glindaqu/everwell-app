@@ -6,7 +6,6 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -142,7 +141,7 @@ fun NotificationsList(notifications: List<NotificationDto>) {
 @SuppressLint("SimpleDateFormat")
 @Suppress("ktlint:standard:function-naming")
 @Composable
-fun ColumnScope.NotificationListItem(notification: NotificationDto) {
+fun NotificationListItem(notification: NotificationDto) {
     Column(
         modifier =
             Modifier
