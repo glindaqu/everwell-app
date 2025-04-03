@@ -8,6 +8,7 @@ import androidx.compose.material3.DrawerState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavHostController
 import kotlinx.coroutines.launch
 import ru.glindaquint.everwell.dto.colors.MainTopBarColors
 import ru.glindaquint.everwell.screens.feed.feedManagement.FeedManagementWidget
@@ -24,7 +25,10 @@ import ru.glindaquint.everwell.ui.theme.FeedSecondary
 
 @Suppress("ktlint:standard:function-naming")
 @Composable
-fun FeedScreen(drawerState: DrawerState) {
+fun FeedScreen(
+    drawerState: DrawerState,
+    navHostController: NavHostController,
+) {
     val sliderDatePickerState = rememberSliderDatePickerState()
     val coroutineScope = rememberCoroutineScope()
 
@@ -63,6 +67,6 @@ fun FeedScreen(drawerState: DrawerState) {
                 ),
             onDateSelected = {},
         )
-        FeedManagementWidget()
+        FeedManagementWidget(navHostController = navHostController)
     }
 }

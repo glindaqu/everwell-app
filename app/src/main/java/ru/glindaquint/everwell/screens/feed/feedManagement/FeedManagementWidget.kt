@@ -8,13 +8,17 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavHostController
 import ru.glindaquint.everwell.R
+import ru.glindaquint.everwell.navigation.main.MainRoutes
 import ru.glindaquint.everwell.ui.theme.FeedOnBackground
 import ru.glindaquint.everwell.ui.theme.FeedPrimary
 
 @Suppress("ktlint:standard:function-naming")
 @Composable
-fun FeedManagementWidget() {
+fun FeedManagementWidget(navHostController: NavHostController) {
+    val onClick = { navHostController.navigate(MainRoutes.feedSearchProduct.routeName) }
+
     Column(
         modifier = Modifier.fillMaxWidth(),
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -27,6 +31,7 @@ fun FeedManagementWidget() {
             title = "Breakfast",
             content = "Egg, tea",
             placeholder = "Add breakfast",
+            onClick = onClick,
         )
         AddActivityTile(
             backgroundColor = FeedOnBackground,
@@ -35,6 +40,7 @@ fun FeedManagementWidget() {
             title = "Lunch",
             content = "",
             placeholder = "Add lunch",
+            onClick = onClick,
         )
         AddActivityTile(
             backgroundColor = FeedOnBackground,
@@ -43,6 +49,7 @@ fun FeedManagementWidget() {
             title = "Dinner",
             content = "Egg, tea",
             placeholder = "Add dinner",
+            onClick = onClick,
         )
         AddActivityTile(
             backgroundColor = FeedOnBackground,
@@ -51,6 +58,7 @@ fun FeedManagementWidget() {
             title = "Snack",
             content = "",
             placeholder = "Add snack",
+            onClick = onClick,
         )
         AddActivityTile(
             backgroundColor = FeedOnBackground,
@@ -59,6 +67,7 @@ fun FeedManagementWidget() {
             title = "Activity",
             content = "",
             placeholder = "Add activity",
+            onClick = onClick,
         )
     }
 }

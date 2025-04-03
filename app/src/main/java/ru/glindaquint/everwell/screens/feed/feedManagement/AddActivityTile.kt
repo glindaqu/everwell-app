@@ -41,6 +41,7 @@ fun AddActivityTile(
     title: String,
     content: String,
     placeholder: String,
+    onClick: () -> Unit,
 ) {
     val buttonSize = remember { mutableStateOf(IntSize(0, 0)) }
 
@@ -80,7 +81,7 @@ fun AddActivityTile(
                 Text(text = content)
             }
             IconButton(
-                onClick = { /*TODO*/ },
+                onClick = { onClick() },
                 modifier =
                     Modifier
                         .wrapContentSize()

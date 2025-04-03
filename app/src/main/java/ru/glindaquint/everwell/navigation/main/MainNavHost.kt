@@ -8,6 +8,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import ru.glindaquint.everwell.screens.feed.FeedScreen
+import ru.glindaquint.everwell.screens.feed.ProductSearchScreen
 import ru.glindaquint.everwell.screens.home.HomeScreen
 import ru.glindaquint.everwell.screens.home.NotificationScreen
 import ru.glindaquint.everwell.screens.pressure.BloodPressureScreen
@@ -21,24 +22,43 @@ fun MainNavHost(
     drawerState: DrawerState,
     navHostController: NavHostController,
 ) {
-    NavHost(navController = navHostController, startDestination = MainRoutes.home.routeName) {
+    NavHost(
+        navController = navHostController,
+        startDestination = MainRoutes.feedSearchProduct.routeName,
+    ) {
         composable(route = MainRoutes.home.routeName) {
             HomeScreen(
                 drawerState = drawerState,
                 navHostController = navHostController,
             )
         }
-        composable(route = MainRoutes.pressure.routeName) { BloodPressureScreen(drawerState = drawerState) }
-        composable(route = MainRoutes.feed.routeName) { FeedScreen(drawerState = drawerState) }
+
+        composable(route = MainRoutes.pressure.routeName) {
+            BloodPressureScreen(drawerState = drawerState)
+        }
+
+        composable(route = MainRoutes.feed.routeName) {
+            FeedScreen(
+                drawerState = drawerState,
+                navHostController = navHostController,
+            )
+        }
+
+        composable(route = MainRoutes.feedSearchProduct.routeName) {
+            ProductSearchScreen(navHostController = navHostController)
+        }
+
         composable(route = MainRoutes.profile.routeName) {
             ProfileScreen(
                 navHostController = navHostController,
                 drawerState = drawerState,
             )
         }
+
         composable(route = MainRoutes.profileInfo.routeName) {
             ProfileInfoScreen(navHostController = navHostController)
         }
+
         composable(route = MainRoutes.notifications.routeName) {
             NotificationScreen(navHostController = navHostController)
         }

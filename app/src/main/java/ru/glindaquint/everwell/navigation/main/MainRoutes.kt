@@ -125,6 +125,23 @@ class MainRoutes {
                     ),
             )
 
+        val feedSearchProduct =
+            MainRouteDto(
+                routeName = "feed_search_product",
+                routeTitleResource = R.string.feed_search_product,
+                routeIconResource = R.drawable.feed,
+                navigationDrawerColors =
+                    NavigationDrawerColors(
+                        headerColor = FeedOnBackground,
+                        bodyColor = FeedPrimary,
+                        itemBackgroundColor = FeedPrimary,
+                        itemForegroundColor = FeedOnBackground,
+                        accentColor = FeedAccent,
+                        selectedItemColor = Color.Black.copy(0.2f),
+                        nicknameColor = FeedSecondary,
+                    ),
+            )
+
         @MainRoute
         val waterBalance =
             MainRouteDto(
