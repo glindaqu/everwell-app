@@ -34,8 +34,8 @@ import androidx.navigation.NavHostController
 import kotlinx.coroutines.launch
 import ru.glindaquint.everwell.R
 import ru.glindaquint.everwell.navigation.authorization.AuthorizationRoutes
-import ru.glindaquint.everwell.sharedComponents.AuthorizationActionButton
 import ru.glindaquint.everwell.sharedComponents.AuthorizationContentContainer
+import ru.glindaquint.everwell.sharedComponents.EverwellActionButton
 import ru.glindaquint.everwell.sharedComponents.LabeledTextField
 import ru.glindaquint.everwell.sharedComponents.authorizationOptions.AuthorizationOption
 import ru.glindaquint.everwell.sharedComponents.authorizationOptions.AuthorizationOptionsContainer
@@ -148,7 +148,7 @@ fun RestoreScreen(navHostController: NavHostController) {
                 code.value == uiState.value.code
             },
         )
-        AuthorizationActionButton(
+        EverwellActionButton(
             text = stringResource(id = R.string.restore_screen_restore_text),
             action = {
                 navHostController.navigate("${AuthorizationRoutes.NEW_PASSWORD}/${email.value.text}")

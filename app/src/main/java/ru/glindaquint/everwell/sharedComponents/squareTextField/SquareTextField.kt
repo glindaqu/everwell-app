@@ -1,4 +1,4 @@
-package ru.glindaquint.everwell.screens.pressure.bloodPressureMeasure
+package ru.glindaquint.everwell.sharedComponents.squareTextField
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.selection.TextSelectionColors
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
@@ -21,21 +22,21 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import ru.glindaquint.everwell.dto.colors.SquareTextFieldColors
 import ru.glindaquint.everwell.ui.theme.BloodPressureAccent
-import ru.glindaquint.everwell.ui.theme.BloodPressureAlternatePrimary
-import ru.glindaquint.everwell.ui.theme.BloodPressureOnBackground
-import ru.glindaquint.everwell.ui.theme.BloodPressureSecondary
 import ru.glindaquint.everwell.utils.pxToDp
 
 @Suppress("ktlint:standard:function-naming")
 @Composable
-fun RowScope.BloodPressureMeasureField(
+fun RowScope.SquareTextField(
     title: String,
     subtitle: String,
     value: TextFieldValue,
     showMeasurementUnits: Boolean,
+    colors: SquareTextFieldColors,
     onValueChanged: (TextFieldValue) -> Unit,
 ) {
     // 40 / viewSize = x / changedViewSize
@@ -60,7 +61,7 @@ fun RowScope.BloodPressureMeasureField(
                         currentViewWidth.value = it.size.width.pxToDp()
                     }.height(currentViewWidth.value)
                     .background(
-                        color = BloodPressureAlternatePrimary,
+                        color = colors.backgroundColor,
                         shape = RoundedCornerShape(12.dp),
                     ),
             verticalArrangement = Arrangement.Center,
@@ -76,8 +77,14 @@ fun RowScope.BloodPressureMeasureField(
                 },
                 textStyle =
                     TextStyle(
-                        fontSize = (40 * currentViewWidth.value.value.toInt() / viewWidth.value.value.toInt()).sp,
-                        color = Color.White,
+                        fontSize =
+                            (
+                                30 * currentViewWidth.value.value.toInt() /
+                                    viewWidth.value
+                                        .value
+                                        .toInt()
+                            ).sp,
+                        color = colors.contentColor,
                         textAlign = TextAlign.Center,
                     ),
                 label = {
@@ -85,20 +92,24 @@ fun RowScope.BloodPressureMeasureField(
                         text = title,
                         fontSize = 14.sp,
                         fontWeight = FontWeight.Medium,
+                        maxLines = 1,
+                        overflow = TextOverflow.Ellipsis,
                     )
                 },
                 colors =
                     TextFieldDefaults.colors(
-                        focusedContainerColor = BloodPressureAlternatePrimary,
-                        unfocusedContainerColor = BloodPressureAlternatePrimary,
+                        focusedContainerColor = colors.backgroundColor,
+                        unfocusedContainerColor = colors.backgroundColor,
                         focusedIndicatorColor = Color.Transparent,
                         unfocusedIndicatorColor = Color.Transparent,
-                        focusedLabelColor = Color.White,
-                        unfocusedLabelColor = BloodPressureSecondary,
-                        cursorColor = BloodPressureOnBackground,
-                        disabledContainerColor = BloodPressureAlternatePrimary,
-                        disabledIndicatorColor = Color.Transparent,
-                        disabledLabelColor = Color.White,
+                        focusedLabelColor = colors.focusedLabelColor,
+                        unfocusedLabelColor = colors.unfocusedLabelColor,
+                        cursorColor = colors.cursorColor,
+                        selectionColors =
+                            TextSelectionColors(
+                                handleColor = colors.pointerColor,
+                                backgroundColor = colors.backgroundColor.copy(0.5f),
+                            ),
                     ),
                 shape = RoundedCornerShape(12.dp),
             )

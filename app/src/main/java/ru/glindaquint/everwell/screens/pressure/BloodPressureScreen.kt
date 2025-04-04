@@ -14,7 +14,6 @@ import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.launch
 import ru.glindaquint.everwell.dto.colors.MainTopBarColors
-import ru.glindaquint.everwell.screens.pressure.bloodPressureMeasure.BloodPressureMeasure
 import ru.glindaquint.everwell.screens.pressure.bloodPressureScale.BloodPressureScale
 import ru.glindaquint.everwell.sharedComponents.EverwellScaffold
 import ru.glindaquint.everwell.sharedComponents.MainTopBar

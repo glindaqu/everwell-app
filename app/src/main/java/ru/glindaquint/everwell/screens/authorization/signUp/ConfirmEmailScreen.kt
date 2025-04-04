@@ -13,8 +13,8 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import ru.glindaquint.everwell.R
 import ru.glindaquint.everwell.activities.MainActivity
 import ru.glindaquint.everwell.network.dto.authorization.signUp.SignUpRequest
-import ru.glindaquint.everwell.sharedComponents.AuthorizationActionButton
 import ru.glindaquint.everwell.sharedComponents.AuthorizationContentContainer
+import ru.glindaquint.everwell.sharedComponents.EverwellActionButton
 import ru.glindaquint.everwell.sharedComponents.codeTextField.CodeTextField
 import ru.glindaquint.everwell.viewModels.impl.SignUpViewModel
 
@@ -45,7 +45,7 @@ fun ConfirmEmailScreen(request: SignUpRequest) {
             state = codeTextFieldState,
             verifyInput = { codeTextFieldState.value == uiState.value.code },
         )
-        AuthorizationActionButton(
+        EverwellActionButton(
             text = stringResource(id = R.string.restore_screen_restore_text),
             action = {
                 viewModel.signUp(request = request)

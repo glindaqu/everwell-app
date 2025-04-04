@@ -14,6 +14,7 @@ class SearchProductViewModel
             MutableStateFlow(
                 listOf(
                     ProductDto(
+                        id = 1,
                         title = "Ded",
                         protein = 9f,
                         fats = 6f,
@@ -22,6 +23,7 @@ class SearchProductViewModel
                         weight = 30,
                     ),
                     ProductDto(
+                        id = 2,
                         title = "Guzova",
                         protein = 9f,
                         fats = 6f,

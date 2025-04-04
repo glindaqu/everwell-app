@@ -1,4 +1,4 @@
-package ru.glindaquint.everwell.screens.pressure.bloodPressureMeasure
+package ru.glindaquint.everwell.screens.pressure
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.Arrangement
@@ -21,6 +21,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.text.input.TextFieldValue
@@ -28,7 +29,11 @@ import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import kotlinx.coroutines.delay
+import ru.glindaquint.everwell.dto.colors.SquareTextFieldColors
 import ru.glindaquint.everwell.network.dto.bloodPressure.AddBloodPressureRequest
+import ru.glindaquint.everwell.sharedComponents.squareTextField.SquareTextField
+import ru.glindaquint.everwell.ui.theme.BloodPressureAlternatePrimary
+import ru.glindaquint.everwell.ui.theme.BloodPressureOnBackground
 import ru.glindaquint.everwell.ui.theme.BloodPressurePrimary
 import ru.glindaquint.everwell.ui.theme.BloodPressureSecondary
 import ru.glindaquint.everwell.utils.pxToDp
@@ -46,6 +51,16 @@ fun BloodPressureMeasure(
     val viewSize = remember { mutableStateOf(IntSize(0, 0)) }
 
     val viewModel = hiltViewModel<BloodPressureViewModel>()
+
+    val colors =
+        SquareTextFieldColors(
+            backgroundColor = BloodPressureAlternatePrimary,
+            contentColor = Color.White,
+            focusedLabelColor = Color.White,
+            unfocusedLabelColor = BloodPressureSecondary,
+            cursorColor = BloodPressureOnBackground,
+            pointerColor = BloodPressurePrimary,
+        )
 
     LaunchedEffect(
         systolicPressureState.value,
@@ -72,7 +87,7 @@ fun BloodPressureMeasure(
                     viewSize.value = it.size
                 },
     ) {
-        BloodPressureMeasureField(
+        SquareTextField(
             title = "САД",
             value = systolicPressureState.value,
             subtitle = "мм. рт. ст.",
@@ -80,8 +95,9 @@ fun BloodPressureMeasure(
             onValueChanged = {
                 systolicPressureState.value = it
             },
+            colors = colors,
         )
-        BloodPressureMeasureField(
+        SquareTextField(
             title = "ДАД",
             value = diastolicPressureState.value,
             subtitle = "мм. рт. ст.",
@@ -89,8 +105,9 @@ fun BloodPressureMeasure(
             onValueChanged = {
                 diastolicPressureState.value = it
             },
+            colors = colors,
         )
-        BloodPressureMeasureField(
+        SquareTextField(
             title = "Пульс",
             value = heartRateState.value,
             subtitle = "ударов/мин",
@@ -98,6 +115,7 @@ fun BloodPressureMeasure(
             onValueChanged = {
                 heartRateState.value = it
             },
+            colors = colors,
         )
 
         if (showAction.value) {

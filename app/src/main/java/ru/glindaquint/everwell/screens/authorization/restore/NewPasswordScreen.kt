@@ -14,8 +14,8 @@ import androidx.navigation.NavHostController
 import ru.glindaquint.everwell.R
 import ru.glindaquint.everwell.navigation.authorization.AuthorizationRoutes
 import ru.glindaquint.everwell.network.dto.authorization.RestoreRequest
-import ru.glindaquint.everwell.sharedComponents.AuthorizationActionButton
 import ru.glindaquint.everwell.sharedComponents.AuthorizationContentContainer
+import ru.glindaquint.everwell.sharedComponents.EverwellActionButton
 import ru.glindaquint.everwell.sharedComponents.LabeledTextField
 import ru.glindaquint.everwell.sharedComponents.PasswordTrailingIcon
 import ru.glindaquint.everwell.viewModels.impl.RestoreViewModel
@@ -127,7 +127,7 @@ fun NewPasswordScreen(
             },
             isError = passwordAgainError.value,
         )
-        AuthorizationActionButton(
+        EverwellActionButton(
             text = stringResource(id = R.string.registration_screen_sign_up_text),
             action = {
                 viewModel.resetPassword(

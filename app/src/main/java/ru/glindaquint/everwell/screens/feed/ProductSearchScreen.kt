@@ -2,6 +2,7 @@ package ru.glindaquint.everwell.screens.feed
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -33,6 +34,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
@@ -43,6 +45,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import ru.glindaquint.everwell.dto.colors.MainTopBarColors
+import ru.glindaquint.everwell.navigation.main.MainRoutes
 import ru.glindaquint.everwell.network.dto.feed.ProductDto
 import ru.glindaquint.everwell.sharedComponents.EverwellScaffold
 import ru.glindaquint.everwell.sharedComponents.MainTopBar
@@ -122,7 +125,9 @@ fun ProductSearchScreen(navHostController: NavHostController) {
         }
         Column(verticalArrangement = Arrangement.spacedBy(5.dp)) {
             products.value.forEach { product ->
-                ProductsListItem(product = product)
+                ProductsListItem(product = product, onClick = {
+                    navHostController.navigate(MainRoutes.feedProductInfo.routeName)
+                })
             }
         }
     }
@@ -131,7 +136,10 @@ fun ProductSearchScreen(navHostController: NavHostController) {
 @SuppressLint("DefaultLocale")
 @Suppress("ktlint:standard:function-naming")
 @Composable
-fun ProductsListItem(product: ProductDto) {
+fun ProductsListItem(
+    product: ProductDto,
+    onClick: () -> Unit,
+) {
     Column(
         modifier =
             Modifier
@@ -139,7 +147,9 @@ fun ProductsListItem(product: ProductDto) {
                 .background(
                     color = FeedAlternateSecondary,
                     shape = RoundedCornerShape(12.dp),
-                ).padding(top = 3.dp),
+                ).clip(RoundedCornerShape(12.dp))
+                .clickable { onClick() }
+                .padding(top = 3.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         Text(
@@ -158,22 +168,22 @@ fun ProductsListItem(product: ProductDto) {
             modifier = Modifier.fillMaxWidth(0.95f).padding(vertical = 7.dp),
             text =
                 buildAnnotatedString {
-                    withStyle(SpanStyle(FeedBackground)) {
+                    withStyle(SpanStyle(FeedPrimary)) {
                         append("Б:")
                     }
                     append(String.format(" %-10.2f", product.protein))
 
-                    withStyle(SpanStyle(FeedBackground)) {
+                    withStyle(SpanStyle(FeedPrimary)) {
                         append("Ж:")
                     }
                     append(String.format(" %-10.2f", product.fats))
 
-                    withStyle(SpanStyle(FeedBackground)) {
+                    withStyle(SpanStyle(FeedPrimary)) {
                         append("У:")
                     }
                     append(String.format(" %-10.2f", product.carbohydrates))
 
-                    withStyle(SpanStyle(FeedBackground)) {
+                    withStyle(SpanStyle(FeedPrimary)) {
                         append("К:")
                     }
                     append(String.format("%4d", product.calories))

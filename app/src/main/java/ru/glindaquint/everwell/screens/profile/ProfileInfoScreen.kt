@@ -56,7 +56,7 @@ import kotlinx.coroutines.launch
 import ru.glindaquint.everwell.R
 import ru.glindaquint.everwell.dto.colors.MainTopBarColors
 import ru.glindaquint.everwell.network.dto.users.UpdateProfileRequest
-import ru.glindaquint.everwell.sharedComponents.AuthorizationActionButton
+import ru.glindaquint.everwell.sharedComponents.EverwellActionButton
 import ru.glindaquint.everwell.sharedComponents.EverwellScaffold
 import ru.glindaquint.everwell.sharedComponents.LabeledTextField
 import ru.glindaquint.everwell.sharedComponents.MainTopBar
@@ -229,7 +229,7 @@ fun ProfileInfoScreen(navHostController: NavHostController) {
         }
         LabeledTextField(state = sicks, labelText = "Diseases (optional)")
         BadHabitsPicker(title = "Bad habits", state = badHabits)
-        AuthorizationActionButton(text = "Save", action = {
+        EverwellActionButton(text = "Save", action = {
             viewModel.updateProfile(
                 request =
                     UpdateProfileRequest(

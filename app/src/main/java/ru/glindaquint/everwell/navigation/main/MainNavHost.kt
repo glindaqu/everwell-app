@@ -8,6 +8,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import ru.glindaquint.everwell.screens.feed.FeedScreen
+import ru.glindaquint.everwell.screens.feed.ProductInfoScreen
 import ru.glindaquint.everwell.screens.feed.ProductSearchScreen
 import ru.glindaquint.everwell.screens.home.HomeScreen
 import ru.glindaquint.everwell.screens.home.NotificationScreen
@@ -46,6 +47,10 @@ fun MainNavHost(
 
         composable(route = MainRoutes.feedSearchProduct.routeName) {
             ProductSearchScreen(navHostController = navHostController)
+        }
+
+        composable(route = MainRoutes.feedProductInfo.routeName) {
+            ProductInfoScreen(navHostController = navHostController, productId = 1)
         }
 
         composable(route = MainRoutes.profile.routeName) {

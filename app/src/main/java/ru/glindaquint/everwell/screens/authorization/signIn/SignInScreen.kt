@@ -20,8 +20,8 @@ import ru.glindaquint.everwell.R
 import ru.glindaquint.everwell.activities.MainActivity
 import ru.glindaquint.everwell.navigation.authorization.AuthorizationRoutes
 import ru.glindaquint.everwell.network.dto.authorization.signIn.SignInRequest
-import ru.glindaquint.everwell.sharedComponents.AuthorizationActionButton
 import ru.glindaquint.everwell.sharedComponents.AuthorizationContentContainer
+import ru.glindaquint.everwell.sharedComponents.EverwellActionButton
 import ru.glindaquint.everwell.sharedComponents.LabeledTextField
 import ru.glindaquint.everwell.sharedComponents.PasswordTrailingIcon
 import ru.glindaquint.everwell.sharedComponents.authorizationOptions.AuthorizationOption
@@ -80,7 +80,7 @@ fun SignInScreen(navHostController: NavHostController) {
                 }
             },
         )
-        AuthorizationActionButton(
+        EverwellActionButton(
             text = stringResource(id = R.string.authorization_screen_sign_in_text),
             action = {
                 viewModel.signIn(
