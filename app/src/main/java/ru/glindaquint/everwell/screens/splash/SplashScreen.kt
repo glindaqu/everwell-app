@@ -22,7 +22,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import kotlinx.coroutines.delay
 import ru.glindaquint.everwell.R
-import ru.glindaquint.everwell.activities.MainActivity
+import ru.glindaquint.everwell.activities.AuthorizationActivity
 import ru.glindaquint.everwell.ui.theme.MainPrimary
 
 @Suppress("ktlint:standard:function-naming")
@@ -35,7 +35,7 @@ fun SplashScreen() {
         alpha.animateTo(1f, animationSpec = tween(1500))
         delay(1500)
         context.startActivity(
-            Intent(context, MainActivity::class.java),
+            Intent(context, AuthorizationActivity::class.java),
             null,
         )
         context.finish()

@@ -25,7 +25,7 @@ fun MainNavHost(
 ) {
     NavHost(
         navController = navHostController,
-        startDestination = MainRoutes.feedSearchProduct.routeName,
+        startDestination = MainRoutes.home.routeName,
     ) {
         composable(route = MainRoutes.home.routeName) {
             HomeScreen(

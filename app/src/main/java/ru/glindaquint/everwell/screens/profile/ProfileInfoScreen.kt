@@ -63,12 +63,13 @@ import ru.glindaquint.everwell.sharedComponents.MainTopBar
 import ru.glindaquint.everwell.ui.theme.MainBackground
 import ru.glindaquint.everwell.ui.theme.MainPrimary
 import ru.glindaquint.everwell.ui.theme.MainSecondary
+import ru.glindaquint.everwell.utils.convertDateToLocalDate
 import ru.glindaquint.everwell.utils.convertLocalDate2Date
 import ru.glindaquint.everwell.utils.pxToDp
 import ru.glindaquint.everwell.viewModels.impl.ProfileViewModel
-import java.text.SimpleDateFormat
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
+import java.util.Date
 
 @SuppressLint("SimpleDateFormat")
 @OptIn(ExperimentalMaterial3Api::class)
@@ -77,68 +78,26 @@ import java.time.format.DateTimeFormatter
 @Composable
 fun ProfileInfoScreen(navHostController: NavHostController) {
     val viewModel = hiltViewModel<ProfileViewModel>()
-    val user = viewModel.user.collectAsState()
+    val uiState = viewModel.uiState.collectAsState()
 
-    val firstname = remember { mutableStateOf(TextFieldValue(user.value?.firstname ?: "")) }
-    val lastname = remember { mutableStateOf(TextFieldValue(user.value?.lastname ?: "")) }
-    val patronymic = remember { mutableStateOf(TextFieldValue(user.value?.patronymic ?: "")) }
-    val weight =
-        remember {
-            mutableStateOf(
-                TextFieldValue(
-                    if (user.value?.weight != null) {
-                        user.value?.weight.toString()
-                    } else {
-                        ""
-                    },
-                ),
-            )
-        }
-    val height =
-        remember {
-            mutableStateOf(
-                TextFieldValue(
-                    if (user.value?.height != null) {
-                        user.value?.height.toString()
-                    } else {
-                        ""
-                    },
-                ),
-            )
-        }
+    val firstname = remember { mutableStateOf(TextFieldValue(uiState.value.firstname)) }
+    val lastname = remember { mutableStateOf(TextFieldValue(uiState.value.lastname)) }
+    val patronymic = remember { mutableStateOf(TextFieldValue(uiState.value.patronymic)) }
+    val weight = remember { mutableStateOf(TextFieldValue(uiState.value.weight)) }
+    val height = remember { mutableStateOf(TextFieldValue(uiState.value.height)) }
     val birthDate =
-        remember {
-            mutableStateOf(
-                TextFieldValue(
-                    if (user.value?.birthDate != null) {
-                        SimpleDateFormat("dd.MM.yyyy").format(user.value?.birthDate!!)
-                    } else {
-                        ""
-                    },
-                ),
-            )
-        }
-    val selectedBirthDate = remember { mutableStateOf(LocalDate.now()) }
-    val sex = remember { mutableStateOf(SexPickerValue.getByString(user.value?.sex)) }
+        remember { mutableStateOf(TextFieldValue()) }
+    val selectedBirthDate =
+        remember { mutableStateOf(convertDateToLocalDate(uiState.value.birthDate ?: Date())) }
+    val sex = remember { mutableStateOf(SexPickerValue.getByString(uiState.value.sex)) }
     val badHabits =
         remember {
             mutableStateListOf<String>()
                 .apply {
-                    user.value?.badHabits?.let { addAll(it) }
+                    addAll(uiState.value.badHabits)
                 }
         }
-    val sicks =
-        remember {
-            mutableStateOf(
-                TextFieldValue(
-                    if (user.value?.diseases != null) {
-                        user.value?.diseases!!
-                    } else {
-                        ""
-                    },
-                ),
-            )
-        }
+    val sicks = remember { mutableStateOf(TextFieldValue(uiState.value.diseases)) }
 
     val sheetState =
         rememberStandardBottomSheetState(
@@ -150,12 +109,10 @@ fun ProfileInfoScreen(navHostController: NavHostController) {
     val coroutineScope = rememberCoroutineScope()
 
     LaunchedEffect(selectedBirthDate.value) {
-        if (selectedBirthDate.value != null) {
-            birthDate.value =
-                TextFieldValue(
-                    DateTimeFormatter.ofPattern("dd.MM.yyyy").format(selectedBirthDate.value),
-                )
-        }
+        birthDate.value =
+            TextFieldValue(
+                DateTimeFormatter.ofPattern("dd.MM.yyyy").format(selectedBirthDate.value),
+            )
     }
 
     EverwellScaffold(

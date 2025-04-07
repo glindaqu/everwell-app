@@ -47,14 +47,14 @@ fun ProductInfoScreen(
     productId: Long,
 ) {
     val viewModel = hiltViewModel<ProductInfoViewModel>()
-    val product = viewModel.product.collectAsState()
+    val uiState = viewModel.uiState.collectAsState()
 
-    val fats = remember { mutableStateOf(TextFieldValue()) }
-    val calories = remember { mutableStateOf(TextFieldValue()) }
-    val carbohydrates = remember { mutableStateOf(TextFieldValue()) }
-    val protein = remember { mutableStateOf(TextFieldValue()) }
-    val portionsCount = remember { mutableStateOf(TextFieldValue()) }
-    val portionSize = remember { mutableStateOf(TextFieldValue()) }
+    val fats = remember { mutableStateOf(TextFieldValue(uiState.value.fats)) }
+    val calories = remember { mutableStateOf(TextFieldValue(uiState.value.calories)) }
+    val carbohydrates = remember { mutableStateOf(TextFieldValue(uiState.value.carbohydrates)) }
+    val protein = remember { mutableStateOf(TextFieldValue(uiState.value.protein)) }
+    val portionsCount = remember { mutableStateOf(TextFieldValue("1")) }
+    val portionSize = remember { mutableStateOf(TextFieldValue(uiState.value.portionSize)) }
 
     val colors =
         SquareTextFieldColors(
@@ -75,7 +75,7 @@ fun ProductInfoScreen(
         topBar = {
             MainTopBar(
                 icon = Icons.AutoMirrored.Filled.ArrowBack,
-                title = product.value?.title.toString(),
+                title = uiState.value.title,
                 colors =
                     MainTopBarColors(
                         backgroundColor = FeedPrimary,
@@ -107,31 +107,31 @@ fun ProductInfoScreen(
                 )
                 SquareTextField(
                     title = "Fat",
-                    value = protein.value,
+                    value = fats.value,
                     subtitle = "",
                     showMeasurementUnits = false,
                     onValueChanged = {
-                        protein.value = it
+                        fats.value = it
                     },
                     colors = colors,
                 )
                 SquareTextField(
                     title = "Cd",
-                    value = protein.value,
+                    value = carbohydrates.value,
                     subtitle = "",
                     showMeasurementUnits = false,
                     onValueChanged = {
-                        protein.value = it
+                        carbohydrates.value = it
                     },
                     colors = colors,
                 )
                 SquareTextField(
                     title = "Cal",
-                    value = protein.value,
+                    value = calories.value,
                     subtitle = "",
                     showMeasurementUnits = false,
                     onValueChanged = {
-                        protein.value = it
+                        calories.value = it
                     },
                     colors = colors,
                 )

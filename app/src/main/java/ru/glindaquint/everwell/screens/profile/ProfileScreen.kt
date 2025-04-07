@@ -69,7 +69,8 @@ fun ProfileScreen(
     drawerState: DrawerState,
 ) {
     val viewModel = hiltViewModel<ProfileViewModel>()
-    val user = viewModel.user.collectAsState()
+    val uiState = viewModel.uiState.collectAsState()
+
     val viewSize = remember { mutableStateOf(IntSize(0, 0)) }
 
     val activity = LocalActivity.current as Activity
@@ -117,19 +118,12 @@ fun ProfileScreen(
                             .size((viewSize.value.height * 2 / 3).pxToDp()),
                 )
                 Text(
-                    text =
-                        if (user.value?.lastname?.isNotEmpty() == true ||
-                            user.value?.firstname?.isNotEmpty() == true
-                        ) {
-                            "${user.value?.lastname} ${user.value?.firstname}"
-                        } else {
-                            "None"
-                        },
+                    text = "${uiState.value.lastname} ${uiState.value.firstname} ${uiState.value.patronymic}",
                     fontSize = 20.sp,
                     fontWeight = FontWeight.Medium,
                 )
                 Text(
-                    text = "@${user.value?.username}",
+                    text = "@${uiState.value.username}",
                     fontSize = 14.sp,
                     color = MainPrimary,
                     lineHeight = 14.sp,
@@ -171,54 +165,34 @@ fun ProfileScreen(
                 ProfileDataTileContentItem(
                     title = "Birth date: ",
                     value =
-                        if (user.value?.birthDate != null) {
-                            SimpleDateFormat("dd.MM.yyyy").format(user.value?.birthDate!!)
+                        if (uiState.value.birthDate != null) {
+                            SimpleDateFormat("dd.MM.yyyy").format(uiState.value.birthDate!!)
                         } else {
                             "null"
                         },
                 )
-                ProfileDataTileContentItem(title = "Sex: ", value = user.value?.sex.toString())
+                ProfileDataTileContentItem(title = "Sex: ", value = uiState.value.sex)
             }
             ProfileDataTile(title = "Body metrics") {
                 ProfileDataTileContentItem(
                     title = "Weight: ",
-                    value =
-                        if (user.value?.weight != null) {
-                            "${user.value?.weight}kg"
-                        } else {
-                            "null"
-                        },
+                    value = "${uiState.value.weight}kg",
                 )
                 ProfileDataTileContentItem(
                     title = "Height: ",
-                    value =
-                        if (user.value?.weight != null) {
-                            "${user.value?.height}cm"
-                        } else {
-                            "null"
-                        },
+                    value = "${uiState.value.height}cm",
                 )
             }
             ProfileDataTile(title = "Sicks") {
                 ProfileDataTileContentItem(
                     title = "",
-                    value =
-                        if (user.value?.diseases?.isNotEmpty() == true) {
-                            user.value?.diseases.toString()
-                        } else {
-                            "None"
-                        },
+                    value = uiState.value.diseases,
                 )
             }
             ProfileDataTile(title = "Bad habits") {
                 ProfileDataTileContentItem(
                     title = "",
-                    value =
-                        if (user.value?.badHabits?.isNotEmpty() == true) {
-                            user.value?.badHabits!!.joinToString(", ")
-                        } else {
-                            "None"
-                        },
+                    value = uiState.value.badHabits.joinToString(", "),
                 )
             }
         }
