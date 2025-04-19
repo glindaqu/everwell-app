@@ -27,7 +27,7 @@ fun RowScope.NutritionProgress(
 ) {
     val animatedValue = remember { Animatable(0f) }
 
-    LaunchedEffect(Unit) {
+    LaunchedEffect(progress) {
         delay(1500)
         animatedValue.animateTo(
             targetValue = progress.toFloat(),

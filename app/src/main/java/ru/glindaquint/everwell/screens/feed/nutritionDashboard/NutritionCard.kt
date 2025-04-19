@@ -26,7 +26,7 @@ fun RowScope.NutritionCard(
 ) {
     val animatedValue = remember { Animatable(0f) }
 
-    LaunchedEffect(Unit) {
+    LaunchedEffect(value) {
         delay(1500)
         animatedValue.animateTo(
             targetValue = value.toFloat(),

@@ -37,6 +37,7 @@ fun RowScope.SquareTextField(
     value: TextFieldValue,
     showMeasurementUnits: Boolean,
     colors: SquareTextFieldColors,
+    fontSizeFactor: Float = 30f,
     onValueChanged: (TextFieldValue) -> Unit,
 ) {
     // 40 / viewSize = x / changedViewSize
@@ -79,7 +80,7 @@ fun RowScope.SquareTextField(
                     TextStyle(
                         fontSize =
                             (
-                                30 * currentViewWidth.value.value.toInt() /
+                                fontSizeFactor * currentViewWidth.value.value.toInt() /
                                     viewWidth.value
                                         .value
                                         .toInt()

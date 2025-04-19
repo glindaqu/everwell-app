@@ -20,15 +20,18 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Clear
+import androidx.compose.material.icons.filled.ShoppingCart
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.LargeFloatingActionButton
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -44,15 +47,17 @@ import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
+import kotlinx.coroutines.delay
 import ru.glindaquint.everwell.dto.colors.MainTopBarColors
 import ru.glindaquint.everwell.navigation.main.MainRoutes
-import ru.glindaquint.everwell.network.dto.feed.ProductDto
+import ru.glindaquint.everwell.network.dto.product.ProductDto
 import ru.glindaquint.everwell.sharedComponents.EverwellScaffold
 import ru.glindaquint.everwell.sharedComponents.MainTopBar
 import ru.glindaquint.everwell.ui.theme.FeedAlternateSecondary
 import ru.glindaquint.everwell.ui.theme.FeedBackground
 import ru.glindaquint.everwell.ui.theme.FeedPrimary
 import ru.glindaquint.everwell.ui.theme.FeedSecondary
+import ru.glindaquint.everwell.utils.ProductFilterType
 import ru.glindaquint.everwell.viewModels.impl.SearchProductViewModel
 
 @Suppress("ktlint:standard:function-naming")
@@ -61,6 +66,17 @@ fun ProductSearchScreen(navHostController: NavHostController) {
     val productName = remember { mutableStateOf(TextFieldValue()) }
     val viewModel = hiltViewModel<SearchProductViewModel>()
     val products = viewModel.products.collectAsState()
+
+    val filterType = remember { mutableStateOf(ProductFilterType.ALL) }
+
+    LaunchedEffect(productName.value, filterType.value) {
+        delay(500)
+        viewModel.filterProducts(filterType = filterType.value) {
+            it.lowercase().contains(
+                productName.value.text.lowercase(),
+            )
+        }
+    }
 
     EverwellScaffold(
         containerColor = FeedBackground,
@@ -80,13 +96,33 @@ fun ProductSearchScreen(navHostController: NavHostController) {
             )
         },
         floatingActionButton = {
-            FloatingActionButton(
-                onClick = { /*TODO*/ },
-                shape = CircleShape,
-                containerColor = FeedPrimary,
-                contentColor = Color.White,
+            Column(
+                verticalArrangement = Arrangement.spacedBy(20.dp),
+                horizontalAlignment = Alignment.End,
             ) {
-                Icon(imageVector = Icons.Filled.Add, contentDescription = "add own product")
+                FloatingActionButton(
+                    onClick = { /*TODO*/ },
+                    shape = CircleShape,
+                    containerColor = FeedPrimary,
+                    contentColor = Color.White,
+                ) {
+                    Icon(
+                        imageVector = Icons.Filled.ShoppingCart,
+                        contentDescription = "add own product",
+                    )
+                }
+                LargeFloatingActionButton(
+                    onClick = { navHostController.navigate(MainRoutes.feedAddProduct.routeName) },
+                    shape = CircleShape,
+                    containerColor = FeedPrimary,
+                    contentColor = Color.White,
+                ) {
+                    Icon(
+                        imageVector = Icons.Filled.Add,
+                        modifier = Modifier.size(48.dp),
+                        contentDescription = "add own product",
+                    )
+                }
             }
         },
         contentPadding = PaddingValues(10.dp),
@@ -101,10 +137,7 @@ fun ProductSearchScreen(navHostController: NavHostController) {
                 if (productName.value.text.isNotEmpty()) {
                     IconButton(
                         onClick = { productName.value = TextFieldValue() },
-                        modifier =
-                            Modifier
-                                .padding(end = 5.dp)
-                                .size(24.dp),
+                        modifier = Modifier.padding(end = 5.dp).size(24.dp),
                     ) {
                         Icon(
                             imageVector = Icons.Filled.Clear,
@@ -119,14 +152,20 @@ fun ProductSearchScreen(navHostController: NavHostController) {
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.spacedBy(16.dp),
         ) {
-            ProductsListFilterButton(value = "All", onClick = {})
-            ProductsListFilterButton(value = "Recent", onClick = {})
-            ProductsListFilterButton(value = "My", onClick = {})
+            ProductsListFilterButton(value = "All", onClick = {
+                filterType.value = ProductFilterType.ALL
+            })
+            ProductsListFilterButton(value = "Recent", onClick = {
+                filterType.value = ProductFilterType.RECENT
+            })
+            ProductsListFilterButton(value = "My", onClick = {
+                filterType.value = ProductFilterType.MY
+            })
         }
         Column(verticalArrangement = Arrangement.spacedBy(5.dp)) {
             products.value.forEach { product ->
                 ProductsListItem(product = product, onClick = {
-                    navHostController.navigate(MainRoutes.feedProductInfo.routeName)
+                    navHostController.navigate("${MainRoutes.feedProductInfo.routeName}/${product.id}")
                 })
             }
         }
@@ -158,11 +197,7 @@ fun ProductsListItem(
             fontWeight = FontWeight.Medium,
         )
         Spacer(
-            modifier =
-                Modifier
-                    .fillMaxWidth()
-                    .height(2.dp)
-                    .background(FeedPrimary),
+            modifier = Modifier.fillMaxWidth().height(2.dp).background(FeedPrimary),
         )
         Text(
             modifier = Modifier.fillMaxWidth(0.95f).padding(vertical = 7.dp),
@@ -176,7 +211,7 @@ fun ProductsListItem(
                     withStyle(SpanStyle(FeedPrimary)) {
                         append("Ж:")
                     }
-                    append(String.format(" %-10.2f", product.fats))
+                    append(String.format(" %-10.2f", product.fat))
 
                     withStyle(SpanStyle(FeedPrimary)) {
                         append("У:")
@@ -219,10 +254,7 @@ fun ProductSearchTextField(
     trailingIcon: (@Composable () -> Unit)? = null,
 ) {
     TextField(
-        modifier =
-            Modifier
-                .fillMaxWidth()
-                .padding(0.dp),
+        modifier = Modifier.fillMaxWidth().padding(0.dp),
         value = value,
         onValueChange = { onValueChanged(it) },
         shape = CircleShape,

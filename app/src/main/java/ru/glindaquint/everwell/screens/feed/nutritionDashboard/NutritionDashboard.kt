@@ -24,7 +24,17 @@ import ru.glindaquint.everwell.screens.feed.progresses.CircularProgress
 
 @Suppress("ktlint:standard:function-naming")
 @Composable
-fun NutritionDashboard() {
+fun NutritionDashboard(
+    targetCalories: Int = 2000,
+    currentCalories: Int,
+    burntCalories: Int = 0,
+    currentFat: Double,
+    targetFat: Double = 50.0,
+    currentProtein: Double,
+    targetProtein: Double = 200.0,
+    currentCarbohydrates: Double,
+    targetCarbohydrates: Double = 300.0,
+) {
     val viewSize = remember { mutableStateOf(IntSize(0, 0)) }
 
     Box(
@@ -45,38 +55,48 @@ fun NutritionDashboard() {
                 .padding(horizontal = 10.dp, vertical = 25.dp),
     ) {
         Column(
-            modifier =
-                Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = 15.dp),
+            modifier = Modifier.fillMaxWidth().padding(horizontal = 15.dp),
             verticalArrangement = Arrangement.Center,
         ) {
             Row(
-                modifier =
-                    Modifier
-                        .fillMaxWidth()
-                        .wrapContentHeight(),
+                modifier = Modifier.fillMaxWidth().wrapContentHeight(),
                 horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically,
             ) {
-                NutritionCard(value = 1431, label = "Съедено", alignment = Alignment.CenterStart)
-                CircularProgress(progress = 145, maxProgress = 200)
-                NutritionCard(value = 0, label = "Сожжено", alignment = Alignment.CenterEnd)
+                NutritionCard(
+                    value = currentCalories,
+                    label = "Съедено",
+                    alignment = Alignment.CenterStart,
+                )
+                CircularProgress(progress = currentCalories, maxProgress = targetCalories)
+                NutritionCard(
+                    value = burntCalories,
+                    label = "Сожжено",
+                    alignment = Alignment.CenterEnd,
+                )
             }
             Row(
-                modifier =
-                    Modifier
-                        .fillMaxWidth(),
+                modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.spacedBy(32.dp),
             ) {
                 NutritionProgress(
                     label = "Углеводы",
-                    progress = 142,
-                    maxProgress = 192,
+                    progress = currentCarbohydrates.toInt(),
+                    maxProgress = targetCarbohydrates.toInt(),
                     units = "гр",
                 )
-                NutritionProgress(label = "Белки", progress = 84, maxProgress = 77, units = "гр")
-                NutritionProgress(label = "Жиры", progress = 50, maxProgress = 51, units = "гр")
+                NutritionProgress(
+                    label = "Белки",
+                    progress = currentProtein.toInt(),
+                    maxProgress = targetProtein.toInt(),
+                    units = "гр",
+                )
+                NutritionProgress(
+                    label = "Жиры",
+                    progress = currentFat.toInt(),
+                    maxProgress = targetFat.toInt(),
+                    units = "гр",
+                )
             }
         }
     }

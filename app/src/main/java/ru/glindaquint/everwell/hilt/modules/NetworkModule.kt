@@ -7,6 +7,8 @@ import dagger.hilt.android.components.ActivityRetainedComponent
 import ru.glindaquint.everwell.network.RetrofitFactory
 import ru.glindaquint.everwell.network.services.AuthorizationNetworkService
 import ru.glindaquint.everwell.network.services.BloodPressureNetworkService
+import ru.glindaquint.everwell.network.services.FeedNetworkService
+import ru.glindaquint.everwell.network.services.ProductsNetworkService
 import ru.glindaquint.everwell.network.services.TasksNetworkService
 import ru.glindaquint.everwell.network.services.UserNetworkService
 
@@ -28,4 +30,12 @@ object NetworkModule {
     @Provides
     fun provideBloodPressureService(retrofitFactory: RetrofitFactory): BloodPressureNetworkService =
         retrofitFactory.getInstance().create(BloodPressureNetworkService::class.java)
+
+    @Provides
+    fun provideProductsService(retrofitFactory: RetrofitFactory): ProductsNetworkService =
+        retrofitFactory.getInstance().create(ProductsNetworkService::class.java)
+
+    @Provides
+    fun provideFeedService(retrofitFactory: RetrofitFactory): FeedNetworkService =
+        retrofitFactory.getInstance().create(FeedNetworkService::class.java)
 }

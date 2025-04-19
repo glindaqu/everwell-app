@@ -50,20 +50,22 @@ fun RowScope.CircularProgress(
     val sweepAngleAnimated = remember { Animatable(0f) }
     val caloriesLeftAnimated = remember { Animatable(maxProgress.toFloat()) }
 
-    LaunchedEffect(Unit) {
-        delay(1500)
-        launch {
-            sweepAngleAnimated.animateTo(
-                targetValue = sweepAngle,
-                animationSpec = tween(2000),
-                initialVelocity = 260f,
-            )
-        }
-        launch {
-            caloriesLeftAnimated.animateTo(
-                targetValue = caloriesLeft.toFloat(),
-                animationSpec = tween(2000),
-            )
+    LaunchedEffect(progress) {
+        if (progress > 0) {
+            delay(1500)
+            launch {
+                sweepAngleAnimated.animateTo(
+                    targetValue = sweepAngle,
+                    animationSpec = tween(2000),
+                    initialVelocity = 260f,
+                )
+            }
+            launch {
+                caloriesLeftAnimated.animateTo(
+                    targetValue = caloriesLeft.toFloat(),
+                    animationSpec = tween(2000),
+                )
+            }
         }
     }
 
