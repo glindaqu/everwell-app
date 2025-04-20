@@ -159,6 +159,23 @@ class MainRoutes {
                     ),
             )
 
+        val feedCart =
+            MainRouteDto(
+                routeName = "feed_cart",
+                routeTitleResource = R.string.feed_cart_screen,
+                routeIconResource = R.drawable.feed,
+                navigationDrawerColors =
+                    NavigationDrawerColors(
+                        headerColor = FeedOnBackground,
+                        bodyColor = FeedPrimary,
+                        itemBackgroundColor = FeedPrimary,
+                        itemForegroundColor = FeedOnBackground,
+                        accentColor = FeedAccent,
+                        selectedItemColor = Color.Black.copy(0.2f),
+                        nicknameColor = FeedSecondary,
+                    ),
+            )
+
         val feedProductInfo =
             MainRouteDto(
                 routeName = "feed_product_info",

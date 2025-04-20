@@ -41,5 +41,6 @@
     <string name="restore_screen_sign_in_text">У меня уже есть аккаунт</string>
     <string name="notifications">Notifications</string>
     <string name="feed_search_product">Feed search product</string>
+    <string name="feed_cart_screen">Cart</string>
 
 </resources>

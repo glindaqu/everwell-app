@@ -8,6 +8,7 @@ import retrofit2.Callback
 import retrofit2.Response
 import ru.glindaquint.everwell.network.dto.DataResponse
 import ru.glindaquint.everwell.network.dto.feed.FeedDto
+import ru.glindaquint.everwell.network.dto.feed.InsertFeedRequest
 import ru.glindaquint.everwell.network.services.FeedNetworkService
 import javax.inject.Inject
 
@@ -48,5 +49,34 @@ class FeedService
                         }
                     },
                 )
+        }
+
+        fun saveFeed(
+            request: InsertFeedRequest,
+            onSuccess: (() -> Unit)? = null,
+            onFailure: ((Throwable) -> Unit)? = null,
+        ) {
+            feedNetworkService.insertFeed(request = request).enqueue(
+                object : Callback<Void> {
+                    override fun onResponse(
+                        call: Call<Void>,
+                        response: Response<Void>,
+                    ) {
+                        if (response.isSuccessful) {
+                            refreshFeeds()
+                            onSuccess?.invoke()
+                        } else {
+                            onFailure?.invoke(Throwable("Unknown exception: ${response.message()}"))
+                        }
+                    }
+
+                    override fun onFailure(
+                        call: Call<Void>,
+                        t: Throwable,
+                    ) {
+                        onFailure?.invoke(t)
+                    }
+                },
+            )
         }
     }

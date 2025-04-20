@@ -1,5 +1,6 @@
 package ru.glindaquint.everwell.screens.feed
 
+import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -29,6 +30,8 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import ru.glindaquint.everwell.dto.colors.MainTopBarColors
 import ru.glindaquint.everwell.dto.colors.SquareTextFieldColors
+import ru.glindaquint.everwell.navigation.main.MainRoutes
+import ru.glindaquint.everwell.network.dto.feedProducts.FeedProductDto
 import ru.glindaquint.everwell.sharedComponents.EverwellActionButton
 import ru.glindaquint.everwell.sharedComponents.EverwellScaffold
 import ru.glindaquint.everwell.sharedComponents.MainTopBar
@@ -39,6 +42,7 @@ import ru.glindaquint.everwell.ui.theme.FeedBackground
 import ru.glindaquint.everwell.ui.theme.FeedPrimary
 import ru.glindaquint.everwell.ui.theme.FeedSecondary
 import ru.glindaquint.everwell.viewModels.impl.ProductInfoViewModel
+import ru.glindaquint.everwell.viewModels.impl.SearchProductViewModel
 
 @Suppress("ktlint:standard:function-naming")
 @Composable
@@ -46,8 +50,9 @@ fun ProductInfoScreen(
     navHostController: NavHostController,
     productId: Long,
 ) {
-    val viewModel = hiltViewModel<ProductInfoViewModel>()
-    val uiState = viewModel.uiState.collectAsState()
+    val productViewModel = hiltViewModel<ProductInfoViewModel>()
+    val searchViewModel = hiltViewModel<SearchProductViewModel>()
+    val uiState = productViewModel.uiState.collectAsState()
 
     val fats = remember { mutableStateOf(TextFieldValue(uiState.value.fats)) }
     val calories = remember { mutableStateOf(TextFieldValue(uiState.value.calories)) }
@@ -56,17 +61,18 @@ fun ProductInfoScreen(
     val portionsCount = remember { mutableStateOf(TextFieldValue("1")) }
     val portionSize = remember { mutableStateOf(TextFieldValue(uiState.value.portionSize)) }
 
-    val colors = SquareTextFieldColors(
-        backgroundColor = FeedAccent,
-        contentColor = FeedSecondary,
-        cursorColor = FeedPrimary,
-        focusedLabelColor = FeedSecondary,
-        unfocusedLabelColor = FeedSecondary,
-        pointerColor = FeedPrimary,
-    )
+    val colors =
+        SquareTextFieldColors(
+            backgroundColor = FeedAccent,
+            contentColor = FeedSecondary,
+            cursorColor = FeedPrimary,
+            focusedLabelColor = FeedSecondary,
+            unfocusedLabelColor = FeedSecondary,
+            pointerColor = FeedPrimary,
+        )
 
     LaunchedEffect(Unit) {
-        viewModel.loadProduct(productId)
+        productViewModel.loadProduct(productId)
     }
 
     LaunchedEffect(uiState.value) {
@@ -83,11 +89,12 @@ fun ProductInfoScreen(
             MainTopBar(
                 icon = Icons.AutoMirrored.Filled.ArrowBack,
                 title = uiState.value.title,
-                colors = MainTopBarColors(
-                    backgroundColor = FeedPrimary,
-                    foregroundColor = Color.White,
-                    behindContainerColor = FeedBackground,
-                ),
+                colors =
+                    MainTopBarColors(
+                        backgroundColor = FeedPrimary,
+                        foregroundColor = Color.White,
+                        behindContainerColor = FeedBackground,
+                    ),
                 onIconClick = {
                     navHostController.navigateUp()
                 },
@@ -121,7 +128,7 @@ fun ProductInfoScreen(
                         fats.value = it
                     },
                     colors = colors,
-                    fontSizeFactor = 20f
+                    fontSizeFactor = 20f,
                 )
                 SquareTextField(
                     title = "Cd",
@@ -132,7 +139,7 @@ fun ProductInfoScreen(
                         carbohydrates.value = it
                     },
                     colors = colors,
-                    fontSizeFactor = 20f
+                    fontSizeFactor = 20f,
                 )
                 SquareTextField(
                     title = "Cal",
@@ -143,7 +150,7 @@ fun ProductInfoScreen(
                         calories.value = it
                     },
                     colors = colors,
-                    fontSizeFactor = 25f
+                    fontSizeFactor = 25f,
                 )
             }
             ProductParamTextField(
@@ -181,7 +188,26 @@ fun ProductInfoScreen(
             backgroundColor = FeedPrimary,
             foregroundColor = FeedAlternateSecondary,
             paddingValues = PaddingValues(0.dp),
-            action = {},
+            action = {
+                val productToSend =
+                    FeedProductDto(
+                        product = searchViewModel.findById(productId),
+                        carbohydrates = carbohydrates.value.text.toFloat(),
+                        fat = fats.value.text.toFloat(),
+                        protein = protein.value.text.toFloat(),
+                        portionSize = portionSize.value.text.toInt(),
+                        quantity = portionsCount.value.text.toInt(),
+                    )
+
+                Log.d("chlen", "Отправляемый продукт: $productToSend") // Логируем
+
+                navHostController.currentBackStackEntry?.savedStateHandle?.set(
+                    "selected_product",
+                    productToSend,
+                )
+
+                navHostController.navigate(MainRoutes.feedSearchProduct.routeName)
+            },
         )
     }
 }
@@ -202,21 +228,24 @@ fun ProductParamTextField(
         leadingIcon = leadingIcon,
         shape = RoundedCornerShape(12.dp),
         singleLine = true,
-        textStyle = TextStyle(
-            textAlign = TextAlign.End,
-            color = FeedPrimary,
-            fontSize = 16.sp,
-        ),
-        colors = TextFieldDefaults.colors(
-            focusedIndicatorColor = Color.Transparent,
-            unfocusedIndicatorColor = Color.Transparent,
-            cursorColor = FeedPrimary,
-            selectionColors = TextSelectionColors(
-                handleColor = FeedPrimary,
-                backgroundColor = FeedPrimary.copy(0.5f),
+        textStyle =
+            TextStyle(
+                textAlign = TextAlign.End,
+                color = FeedPrimary,
+                fontSize = 16.sp,
             ),
-            unfocusedContainerColor = FeedAlternateSecondary,
-            focusedContainerColor = FeedAlternateSecondary,
-        ),
+        colors =
+            TextFieldDefaults.colors(
+                focusedIndicatorColor = Color.Transparent,
+                unfocusedIndicatorColor = Color.Transparent,
+                cursorColor = FeedPrimary,
+                selectionColors =
+                    TextSelectionColors(
+                        handleColor = FeedPrimary,
+                        backgroundColor = FeedPrimary.copy(0.5f),
+                    ),
+                unfocusedContainerColor = FeedAlternateSecondary,
+                focusedContainerColor = FeedAlternateSecondary,
+            ),
     )
 }

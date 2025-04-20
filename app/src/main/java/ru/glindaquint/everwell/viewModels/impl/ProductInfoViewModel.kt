@@ -10,25 +10,28 @@ import javax.inject.Inject
 
 @HiltViewModel
 class ProductInfoViewModel
-@Inject constructor(private val productService: ProductService) : ViewModel() {
-    private val _uiState = MutableStateFlow(ProductInfoUiState())
-    val uiState = _uiState.asStateFlow()
+    @Inject
+    constructor(
+        private val productService: ProductService,
+    ) : ViewModel() {
+        private val _uiState = MutableStateFlow(ProductInfoUiState())
+        val uiState = _uiState.asStateFlow()
 
-    fun loadProduct(productId: Long) {
-        val product = productService.allProducts.value.find { it.id == productId }
-        updateUiState(
-            _uiState.value.copy(
-                title = product?.title ?: "",
-                fats = product?.fat.toString(),
-                calories = product?.calories.toString(),
-                protein = product?.protein.toString(),
-                carbohydrates = product?.carbohydrates.toString(),
-                portionSize = product?.weightInGrams.toString(),
+        fun loadProduct(productId: Long) {
+            val product = productService.allProducts.value.find { it.productId == productId }
+            updateUiState(
+                _uiState.value.copy(
+                    title = product?.title ?: "",
+                    fats = product?.fat.toString(),
+                    calories = product?.calories.toString(),
+                    protein = product?.protein.toString(),
+                    carbohydrates = product?.carbohydrates.toString(),
+                    portionSize = product?.weightInGrams.toString(),
+                ),
             )
-        )
-    }
+        }
 
-    private fun updateUiState(state: ProductInfoUiState) {
-        _uiState.value = state
+        private fun updateUiState(state: ProductInfoUiState) {
+            _uiState.value = state
+        }
     }
-}

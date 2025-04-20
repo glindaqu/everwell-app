@@ -1,9 +1,13 @@
 package ru.glindaquint.everwell.screens.feed
 
 import android.annotation.SuppressLint
+import android.util.Log
+import androidx.compose.animation.core.Animatable
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
@@ -11,6 +15,7 @@ import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
@@ -20,17 +25,20 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Clear
+import androidx.compose.material.icons.filled.Close
+import androidx.compose.material.icons.filled.Done
+import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material.icons.filled.ShoppingCart
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
-import androidx.compose.material3.LargeFloatingActionButton
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.mutableStateOf
@@ -38,18 +46,22 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.withStyle
+import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import kotlinx.coroutines.delay
 import ru.glindaquint.everwell.dto.colors.MainTopBarColors
 import ru.glindaquint.everwell.navigation.main.MainRoutes
+import ru.glindaquint.everwell.network.dto.feedProducts.FeedProductDto
 import ru.glindaquint.everwell.network.dto.product.ProductDto
 import ru.glindaquint.everwell.sharedComponents.EverwellScaffold
 import ru.glindaquint.everwell.sharedComponents.MainTopBar
@@ -59,6 +71,8 @@ import ru.glindaquint.everwell.ui.theme.FeedPrimary
 import ru.glindaquint.everwell.ui.theme.FeedSecondary
 import ru.glindaquint.everwell.utils.ProductFilterType
 import ru.glindaquint.everwell.viewModels.impl.SearchProductViewModel
+import kotlin.math.cos
+import kotlin.math.sin
 
 @Suppress("ktlint:standard:function-naming")
 @Composable
@@ -74,6 +88,43 @@ fun ProductSearchScreen(navHostController: NavHostController) {
         viewModel.filterProducts(filterType = filterType.value) {
             it.lowercase().contains(
                 productName.value.text.lowercase(),
+            )
+        }
+    }
+
+    LaunchedEffect(Unit) {
+        val product =
+            navHostController.previousBackStackEntry
+                ?.savedStateHandle
+                ?.get<FeedProductDto>("selected_product")
+
+        val savedProducts =
+            navHostController.previousBackStackEntry
+                ?.savedStateHandle
+                ?.get<List<FeedProductDto>>("saved_selected_products")
+
+        product?.let {
+            viewModel.selectedProducts.add(it)
+            // Очищаем после использования
+            navHostController.currentBackStackEntry
+                ?.savedStateHandle
+                ?.remove<FeedProductDto>("selected_product")
+        }
+
+        savedProducts?.let {
+            viewModel.selectedProducts.addAll(it)
+            // Очищаем после использования
+            navHostController.currentBackStackEntry
+                ?.savedStateHandle
+                ?.remove<FeedProductDto>("saved_selected_products")
+        }
+    }
+
+    DisposableEffect(Unit) {
+        onDispose {
+            navHostController.currentBackStackEntry?.savedStateHandle?.set(
+                "saved_selected_products",
+                viewModel.selectedProducts,
             )
         }
     }
@@ -96,34 +147,13 @@ fun ProductSearchScreen(navHostController: NavHostController) {
             )
         },
         floatingActionButton = {
-            Column(
-                verticalArrangement = Arrangement.spacedBy(20.dp),
-                horizontalAlignment = Alignment.End,
-            ) {
-                FloatingActionButton(
-                    onClick = { /*TODO*/ },
-                    shape = CircleShape,
-                    containerColor = FeedPrimary,
-                    contentColor = Color.White,
-                ) {
-                    Icon(
-                        imageVector = Icons.Filled.ShoppingCart,
-                        contentDescription = "add own product",
-                    )
-                }
-                LargeFloatingActionButton(
-                    onClick = { navHostController.navigate(MainRoutes.feedAddProduct.routeName) },
-                    shape = CircleShape,
-                    containerColor = FeedPrimary,
-                    contentColor = Color.White,
-                ) {
-                    Icon(
-                        imageVector = Icons.Filled.Add,
-                        modifier = Modifier.size(48.dp),
-                        contentDescription = "add own product",
-                    )
-                }
-            }
+            ProductSearchFloatingActionButton(onAddClick = {}, onCartClick = {
+                navHostController.currentBackStackEntry?.savedStateHandle?.set(
+                    "selected_products",
+                    viewModel.selectedProducts,
+                )
+                navHostController.navigate(MainRoutes.feedCart.routeName)
+            }, onSaveClick = {})
         },
         contentPadding = PaddingValues(10.dp),
         contentSpacing = Arrangement.spacedBy(10.dp),
@@ -165,8 +195,94 @@ fun ProductSearchScreen(navHostController: NavHostController) {
         Column(verticalArrangement = Arrangement.spacedBy(5.dp)) {
             products.value.forEach { product ->
                 ProductsListItem(product = product, onClick = {
-                    navHostController.navigate("${MainRoutes.feedProductInfo.routeName}/${product.id}")
+                    Log.d("", "ProductSearchScreen: ${product.productId}")
+                    navHostController.navigate("${MainRoutes.feedProductInfo.routeName}/${product.productId}")
                 })
+            }
+        }
+    }
+}
+
+@Suppress("ktlint:standard:function-naming")
+@Composable
+fun ProductSearchFloatingActionButton(
+    onAddClick: () -> Unit,
+    onCartClick: () -> Unit,
+    onSaveClick: () -> Unit,
+) {
+    val buttonsData =
+        listOf(
+            Pair(0, 1),
+            Pair(45, 2),
+            Pair(90, 3),
+        )
+
+    val expanded = remember { mutableStateOf(false) }
+    val animatedSubButtonScale = remember { Animatable(0f) }
+    val mainButtonSize = remember { mutableStateOf(IntSize(0, 0)) }
+
+    LaunchedEffect(expanded.value) {
+        if (expanded.value) {
+            animatedSubButtonScale.animateTo(
+                targetValue = 1f,
+                animationSpec = tween(200),
+            )
+        } else {
+            animatedSubButtonScale.animateTo(
+                targetValue = 0f,
+                animationSpec = tween(200),
+            )
+        }
+    }
+
+    Box {
+        FloatingActionButton(
+            onClick = { expanded.value = !expanded.value },
+            shape = CircleShape,
+            containerColor = FeedPrimary,
+            contentColor = Color.White,
+            modifier =
+                Modifier.onGloballyPositioned {
+                    mainButtonSize.value = it.size
+                },
+        ) {
+            Icon(
+                imageVector = if (expanded.value) Icons.Filled.Close else Icons.Filled.MoreVert,
+                contentDescription = "add own product",
+            )
+        }
+
+        buttonsData.forEach { (angle, id) ->
+            val radians = Math.toRadians(angle.toDouble())
+            val x = (mainButtonSize.value.height / 2.3f * cos(radians)).dp
+            val y = (mainButtonSize.value.height / 2.3f * sin(radians)).dp
+
+            FloatingActionButton(
+                containerColor = FeedPrimary,
+                contentColor = Color.White,
+                onClick = {
+                    when (id) {
+                        1 -> onAddClick()
+                        2 -> onCartClick()
+                        else -> onSaveClick()
+                    }
+                },
+                modifier =
+                    Modifier
+                        .align(Alignment.BottomEnd)
+                        .offset(x = -x, y = -y)
+                        .scale(animatedSubButtonScale.value),
+                shape = CircleShape,
+            ) {
+                Icon(
+                    imageVector =
+                        when (id) {
+                            1 -> Icons.Filled.Add
+                            2 -> Icons.Filled.ShoppingCart
+                            else -> Icons.Filled.Done
+                        },
+                    contentDescription = "icons for each action",
+                )
             }
         }
     }
@@ -222,6 +338,61 @@ fun ProductsListItem(
                         append("К:")
                     }
                     append(String.format("%4d", product.calories))
+                },
+        )
+    }
+}
+
+@SuppressLint("DefaultLocale")
+@Suppress("ktlint:standard:function-naming")
+@Composable
+fun FeedProductsListItem(
+    product: FeedProductDto,
+    onClick: () -> Unit,
+) {
+    Column(
+        modifier =
+            Modifier
+                .fillMaxWidth()
+                .background(
+                    color = FeedAlternateSecondary,
+                    shape = RoundedCornerShape(12.dp),
+                ).clip(RoundedCornerShape(12.dp))
+                .clickable { onClick() }
+                .padding(top = 3.dp),
+        horizontalAlignment = Alignment.CenterHorizontally,
+    ) {
+        Text(
+            text = product.product?.title.toString(),
+            modifier = Modifier.fillMaxWidth(0.95f),
+            fontWeight = FontWeight.Medium,
+        )
+        Spacer(
+            modifier = Modifier.fillMaxWidth().height(2.dp).background(FeedPrimary),
+        )
+        Text(
+            modifier = Modifier.fillMaxWidth(0.95f).padding(vertical = 7.dp),
+            text =
+                buildAnnotatedString {
+                    withStyle(SpanStyle(FeedPrimary)) {
+                        append("Б:")
+                    }
+                    append(String.format(" %-10.2f", product.protein))
+
+                    withStyle(SpanStyle(FeedPrimary)) {
+                        append("Ж:")
+                    }
+                    append(String.format(" %-10.2f", product.fat))
+
+                    withStyle(SpanStyle(FeedPrimary)) {
+                        append("У:")
+                    }
+                    append(String.format(" %-10.2f", product.carbohydrates))
+
+                    withStyle(SpanStyle(FeedPrimary)) {
+                        append("К:")
+                    }
+                    append(String.format("%4d", product.product?.calories))
                 },
         )
     }

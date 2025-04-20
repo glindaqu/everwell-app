@@ -27,9 +27,9 @@ class FeedViewModel
                     feedService.feeds.collect { feeds ->
                         val todayFeeds = feeds.filter { isSameDay(it.feedDate, Date()) }
                         val totalCalories =
-                            todayFeeds
-                                .flatMap { it.feedProducts }
-                                .sumOf { it.portionSize * it.quantity * it.product.calories }
+                            todayFeeds.flatMap { it.feedProducts }.sumOf {
+                                it.portionSize * it.quantity * (it.product?.calories ?: 0)
+                            }
                         val totalProtein =
                             todayFeeds.flatMap { it.feedProducts }.sumOf { it.fat.toDouble() }
                         val totalFat =
@@ -49,7 +49,7 @@ class FeedViewModel
                                                 .flatMap {
                                                     it.feedProducts
                                                 }.map {
-                                                    it.product.title
+                                                    it.product?.title.toString()
                                                 },
                                         lunch =
                                             todayFeeds
@@ -57,7 +57,7 @@ class FeedViewModel
                                                 .flatMap {
                                                     it.feedProducts
                                                 }.map {
-                                                    it.product.title
+                                                    it.product?.title.toString()
                                                 },
                                         dinner =
                                             todayFeeds
@@ -65,7 +65,7 @@ class FeedViewModel
                                                 .flatMap {
                                                     it.feedProducts
                                                 }.map {
-                                                    it.product.title
+                                                    it.product?.title.toString()
                                                 },
                                         snack =
                                             todayFeeds
@@ -73,7 +73,7 @@ class FeedViewModel
                                                 .flatMap {
                                                     it.feedProducts
                                                 }.map {
-                                                    it.product.title
+                                                    it.product?.title.toString()
                                                 },
                                     ),
                                 totalCalories = totalCalories,

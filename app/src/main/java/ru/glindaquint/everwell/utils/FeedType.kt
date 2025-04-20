@@ -5,4 +5,5 @@ enum class FeedType {
     LUNCH,
     DINNER,
     SNACK,
+    UNSET,
 }
