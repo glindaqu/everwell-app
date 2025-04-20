@@ -84,6 +84,6 @@ fun FeedScreen(
                 ),
             onDateSelected = {},
         )
-        FeedManagementWidget(navHostController = navHostController)
+        FeedManagementWidget(navHostController = navHostController, feeds = uiState.value.feeds)
     }
 }

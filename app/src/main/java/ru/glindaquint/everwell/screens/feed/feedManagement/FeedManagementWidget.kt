@@ -13,10 +13,14 @@ import ru.glindaquint.everwell.R
 import ru.glindaquint.everwell.navigation.main.MainRoutes
 import ru.glindaquint.everwell.ui.theme.FeedOnBackground
 import ru.glindaquint.everwell.ui.theme.FeedPrimary
+import ru.glindaquint.everwell.uiStates.Feeds
 
 @Suppress("ktlint:standard:function-naming")
 @Composable
-fun FeedManagementWidget(navHostController: NavHostController) {
+fun FeedManagementWidget(
+    navHostController: NavHostController,
+    feeds: Feeds,
+) {
     val onClick = { navHostController.navigate(MainRoutes.feedSearchProduct.routeName) }
 
     Column(
@@ -29,7 +33,7 @@ fun FeedManagementWidget(navHostController: NavHostController) {
             spacerColor = FeedPrimary,
             icon = painterResource(id = R.drawable.feed_breakfast),
             title = "Breakfast",
-            content = "Egg, tea",
+            content = feeds.breakfast.joinToString(", "),
             placeholder = "Add breakfast",
             onClick = onClick,
         )
@@ -38,7 +42,7 @@ fun FeedManagementWidget(navHostController: NavHostController) {
             spacerColor = FeedPrimary,
             icon = painterResource(id = R.drawable.feed_lunch),
             title = "Lunch",
-            content = "",
+            content = feeds.lunch.joinToString(", "),
             placeholder = "Add lunch",
             onClick = onClick,
         )
@@ -47,7 +51,7 @@ fun FeedManagementWidget(navHostController: NavHostController) {
             spacerColor = FeedPrimary,
             icon = painterResource(id = R.drawable.feed_dinner),
             title = "Dinner",
-            content = "Egg, tea",
+            content = feeds.dinner.joinToString(", "),
             placeholder = "Add dinner",
             onClick = onClick,
         )
@@ -56,7 +60,7 @@ fun FeedManagementWidget(navHostController: NavHostController) {
             spacerColor = FeedPrimary,
             icon = painterResource(id = R.drawable.feed_snack),
             title = "Snack",
-            content = "",
+            content = feeds.snack.joinToString(", "),
             placeholder = "Add snack",
             onClick = onClick,
         )
