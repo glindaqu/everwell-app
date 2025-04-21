@@ -8,6 +8,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
@@ -48,6 +49,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
@@ -56,6 +58,7 @@ import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import kotlinx.coroutines.delay
@@ -82,6 +85,7 @@ fun ProductSearchScreen(navHostController: NavHostController) {
     val products = viewModel.products.collectAsState()
 
     val filterType = remember { mutableStateOf(ProductFilterType.ALL) }
+    val selectedProducts = remember { mutableListOf<FeedProductDto>() }
 
     LaunchedEffect(productName.value, filterType.value) {
         delay(500)
@@ -94,29 +98,21 @@ fun ProductSearchScreen(navHostController: NavHostController) {
 
     LaunchedEffect(Unit) {
         val product =
-            navHostController.previousBackStackEntry
-                ?.savedStateHandle
-                ?.get<FeedProductDto>("selected_product")
+            navHostController.previousBackStackEntry?.savedStateHandle?.get<FeedProductDto>("selected_product")
 
         val savedProducts =
-            navHostController.previousBackStackEntry
-                ?.savedStateHandle
-                ?.get<List<FeedProductDto>>("saved_selected_products")
+            navHostController.previousBackStackEntry?.savedStateHandle?.get<List<FeedProductDto>>(
+                "saved_selected_products",
+            )
 
         product?.let {
-            viewModel.selectedProducts.add(it)
-            // Очищаем после использования
-            navHostController.currentBackStackEntry
-                ?.savedStateHandle
-                ?.remove<FeedProductDto>("selected_product")
+            selectedProducts.add(it)
+            navHostController.currentBackStackEntry?.savedStateHandle?.remove<FeedProductDto>("selected_product")
         }
 
         savedProducts?.let {
-            viewModel.selectedProducts.addAll(it)
-            // Очищаем после использования
-            navHostController.currentBackStackEntry
-                ?.savedStateHandle
-                ?.remove<FeedProductDto>("saved_selected_products")
+            selectedProducts.addAll(it)
+            navHostController.currentBackStackEntry?.savedStateHandle?.remove<FeedProductDto>("saved_selected_products")
         }
     }
 
@@ -124,7 +120,7 @@ fun ProductSearchScreen(navHostController: NavHostController) {
         onDispose {
             navHostController.currentBackStackEntry?.savedStateHandle?.set(
                 "saved_selected_products",
-                viewModel.selectedProducts,
+                selectedProducts,
             )
         }
     }
@@ -150,10 +146,10 @@ fun ProductSearchScreen(navHostController: NavHostController) {
             ProductSearchFloatingActionButton(onAddClick = {}, onCartClick = {
                 navHostController.currentBackStackEntry?.savedStateHandle?.set(
                     "selected_products",
-                    viewModel.selectedProducts,
+                    selectedProducts,
                 )
                 navHostController.navigate(MainRoutes.feedCart.routeName)
-            }, onSaveClick = {})
+            }, onSaveClick = {}, cartIndicatorValue = selectedProducts.size)
         },
         contentPadding = PaddingValues(10.dp),
         contentSpacing = Arrangement.spacedBy(10.dp),
@@ -206,6 +202,7 @@ fun ProductSearchScreen(navHostController: NavHostController) {
 @Suppress("ktlint:standard:function-naming")
 @Composable
 fun ProductSearchFloatingActionButton(
+    cartIndicatorValue: Int = 0,
     onAddClick: () -> Unit,
     onCartClick: () -> Unit,
     onSaveClick: () -> Unit,
@@ -253,13 +250,15 @@ fun ProductSearchFloatingActionButton(
         }
 
         buttonsData.forEach { (angle, id) ->
-            val radians = Math.toRadians(angle.toDouble())
-            val x = (mainButtonSize.value.height / 2.3f * cos(radians)).dp
-            val y = (mainButtonSize.value.height / 2.3f * sin(radians)).dp
-
-            FloatingActionButton(
-                containerColor = FeedPrimary,
-                contentColor = Color.White,
+            SideActionButton(
+                parentViewSize = mainButtonSize.value,
+                angle = angle.toFloat(),
+                icon =
+                    when (id) {
+                        1 -> Icons.Filled.Add
+                        2 -> Icons.Filled.ShoppingCart
+                        else -> Icons.Filled.Done
+                    },
                 onClick = {
                     when (id) {
                         1 -> onAddClick()
@@ -267,22 +266,56 @@ fun ProductSearchFloatingActionButton(
                         else -> onSaveClick()
                     }
                 },
+                indicatorValue =
+                    when (id) {
+                        1 -> 0
+                        2 -> cartIndicatorValue
+                        else -> 0
+                    },
+                modifier = Modifier.scale(animatedSubButtonScale.value),
+            )
+        }
+    }
+}
+
+@Suppress("ktlint:standard:function-naming")
+@Composable
+fun BoxScope.SideActionButton(
+    parentViewSize: IntSize,
+    angle: Float,
+    icon: ImageVector,
+    modifier: Modifier = Modifier,
+    indicatorValue: Int = 0,
+    onClick: () -> Unit,
+) {
+    val radians = Math.toRadians(angle.toDouble())
+    val x = (parentViewSize.height / 2.3f * cos(radians)).dp
+    val y = (parentViewSize.height / 2.3f * sin(radians)).dp
+
+    Box(
+        contentAlignment = Alignment.TopEnd,
+        modifier = Modifier.align(Alignment.BottomEnd).offset(x = -x, y = -y).then(modifier),
+    ) {
+        FloatingActionButton(
+            containerColor = FeedPrimary,
+            contentColor = Color.White,
+            onClick = onClick,
+            shape = CircleShape,
+        ) {
+            Icon(
+                imageVector = icon,
+                contentDescription = "icons for each action",
+            )
+        }
+        if (indicatorValue != 0) {
+            Box(
                 modifier =
                     Modifier
-                        .align(Alignment.BottomEnd)
-                        .offset(x = -x, y = -y)
-                        .scale(animatedSubButtonScale.value),
-                shape = CircleShape,
+                        .size(21.dp)
+                        .background(color = Color.Red, shape = CircleShape),
+                contentAlignment = Alignment.Center,
             ) {
-                Icon(
-                    imageVector =
-                        when (id) {
-                            1 -> Icons.Filled.Add
-                            2 -> Icons.Filled.ShoppingCart
-                            else -> Icons.Filled.Done
-                        },
-                    contentDescription = "icons for each action",
-                )
+                Text(text = indicatorValue.toString(), color = Color.White, fontSize = 10.sp)
             }
         }
     }

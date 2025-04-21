@@ -24,8 +24,6 @@ class SearchProductViewModel
         private val _products = MutableStateFlow(productService.allProducts.value)
         val products = _products.asStateFlow()
 
-        val selectedProducts = mutableListOf<FeedProductDto>()
-
         init {
             productService.refreshProducts()
             Log.d("piska", "nu opat blya: ")
