@@ -1,6 +1,7 @@
 package ru.glindaquint.everwell.screens.feed
 
 import android.annotation.SuppressLint
+import android.content.ContentValues.TAG
 import android.util.Log
 import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.tween
@@ -72,6 +73,7 @@ import ru.glindaquint.everwell.ui.theme.FeedAlternateSecondary
 import ru.glindaquint.everwell.ui.theme.FeedBackground
 import ru.glindaquint.everwell.ui.theme.FeedPrimary
 import ru.glindaquint.everwell.ui.theme.FeedSecondary
+import ru.glindaquint.everwell.utils.FeedType
 import ru.glindaquint.everwell.utils.ProductFilterType
 import ru.glindaquint.everwell.viewModels.impl.SearchProductViewModel
 import kotlin.math.cos
@@ -85,6 +87,8 @@ fun ProductSearchScreen(navHostController: NavHostController) {
     val products = viewModel.products.collectAsState()
 
     val filterType = remember { mutableStateOf(ProductFilterType.ALL) }
+
+    val feedType = remember { mutableStateOf(FeedType.UNSET) }
     val selectedProducts = remember { mutableListOf<FeedProductDto>() }
 
     LaunchedEffect(productName.value, filterType.value) {
@@ -105,6 +109,9 @@ fun ProductSearchScreen(navHostController: NavHostController) {
                 "saved_selected_products",
             )
 
+        val savedFeedType =
+            navHostController.previousBackStackEntry?.savedStateHandle?.get<FeedType>("feed_type")
+
         product?.let {
             selectedProducts.add(it)
             navHostController.currentBackStackEntry?.savedStateHandle?.remove<FeedProductDto>("selected_product")
@@ -114,6 +121,13 @@ fun ProductSearchScreen(navHostController: NavHostController) {
             selectedProducts.addAll(it)
             navHostController.currentBackStackEntry?.savedStateHandle?.remove<FeedProductDto>("saved_selected_products")
         }
+
+        savedFeedType?.let {
+            feedType.value = savedFeedType
+            navHostController.currentBackStackEntry?.savedStateHandle?.remove<FeedType>("feed_type")
+        }
+
+        Log.d(TAG, "ProductSearchScreen: $feedType")
     }
 
     DisposableEffect(Unit) {
@@ -121,6 +135,10 @@ fun ProductSearchScreen(navHostController: NavHostController) {
             navHostController.currentBackStackEntry?.savedStateHandle?.set(
                 "saved_selected_products",
                 selectedProducts,
+            )
+            navHostController.currentBackStackEntry?.savedStateHandle?.set(
+                "feed_type",
+                feedType.value,
             )
         }
     }
@@ -149,7 +167,16 @@ fun ProductSearchScreen(navHostController: NavHostController) {
                     selectedProducts,
                 )
                 navHostController.navigate(MainRoutes.feedCart.routeName)
-            }, onSaveClick = {}, cartIndicatorValue = selectedProducts.size)
+            }, onSaveClick = {
+                viewModel.saveFeed(
+                    feedType = feedType.value,
+                    products = selectedProducts,
+                    onSuccess = {
+                        navHostController.navigate(MainRoutes.feed.routeName)
+                    },
+                )
+                selectedProducts.clear()
+            }, cartIndicatorValue = selectedProducts.size)
         },
         contentPadding = PaddingValues(10.dp),
         contentSpacing = Arrangement.spacedBy(10.dp),
@@ -191,7 +218,6 @@ fun ProductSearchScreen(navHostController: NavHostController) {
         Column(verticalArrangement = Arrangement.spacedBy(5.dp)) {
             products.value.forEach { product ->
                 ProductsListItem(product = product, onClick = {
-                    Log.d("", "ProductSearchScreen: ${product.productId}")
                     navHostController.navigate("${MainRoutes.feedProductInfo.routeName}/${product.productId}")
                 })
             }
@@ -309,10 +335,7 @@ fun BoxScope.SideActionButton(
         }
         if (indicatorValue != 0) {
             Box(
-                modifier =
-                    Modifier
-                        .size(21.dp)
-                        .background(color = Color.Red, shape = CircleShape),
+                modifier = Modifier.size(21.dp).background(color = Color.Red, shape = CircleShape),
                 contentAlignment = Alignment.Center,
             ) {
                 Text(text = indicatorValue.toString(), color = Color.White, fontSize = 10.sp)
@@ -425,7 +448,12 @@ fun FeedProductsListItem(
                     withStyle(SpanStyle(FeedPrimary)) {
                         append("К:")
                     }
-                    append(String.format("%4d", product.product?.calories))
+                    append(
+                        String.format(
+                            "%4d",
+                            product.portionSize * product.quantity * (product.product?.calories ?: 0),
+                        ),
+                    )
                 },
         )
     }

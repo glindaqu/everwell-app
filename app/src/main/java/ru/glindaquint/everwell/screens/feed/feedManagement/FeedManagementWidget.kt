@@ -14,6 +14,7 @@ import ru.glindaquint.everwell.navigation.main.MainRoutes
 import ru.glindaquint.everwell.ui.theme.FeedOnBackground
 import ru.glindaquint.everwell.ui.theme.FeedPrimary
 import ru.glindaquint.everwell.uiStates.Feeds
+import ru.glindaquint.everwell.utils.FeedType
 
 @Suppress("ktlint:standard:function-naming")
 @Composable
@@ -21,7 +22,10 @@ fun FeedManagementWidget(
     navHostController: NavHostController,
     feeds: Feeds,
 ) {
-    val onClick = { navHostController.navigate(MainRoutes.feedSearchProduct.routeName) }
+    val onClick: (FeedType) -> Unit = {
+        navHostController.currentBackStackEntry?.savedStateHandle?.set("feed_type", it)
+        navHostController.navigate(MainRoutes.feedSearchProduct.routeName)
+    }
 
     Column(
         modifier = Modifier.fillMaxWidth(),
@@ -35,7 +39,7 @@ fun FeedManagementWidget(
             title = "Breakfast",
             content = feeds.breakfast.joinToString(", "),
             placeholder = "Add breakfast",
-            onClick = onClick,
+            onClick = { onClick(FeedType.BREAKFAST) },
         )
         AddActivityTile(
             backgroundColor = FeedOnBackground,
@@ -44,7 +48,7 @@ fun FeedManagementWidget(
             title = "Lunch",
             content = feeds.lunch.joinToString(", "),
             placeholder = "Add lunch",
-            onClick = onClick,
+            onClick = { onClick(FeedType.LUNCH) },
         )
         AddActivityTile(
             backgroundColor = FeedOnBackground,
@@ -53,7 +57,7 @@ fun FeedManagementWidget(
             title = "Dinner",
             content = feeds.dinner.joinToString(", "),
             placeholder = "Add dinner",
-            onClick = onClick,
+            onClick = { onClick(FeedType.DINNER) },
         )
         AddActivityTile(
             backgroundColor = FeedOnBackground,
@@ -62,7 +66,7 @@ fun FeedManagementWidget(
             title = "Snack",
             content = feeds.snack.joinToString(", "),
             placeholder = "Add snack",
-            onClick = onClick,
+            onClick = { FeedType.SNACK },
         )
         AddActivityTile(
             backgroundColor = FeedOnBackground,
@@ -71,7 +75,7 @@ fun FeedManagementWidget(
             title = "Activity",
             content = "",
             placeholder = "Add activity",
-            onClick = onClick,
+            onClick = { },
         )
     }
 }

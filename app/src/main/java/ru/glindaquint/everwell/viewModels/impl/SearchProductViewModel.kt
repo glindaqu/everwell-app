@@ -1,6 +1,5 @@
 package ru.glindaquint.everwell.viewModels.impl
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -26,7 +25,6 @@ class SearchProductViewModel
 
         init {
             productService.refreshProducts()
-            Log.d("piska", "nu opat blya: ")
         }
 
         fun filterProducts(
@@ -56,8 +54,10 @@ class SearchProductViewModel
         fun saveFeed(
             feedType: FeedType,
             products: List<FeedProductDto>,
+            onSuccess: (() -> Unit)? = null,
+            onFailure: ((Throwable) -> Unit)? = null,
         ) {
-            if (products.isEmpty()) {
+            if (products.isEmpty() || feedType == FeedType.UNSET) {
                 return
             }
             feedService.saveFeed(
@@ -66,6 +66,8 @@ class SearchProductViewModel
                         feedType = feedType,
                         products = products,
                     ),
+                onSuccess = onSuccess,
+                onFailure = onFailure,
             )
         }
     }

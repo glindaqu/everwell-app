@@ -8,5 +8,5 @@ data class FeedDto(
     val feedId: Long,
     val feedDate: Date,
     val feedType: FeedType,
-    val feedProducts: Set<FeedProductDto>,
+    val feedProducts: List<FeedProductDto>,
 )

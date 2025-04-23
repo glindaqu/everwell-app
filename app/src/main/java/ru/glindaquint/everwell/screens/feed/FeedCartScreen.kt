@@ -1,13 +1,11 @@
 package ru.glindaquint.everwell.screens.feed
 
-import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
@@ -29,10 +27,6 @@ fun FeedCartScreen(navHostController: NavHostController) {
                 "selected_products",
                 null,
             )?.collectAsState()
-
-    LaunchedEffect(Unit) {
-        Log.d("", "FeedCartScreen: ${selectedProducts?.value}")
-    }
 
     EverwellScaffold(
         containerColor = FeedBackground,
