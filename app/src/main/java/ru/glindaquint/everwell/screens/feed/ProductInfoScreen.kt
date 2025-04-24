@@ -1,6 +1,5 @@
 package ru.glindaquint.everwell.screens.feed
 
-import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -192,14 +191,13 @@ fun ProductInfoScreen(
                 val productToSend =
                     FeedProductDto(
                         product = searchViewModel.findById(productId),
-                        carbohydrates = carbohydrates.value.text.toFloat(),
-                        fat = fats.value.text.toFloat(),
-                        protein = protein.value.text.toFloat(),
-                        portionSize = portionSize.value.text.toInt(),
+                        carbohydrates = carbohydrates.value.text.toDouble(),
+                        fat = fats.value.text.toDouble(),
+                        protein = protein.value.text.toDouble(),
+                        weightInGrams = portionSize.value.text.toInt(),
                         quantity = portionsCount.value.text.toInt(),
+                        calories = calories.value.text.toInt(),
                     )
-
-                Log.d("chlen", "Отправляемый продукт: $productToSend") // Логируем
 
                 navHostController.currentBackStackEntry?.savedStateHandle?.set(
                     "selected_product",

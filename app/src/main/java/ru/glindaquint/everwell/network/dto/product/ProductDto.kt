@@ -7,9 +7,9 @@ import kotlinx.parcelize.Parcelize
 data class ProductDto(
     val productId: Long,
     val title: String,
-    val protein: Float,
-    val fat: Float,
-    val carbohydrates: Float,
+    val protein: Double,
+    val fat: Double,
+    val carbohydrates: Double,
     val calories: Int,
     val weightInGrams: Int,
 ) : Parcelable

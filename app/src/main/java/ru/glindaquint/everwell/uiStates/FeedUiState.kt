@@ -8,6 +8,7 @@ data class FeedUiState(
     val totalCarbohydrates: Double = 0.0,
     val error: String? = null,
     val successful: Boolean = false,
+    val loading: Boolean = false,
 )
 
 data class Feeds(
