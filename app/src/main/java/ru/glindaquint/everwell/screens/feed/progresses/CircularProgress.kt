@@ -51,7 +51,7 @@ fun RowScope.CircularProgress(
     val caloriesLeftAnimated = remember { Animatable(maxProgress.toFloat()) }
 
     LaunchedEffect(progress) {
-        if (progress > 0) {
+        if (progress > 0 || caloriesLeftAnimated.value > 0) {
             delay(1500)
             launch {
                 sweepAngleAnimated.animateTo(

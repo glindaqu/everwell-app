@@ -30,6 +30,15 @@ class FeedViewModel
             loadFeeds()
         }
 
+        fun filterFeedsByDate(date: Date) {
+            _uiState.update { it.copy(loading = true, error = null) }
+            val todayFeeds =
+                feedService.feeds.value.filter { feed ->
+                    isSameDay(feed.feedDate, date)
+                }
+            calculateAndUpdateState(todayFeeds)
+        }
+
         private fun loadFeeds() {
             _uiState.update { it.copy(loading = true, error = null) }
 

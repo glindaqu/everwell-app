@@ -41,6 +41,7 @@ fun AddActivityTile(
     title: String,
     content: String,
     placeholder: String,
+    readonly: Boolean = false,
     onClick: () -> Unit,
 ) {
     val buttonSize = remember { mutableStateOf(IntSize(0, 0)) }
@@ -68,7 +69,7 @@ fun AddActivityTile(
         ) {
             if (content.isEmpty()) {
                 Text(
-                    text = placeholder,
+                    text = if (readonly) "Nothing to display" else placeholder,
                     fontWeight = FontWeight.Bold,
                     modifier =
                         Modifier
@@ -83,16 +84,15 @@ fun AddActivityTile(
             IconButton(
                 onClick = { onClick() },
                 modifier =
-                    Modifier
-                        .wrapContentSize()
-                        .onGloballyPositioned {
-                            buttonSize.value = it.size
-                        },
+                    Modifier.wrapContentSize().onGloballyPositioned {
+                        buttonSize.value = it.size
+                    },
+                enabled = !readonly,
             ) {
                 Icon(
                     imageVector = Icons.Filled.AddCircle,
                     contentDescription = "Add new activity",
-                    tint = FeedPrimary,
+                    tint = FeedPrimary.copy(if (readonly) 0.3f else 1f),
                     modifier = Modifier.fillMaxSize(0.75f),
                 )
             }

@@ -6,6 +6,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material3.DrawerState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.unit.dp
@@ -24,7 +25,9 @@ import ru.glindaquint.everwell.ui.theme.FeedBackground
 import ru.glindaquint.everwell.ui.theme.FeedOnBackground
 import ru.glindaquint.everwell.ui.theme.FeedPrimary
 import ru.glindaquint.everwell.ui.theme.FeedSecondary
+import ru.glindaquint.everwell.utils.isSameDay
 import ru.glindaquint.everwell.viewModels.impl.FeedViewModel
+import java.util.Date
 
 @Suppress("ktlint:standard:function-naming")
 @Composable
@@ -37,6 +40,10 @@ fun FeedScreen(
 
     val viewModel = hiltViewModel<FeedViewModel>()
     val uiState = viewModel.uiState.collectAsState()
+
+    LaunchedEffect(sliderDatePickerState.selectedDate.value) {
+        viewModel.filterFeedsByDate(sliderDatePickerState.selectedDate.value)
+    }
 
     EverwellScaffold(
         containerColor = FeedBackground,
@@ -78,6 +85,10 @@ fun FeedScreen(
                 ),
             onDateSelected = {},
         )
-        FeedManagementWidget(navHostController = navHostController, feeds = uiState.value.feeds)
+        FeedManagementWidget(
+            navHostController = navHostController,
+            feeds = uiState.value.feeds,
+            readonly = !isSameDay(Date(), sliderDatePickerState.selectedDate.value),
+        )
     }
 }

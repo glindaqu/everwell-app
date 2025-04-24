@@ -21,6 +21,7 @@ import ru.glindaquint.everwell.utils.FeedType
 fun FeedManagementWidget(
     navHostController: NavHostController,
     feeds: Feeds,
+    readonly: Boolean = false,
 ) {
     val onClick: (FeedType) -> Unit = {
         navHostController.currentBackStackEntry?.savedStateHandle?.set("feed_type", it)
@@ -40,6 +41,7 @@ fun FeedManagementWidget(
             content = feeds.breakfast.joinToString(", "),
             placeholder = "Add breakfast",
             onClick = { onClick(FeedType.BREAKFAST) },
+            readonly = readonly,
         )
         AddActivityTile(
             backgroundColor = FeedOnBackground,
@@ -49,6 +51,7 @@ fun FeedManagementWidget(
             content = feeds.lunch.joinToString(", "),
             placeholder = "Add lunch",
             onClick = { onClick(FeedType.LUNCH) },
+            readonly = readonly,
         )
         AddActivityTile(
             backgroundColor = FeedOnBackground,
@@ -58,6 +61,7 @@ fun FeedManagementWidget(
             content = feeds.dinner.joinToString(", "),
             placeholder = "Add dinner",
             onClick = { onClick(FeedType.DINNER) },
+            readonly = readonly,
         )
         AddActivityTile(
             backgroundColor = FeedOnBackground,
@@ -67,6 +71,7 @@ fun FeedManagementWidget(
             content = feeds.snack.joinToString(", "),
             placeholder = "Add snack",
             onClick = { FeedType.SNACK },
+            readonly = readonly,
         )
         AddActivityTile(
             backgroundColor = FeedOnBackground,
@@ -76,6 +81,7 @@ fun FeedManagementWidget(
             content = "",
             placeholder = "Add activity",
             onClick = { },
+            readonly = readonly,
         )
     }
 }
