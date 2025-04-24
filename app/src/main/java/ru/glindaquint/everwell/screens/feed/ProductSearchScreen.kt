@@ -1,8 +1,6 @@
 package ru.glindaquint.everwell.screens.feed
 
 import android.annotation.SuppressLint
-import android.content.ContentValues.TAG
-import android.util.Log
 import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
@@ -126,8 +124,6 @@ fun ProductSearchScreen(navHostController: NavHostController) {
             feedType.value = savedFeedType
             navHostController.currentBackStackEntry?.savedStateHandle?.remove<FeedType>("feed_type")
         }
-
-        Log.d(TAG, "ProductSearchScreen: $feedType")
     }
 
     DisposableEffect(Unit) {
@@ -161,22 +157,29 @@ fun ProductSearchScreen(navHostController: NavHostController) {
             )
         },
         floatingActionButton = {
-            ProductSearchFloatingActionButton(onAddClick = {}, onCartClick = {
-                navHostController.currentBackStackEntry?.savedStateHandle?.set(
-                    "selected_products",
-                    selectedProducts,
-                )
-                navHostController.navigate(MainRoutes.feedCart.routeName)
-            }, onSaveClick = {
-                viewModel.saveFeed(
-                    feedType = feedType.value,
-                    products = selectedProducts,
-                    onSuccess = {
-                        navHostController.navigate(MainRoutes.feed.routeName)
-                    },
-                )
-                selectedProducts.clear()
-            }, cartIndicatorValue = selectedProducts.size)
+            ProductSearchFloatingActionButton(
+                onAddClick = {
+                    navHostController.navigate(MainRoutes.feedAddProduct.routeName)
+                },
+                onCartClick = {
+                    navHostController.currentBackStackEntry?.savedStateHandle?.set(
+                        "selected_products",
+                        selectedProducts,
+                    )
+                    navHostController.navigate(MainRoutes.feedCart.routeName)
+                },
+                onSaveClick = {
+                    viewModel.saveFeed(
+                        feedType = feedType.value,
+                        products = selectedProducts,
+                        onSuccess = {
+                            navHostController.navigate(MainRoutes.feed.routeName)
+                        },
+                    )
+                    selectedProducts.clear()
+                },
+                cartIndicatorValue = selectedProducts.size,
+            )
         },
         contentPadding = PaddingValues(10.dp),
         contentSpacing = Arrangement.spacedBy(10.dp),
@@ -190,7 +193,10 @@ fun ProductSearchScreen(navHostController: NavHostController) {
                 if (productName.value.text.isNotEmpty()) {
                     IconButton(
                         onClick = { productName.value = TextFieldValue() },
-                        modifier = Modifier.padding(end = 5.dp).size(24.dp),
+                        modifier =
+                            Modifier
+                                .padding(end = 5.dp)
+                                .size(24.dp),
                     ) {
                         Icon(
                             imageVector = Icons.Filled.Clear,
@@ -320,7 +326,11 @@ fun BoxScope.SideActionButton(
 
     Box(
         contentAlignment = Alignment.TopEnd,
-        modifier = Modifier.align(Alignment.BottomEnd).offset(x = -x, y = -y).then(modifier),
+        modifier =
+            Modifier
+                .align(Alignment.BottomEnd)
+                .offset(x = -x, y = -y)
+                .then(modifier),
     ) {
         FloatingActionButton(
             containerColor = FeedPrimary,
@@ -335,7 +345,10 @@ fun BoxScope.SideActionButton(
         }
         if (indicatorValue != 0) {
             Box(
-                modifier = Modifier.size(21.dp).background(color = Color.Red, shape = CircleShape),
+                modifier =
+                    Modifier
+                        .size(21.dp)
+                        .background(color = Color.Red, shape = CircleShape),
                 contentAlignment = Alignment.Center,
             ) {
                 Text(text = indicatorValue.toString(), color = Color.White, fontSize = 10.sp)
@@ -369,10 +382,17 @@ fun ProductsListItem(
             fontWeight = FontWeight.Medium,
         )
         Spacer(
-            modifier = Modifier.fillMaxWidth().height(2.dp).background(FeedPrimary),
+            modifier =
+                Modifier
+                    .fillMaxWidth()
+                    .height(2.dp)
+                    .background(FeedPrimary),
         )
         Text(
-            modifier = Modifier.fillMaxWidth(0.95f).padding(vertical = 7.dp),
+            modifier =
+                Modifier
+                    .fillMaxWidth(0.95f)
+                    .padding(vertical = 7.dp),
             text =
                 buildAnnotatedString {
                     withStyle(SpanStyle(FeedPrimary)) {
@@ -424,10 +444,17 @@ fun FeedProductsListItem(
             fontWeight = FontWeight.Medium,
         )
         Spacer(
-            modifier = Modifier.fillMaxWidth().height(2.dp).background(FeedPrimary),
+            modifier =
+                Modifier
+                    .fillMaxWidth()
+                    .height(2.dp)
+                    .background(FeedPrimary),
         )
         Text(
-            modifier = Modifier.fillMaxWidth(0.95f).padding(vertical = 7.dp),
+            modifier =
+                Modifier
+                    .fillMaxWidth(0.95f)
+                    .padding(vertical = 7.dp),
             text =
                 buildAnnotatedString {
                     withStyle(SpanStyle(FeedPrimary)) {
@@ -451,7 +478,10 @@ fun FeedProductsListItem(
                     append(
                         String.format(
                             "%4d",
-                            product.portionSize * product.quantity * (product.product?.calories ?: 0),
+                            product.portionSize * product.quantity * (
+                                product.product?.calories
+                                    ?: 0
+                            ),
                         ),
                     )
                 },
@@ -486,7 +516,10 @@ fun ProductSearchTextField(
     trailingIcon: (@Composable () -> Unit)? = null,
 ) {
     TextField(
-        modifier = Modifier.fillMaxWidth().padding(0.dp),
+        modifier =
+            Modifier
+                .fillMaxWidth()
+                .padding(0.dp),
         value = value,
         onValueChange = { onValueChanged(it) },
         shape = CircleShape,

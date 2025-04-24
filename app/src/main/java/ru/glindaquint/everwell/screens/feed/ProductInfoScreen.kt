@@ -150,7 +150,7 @@ fun ProductInfoScreen(
                         calories.value = it
                     },
                     colors = colors,
-                    fontSizeFactor = 25f,
+                    fontSizeFactor = 20f,
                 )
             }
             ProductParamTextField(

@@ -8,6 +8,7 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import ru.glindaquint.everwell.network.dto.DataResponse
+import ru.glindaquint.everwell.network.dto.product.InsertProductRequest
 import ru.glindaquint.everwell.network.dto.product.ProductDto
 import ru.glindaquint.everwell.network.services.ProductsNetworkService
 import javax.inject.Inject
@@ -30,79 +31,114 @@ class ProductService
             onSuccess: (() -> Unit)? = null,
             onFailure: ((Throwable) -> Unit)? = null,
         ) {
-            productsNetworkService.getAllProducts().enqueue(
-                object : Callback<DataResponse<List<ProductDto>>> {
-                    override fun onResponse(
-                        call: Call<DataResponse<List<ProductDto>>?>,
-                        response: Response<DataResponse<List<ProductDto>>?>,
-                    ) {
-                        if (response.isSuccessful) {
-                            _allProducts.value = response.body()?.data ?: emptyList()
-                            onSuccess?.invoke()
-                        } else {
-                            onFailure?.invoke(Throwable(response.errorBody()?.string()))
+            productsNetworkService
+                .getAllProducts()
+                .enqueue(
+                    object : Callback<DataResponse<List<ProductDto>>> {
+                        override fun onResponse(
+                            call: Call<DataResponse<List<ProductDto>>?>,
+                            response: Response<DataResponse<List<ProductDto>>?>,
+                        ) {
+                            if (response.isSuccessful) {
+                                _allProducts.value = response.body()?.data ?: emptyList()
+                                onSuccess?.invoke()
+                            } else {
+                                onFailure?.invoke(Throwable(response.errorBody()?.string()))
+                            }
                         }
-                    }
 
-                    override fun onFailure(
-                        call: Call<DataResponse<List<ProductDto>>?>,
-                        t: Throwable,
-                    ) {
-                        onFailure?.invoke(t)
-                    }
-                },
-            )
-
-            productsNetworkService.getOwnedProductsByUser().enqueue(
-                object : Callback<DataResponse<List<ProductDto>>> {
-                    override fun onResponse(
-                        call: Call<DataResponse<List<ProductDto>>?>,
-                        response: Response<DataResponse<List<ProductDto>>?>,
-                    ) {
-                        if (response.isSuccessful) {
-                            _userProducts.value = response.body()?.data ?: emptyList()
-                            onSuccess?.invoke()
-                        } else {
-                            onFailure?.invoke(Throwable(response.errorBody()?.string()))
+                        override fun onFailure(
+                            call: Call<DataResponse<List<ProductDto>>?>,
+                            t: Throwable,
+                        ) {
+                            onFailure?.invoke(t)
                         }
-                    }
+                    },
+                )
 
-                    override fun onFailure(
-                        call: Call<DataResponse<List<ProductDto>>?>,
-                        t: Throwable,
-                    ) {
-                        onFailure?.invoke(t)
-                    }
-                },
-            )
-
-            productsNetworkService.getRecentProducts().enqueue(
-                object : Callback<DataResponse<List<ProductDto>>> {
-                    override fun onResponse(
-                        call: Call<DataResponse<List<ProductDto>>?>,
-                        response: Response<DataResponse<List<ProductDto>>?>,
-                    ) {
-                        if (response.isSuccessful) {
-                            _recentProducts.value = response.body()?.data ?: emptyList()
-                            onSuccess?.invoke()
-                        } else {
-                            onFailure?.invoke(Throwable(response.errorBody()?.string()))
+            productsNetworkService
+                .getOwnedProductsByUser()
+                .enqueue(
+                    object : Callback<DataResponse<List<ProductDto>>> {
+                        override fun onResponse(
+                            call: Call<DataResponse<List<ProductDto>>?>,
+                            response: Response<DataResponse<List<ProductDto>>?>,
+                        ) {
+                            if (response.isSuccessful) {
+                                _userProducts.value = response.body()?.data ?: emptyList()
+                                onSuccess?.invoke()
+                            } else {
+                                onFailure?.invoke(Throwable(response.errorBody()?.string()))
+                            }
                         }
-                    }
 
-                    override fun onFailure(
-                        call: Call<DataResponse<List<ProductDto>>?>,
-                        t: Throwable,
-                    ) {
-                        onFailure?.invoke(t)
-                    }
-                },
-            )
+                        override fun onFailure(
+                            call: Call<DataResponse<List<ProductDto>>?>,
+                            t: Throwable,
+                        ) {
+                            onFailure?.invoke(t)
+                        }
+                    },
+                )
+
+            productsNetworkService
+                .getRecentProducts()
+                .enqueue(
+                    object : Callback<DataResponse<List<ProductDto>>> {
+                        override fun onResponse(
+                            call: Call<DataResponse<List<ProductDto>>?>,
+                            response: Response<DataResponse<List<ProductDto>>?>,
+                        ) {
+                            if (response.isSuccessful) {
+                                _recentProducts.value = response.body()?.data ?: emptyList()
+                                onSuccess?.invoke()
+                            } else {
+                                onFailure?.invoke(Throwable(response.errorBody()?.string()))
+                            }
+                        }
+
+                        override fun onFailure(
+                            call: Call<DataResponse<List<ProductDto>>?>,
+                            t: Throwable,
+                        ) {
+                            onFailure?.invoke(t)
+                        }
+                    },
+                )
         }
 
         fun findById(id: Long): ProductDto? {
             if (_allProducts.value.isEmpty()) return null
 
             return _allProducts.value.find { it.productId == id }
+        }
+
+        fun insertProduct(
+            request: InsertProductRequest,
+            onSuccess: (() -> Unit)? = null,
+            onFailure: ((Throwable) -> Unit)? = null,
+        ) {
+            productsNetworkService.addProduct(request = request).enqueue(
+                object : Callback<Void> {
+                    override fun onResponse(
+                        call: Call<Void>,
+                        response: Response<Void>,
+                    ) {
+                        if (response.isSuccessful) {
+                            refreshProducts()
+                            onSuccess?.invoke()
+                        } else {
+                            onFailure?.invoke(Throwable("Unknown error"))
+                        }
+                    }
+
+                    override fun onFailure(
+                        call: Call<Void>,
+                        t: Throwable,
+                    ) {
+                        onFailure?.invoke(t)
+                    }
+                },
+            )
         }
     }
