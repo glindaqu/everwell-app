@@ -1,6 +1,7 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.jetbrains.kotlin.android)
+    alias(libs.plugins.kotlin.compose)
     id("kotlin-kapt")
     id("kotlin-parcelize")
     id("com.google.dagger.hilt.android") version "2.49"
@@ -42,9 +43,6 @@ android {
     }
     buildFeatures {
         compose = true
-    }
-    composeOptions {
-        kotlinCompilerExtensionVersion = "1.5.1"
     }
     packaging {
         resources {
@@ -97,10 +95,13 @@ dependencies {
     implementation(libs.coil.compose)
     implementation(libs.coil.network.okhttp)
 
+    // network
     implementation(libs.logging.interceptor)
     implementation(libs.okhttp)
 
+    // serialization
     implementation(libs.kotlinx.serialization.json)
 
-    implementation("com.github.commandiron:WheelPickerCompose:1.1.11")
+    // wheel date picker
+    implementation(libs.wheelpickercompose)
 }
