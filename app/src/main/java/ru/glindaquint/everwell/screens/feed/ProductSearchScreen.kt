@@ -52,6 +52,7 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
+import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.withStyle
@@ -379,25 +380,27 @@ fun ProductsListItem(
             text =
                 buildAnnotatedString {
                     withStyle(SpanStyle(FeedPrimary)) {
-                        append("Б:")
+                        append("Б: ")
                     }
-                    append(String.format(" %-10.2f", product.protein))
+                    append(String.format("%-5.1f", product.protein))
 
                     withStyle(SpanStyle(FeedPrimary)) {
-                        append("Ж:")
+                        append("  Ж: ")
                     }
-                    append(String.format(" %-10.2f", product.fat))
+                    append(String.format("%-5.1f", product.fat))
 
                     withStyle(SpanStyle(FeedPrimary)) {
-                        append("У:")
+                        append("  У: ")
                     }
-                    append(String.format(" %-10.2f", product.carbohydrates))
+                    append(String.format("%-5.1f", product.carbohydrates))
 
                     withStyle(SpanStyle(FeedPrimary)) {
-                        append("К:")
+                        append("  К: ")
                     }
-                    append(String.format("%4d", product.calories))
+                    append(String.format("%-4d", product.calories))
                 },
+            fontFamily = FontFamily.Monospace,
+            fontSize = 13.5.sp,
         )
     }
 }
@@ -434,30 +437,27 @@ fun FeedProductsListItem(
             text =
                 buildAnnotatedString {
                     withStyle(SpanStyle(FeedPrimary)) {
-                        append("Б:")
+                        append("Б: ")
                     }
-                    append(String.format(" %-10.2f", product.protein))
+                    append(String.format("%-5.1f", product.protein * product.quantity))
 
                     withStyle(SpanStyle(FeedPrimary)) {
-                        append("Ж:")
+                        append("  Ж: ")
                     }
-                    append(String.format(" %-10.2f", product.fat))
+                    append(String.format("%-5.1f", product.fat * product.quantity))
 
                     withStyle(SpanStyle(FeedPrimary)) {
-                        append("У:")
+                        append("  У: ")
                     }
-                    append(String.format(" %-10.2f", product.carbohydrates))
+                    append(String.format("%-5.1f", product.carbohydrates * product.quantity))
 
                     withStyle(SpanStyle(FeedPrimary)) {
-                        append("К:")
+                        append("  К: ")
                     }
-                    append(
-                        String.format(
-                            "%4d",
-                            product.quantity * product.calories,
-                        ),
-                    )
+                    append(String.format("%-4d", product.calories * product.quantity))
                 },
+            fontFamily = FontFamily.Monospace,
+            fontSize = 13.5.sp,
         )
     }
 }
