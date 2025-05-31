@@ -28,8 +28,10 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import ru.glindaquint.everwell.R
 import ru.glindaquint.everwell.screens.home.components.bottomSheet.widgets.ActivityInfo
+import ru.glindaquint.everwell.screens.home.components.bottomSheet.widgets.DailyAdvice
 import ru.glindaquint.everwell.screens.home.components.bottomSheet.widgets.QuickAction
 import ru.glindaquint.everwell.utils.pxToDp
+import ru.glindaquint.everwell.viewModels.impl.BottomSheetViewModel
 import ru.glindaquint.everwell.viewModels.impl.FeedViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -41,10 +43,13 @@ fun BottomSheet(
     onWidgetPlaced: (Dp) -> Unit,
 ) {
     val feedViewModel = hiltViewModel<FeedViewModel>()
+    val bottomSheetViewModel = hiltViewModel<BottomSheetViewModel>()
+
     val totalCalories =
         feedViewModel.uiState
             .collectAsState()
             .value.totalCalories
+    val advice = bottomSheetViewModel.dailyAdvice.collectAsState()
 
     val sheetWidth = remember { mutableStateOf(IntSize(0, 0)) }
     val quickActionModifier = Modifier.size((sheetWidth.value.width / 4).pxToDp() - 10.dp)
@@ -94,7 +99,7 @@ fun BottomSheet(
             verticalArrangement = Arrangement.spacedBy(35.dp),
             modifier = Modifier.alpha(mainContentAlpha.value),
         ) {
-//            DailyAdvice(advice = viewModel.bottomSheetUiState.value.dailyAdvice)
+            DailyAdvice(advice = advice.value)
             Row(
                 modifier = Modifier.fillMaxWidth().padding(bottom = 10.dp),
                 horizontalArrangement = Arrangement.SpaceBetween,

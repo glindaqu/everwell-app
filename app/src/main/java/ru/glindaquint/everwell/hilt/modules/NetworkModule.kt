@@ -5,6 +5,7 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.components.ActivityRetainedComponent
 import ru.glindaquint.everwell.network.RetrofitFactory
+import ru.glindaquint.everwell.network.services.AdviceRepository
 import ru.glindaquint.everwell.network.services.AuthorizationNetworkService
 import ru.glindaquint.everwell.network.services.BloodPressureNetworkService
 import ru.glindaquint.everwell.network.services.FeedNetworkService
@@ -38,4 +39,8 @@ object NetworkModule {
     @Provides
     fun provideFeedService(retrofitFactory: RetrofitFactory): FeedNetworkService =
         retrofitFactory.getInstance().create(FeedNetworkService::class.java)
+
+    @Provides
+    fun provideAdviceRepository(retrofitFactory: RetrofitFactory): AdviceRepository =
+        retrofitFactory.getInstance().create(AdviceRepository::class.java)
 }
