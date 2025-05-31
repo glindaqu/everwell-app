@@ -14,6 +14,7 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.SheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -24,10 +25,12 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import ru.glindaquint.everwell.R
 import ru.glindaquint.everwell.screens.home.components.bottomSheet.widgets.ActivityInfo
 import ru.glindaquint.everwell.screens.home.components.bottomSheet.widgets.QuickAction
 import ru.glindaquint.everwell.utils.pxToDp
+import ru.glindaquint.everwell.viewModels.impl.FeedViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @SuppressLint("StateFlowValueCalledInComposition", "UnrememberedMutableState")
@@ -37,6 +40,12 @@ fun BottomSheet(
     state: SheetState,
     onWidgetPlaced: (Dp) -> Unit,
 ) {
+    val feedViewModel = hiltViewModel<FeedViewModel>()
+    val totalCalories =
+        feedViewModel.uiState
+            .collectAsState()
+            .value.totalCalories
+
     val sheetWidth = remember { mutableStateOf(IntSize(0, 0)) }
     val quickActionModifier = Modifier.size((sheetWidth.value.width / 4).pxToDp() - 10.dp)
     val widgetModifier = Modifier.size((sheetWidth.value.width / 3).pxToDp() - 10.dp)
@@ -94,7 +103,7 @@ fun BottomSheet(
                     modifier = widgetModifier,
                     title = "Calories",
                     painter = painterResource(id = R.drawable.apple),
-                    value = "1000kCal",
+                    value = "${totalCalories}kCal",
                 )
                 ActivityInfo(
                     modifier = widgetModifier,
