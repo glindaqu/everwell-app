@@ -27,8 +27,11 @@ class HomeViewModel
                 tasksService.get().userTasks,
                 userService.get().user,
             ) { tasks, user ->
-                HomeUiState(tasks = tasks, username = user?.username)
-            }.stateIn(viewModelScope, SharingStarted.Lazily, HomeUiState())
+                HomeUiState(
+                    tasks = tasks,
+                    username = user?.username,
+                )
+            }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), HomeUiState())
 
         init {
             userService.get().refreshUser()
