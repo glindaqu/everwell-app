@@ -1,6 +1,11 @@
 package ru.glindaquint.everwell.screens.home.components.bottomSheet
 
+import android.Manifest
 import android.annotation.SuppressLint
+import android.content.pm.PackageManager
+import android.widget.Toast
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.layout.Arrangement
@@ -16,20 +21,25 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.derivedStateOf
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.layout.onGloballyPositioned
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
+import androidx.core.content.ContextCompat
 import androidx.hilt.navigation.compose.hiltViewModel
 import ru.glindaquint.everwell.R
 import ru.glindaquint.everwell.screens.home.components.bottomSheet.widgets.ActivityInfo
 import ru.glindaquint.everwell.screens.home.components.bottomSheet.widgets.DailyAdvice
 import ru.glindaquint.everwell.screens.home.components.bottomSheet.widgets.QuickAction
+import ru.glindaquint.everwell.services.stepCounter.StepCounterRepository
+import ru.glindaquint.everwell.services.stepCounter.StepCounterService
 import ru.glindaquint.everwell.utils.pxToDp
 import ru.glindaquint.everwell.viewModels.impl.BottomSheetViewModel
 import ru.glindaquint.everwell.viewModels.impl.FeedViewModel
@@ -42,6 +52,36 @@ fun BottomSheet(
     state: SheetState,
     onWidgetPlaced: (Dp) -> Unit,
 ) {
+    val context = LocalContext.current
+    val currentSteps = StepCounterRepository.currentSteps.observeAsState()
+    val totalSteps = StepCounterRepository.totalSteps.observeAsState()
+
+    val permissionLauncher =
+        rememberLauncherForActivityResult(
+            ActivityResultContracts.RequestPermission(),
+        ) { isGranted ->
+            if (isGranted) {
+                StepCounterService.start(context)
+            } else {
+                Toast.makeText(context, "Permission denied", Toast.LENGTH_SHORT).show()
+            }
+        }
+
+    LaunchedEffect(Unit) {
+        when {
+            ContextCompat.checkSelfPermission(
+                context,
+                Manifest.permission.ACTIVITY_RECOGNITION,
+            ) == PackageManager.PERMISSION_GRANTED -> {
+                StepCounterService.start(context)
+            }
+
+            else -> {
+                permissionLauncher.launch(Manifest.permission.ACTIVITY_RECOGNITION)
+            }
+        }
+    }
+
     val feedViewModel = hiltViewModel<FeedViewModel>()
     val bottomSheetViewModel = hiltViewModel<BottomSheetViewModel>()
 
@@ -114,7 +154,7 @@ fun BottomSheet(
                     modifier = widgetModifier,
                     title = "Steps",
                     painter = painterResource(id = R.drawable.sneakers),
-                    value = "0",
+                    value = currentSteps.value.toString(),
                 )
                 ActivityInfo(
                     modifier = widgetModifier,

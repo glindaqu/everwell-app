@@ -14,7 +14,7 @@ android {
 
     defaultConfig {
         applicationId = "ru.glindaquint.everwell"
-        minSdk = 24
+        minSdk = 29
         targetSdk = 35
         versionCode = 1
         versionName = "1.0"
@@ -104,4 +104,9 @@ dependencies {
 
     // wheel date picker
     implementation(libs.wheelpickercompose)
+
+    // work manager
+    implementation("androidx.work:work-runtime-ktx:2.9.0")
+
+    implementation("androidx.compose.runtime:runtime-livedata")
 }

@@ -19,7 +19,9 @@ class RetrofitFactory
             private var retrofit: Retrofit? = null
             private var client: OkHttpClient? = null
 
-            private const val API_BASE_URL = "http://10.0.2.2:8080/"
+            // 192.168.1.143
+            // 10.0.2.2:8080
+            private const val API_BASE_URL = "http://192.168.1.143:8080/"
         }
 
         fun getInstance(apiUrl: String = API_BASE_URL): Retrofit {
