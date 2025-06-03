@@ -86,6 +86,7 @@ fun HomeScreen(
         sheetContent = {
             BottomSheet(
                 state = sheetScaffoldState.bottomSheetState,
+                navHostController = navHostController,
                 onWidgetPlaced = { height ->
                     sheetPickHeight.value = height
                 },

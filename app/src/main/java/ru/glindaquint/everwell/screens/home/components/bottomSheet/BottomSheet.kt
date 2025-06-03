@@ -10,6 +10,7 @@ import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.navigationBarsPadding
@@ -34,7 +35,9 @@ import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
 import androidx.core.content.ContextCompat
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavHostController
 import ru.glindaquint.everwell.R
+import ru.glindaquint.everwell.navigation.main.MainRoutes
 import ru.glindaquint.everwell.screens.home.components.bottomSheet.widgets.ActivityInfo
 import ru.glindaquint.everwell.screens.home.components.bottomSheet.widgets.DailyAdvice
 import ru.glindaquint.everwell.screens.home.components.bottomSheet.widgets.QuickAction
@@ -50,6 +53,7 @@ import ru.glindaquint.everwell.viewModels.impl.FeedViewModel
 @Composable
 fun BottomSheet(
     state: SheetState,
+    navHostController: NavHostController,
     onWidgetPlaced: (Dp) -> Unit,
 ) {
     val context = LocalContext.current
@@ -94,6 +98,7 @@ fun BottomSheet(
     val sheetWidth = remember { mutableStateOf(IntSize(0, 0)) }
     val quickActionModifier = Modifier.size((sheetWidth.value.width / 4).pxToDp() - 10.dp)
     val widgetModifier = Modifier.size((sheetWidth.value.width / 3).pxToDp() - 10.dp)
+    val widgetSpacing = (sheetWidth.value.width.pxToDp() - 8.dp - (85.dp * 4)) / 3
 
     val targetMainAlpha =
         remember {
@@ -126,14 +131,60 @@ fun BottomSheet(
                 },
         verticalArrangement = Arrangement.spacedBy(35.dp),
     ) {
-        Row(
+        FlowRow(
             modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.SpaceBetween,
+            horizontalArrangement =
+                Arrangement.spacedBy(widgetSpacing),
+            verticalArrangement = Arrangement.spacedBy(widgetSpacing),
         ) {
-            QuickAction(title = "Notes", modifier = quickActionModifier)
-            QuickAction(title = "Notes", modifier = quickActionModifier)
-            QuickAction(title = "Notes", modifier = quickActionModifier)
-            QuickAction(title = "Notes", modifier = quickActionModifier)
+            QuickAction(
+                title = "Blood Pressure",
+                modifier = quickActionModifier,
+                painter = painterResource(R.drawable.pressure_widget),
+                onClick = {
+                    navHostController.navigate(MainRoutes.pressure.routeName)
+                },
+            )
+            QuickAction(
+                title = "Feed",
+                modifier = quickActionModifier,
+                painter = painterResource(R.drawable.feed_widget),
+                onClick = {
+                    navHostController.navigate(MainRoutes.feed.routeName)
+                },
+            )
+            QuickAction(
+                title = "Water Balance",
+                modifier = quickActionModifier,
+                painter = painterResource(R.drawable.water_balance_widget),
+                onClick = {
+                    navHostController.navigate(MainRoutes.waterBalance.routeName)
+                },
+            )
+            QuickAction(
+                title = "Notes",
+                modifier = quickActionModifier,
+                painter = painterResource(R.drawable.notes_widget),
+                onClick = {
+                    navHostController.navigate(MainRoutes.notes.routeName)
+                },
+            )
+            QuickAction(
+                title = "Tasks",
+                modifier = quickActionModifier,
+                painter = painterResource(R.drawable.tasks_widget),
+                onClick = {
+                    navHostController.navigate(MainRoutes.tasks.routeName)
+                },
+            )
+            QuickAction(
+                title = "News",
+                modifier = quickActionModifier,
+                painter = painterResource(R.drawable.news_widget),
+                onClick = {
+                    navHostController.navigate(MainRoutes.news.routeName)
+                },
+            )
         }
         Column(
             verticalArrangement = Arrangement.spacedBy(35.dp),
