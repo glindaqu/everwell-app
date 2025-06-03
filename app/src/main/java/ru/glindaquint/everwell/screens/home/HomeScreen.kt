@@ -108,9 +108,6 @@ fun HomeScreen(
                         drawerState.open()
                     }
                 },
-                onProfileButtonClick = {
-                    navHostController.navigate(MainRoutes.profile.routeName)
-                },
                 onNotificationButtonClick = {
                     navHostController.navigate(MainRoutes.notifications.routeName)
                 },

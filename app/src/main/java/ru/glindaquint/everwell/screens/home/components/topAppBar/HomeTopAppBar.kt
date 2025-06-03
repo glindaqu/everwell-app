@@ -23,7 +23,6 @@ fun HomeTopAppBar(
     username: String,
     modifier: Modifier = Modifier,
     onMenuButtonClick: () -> Unit,
-    onProfileButtonClick: () -> Unit,
     onNotificationButtonClick: () -> Unit,
 ) {
     Row(
@@ -47,7 +46,7 @@ fun HomeTopAppBar(
                     )
                 },
             )
-            ProfileInfoButton(username = username, onClick = { onProfileButtonClick() })
+            ProfileInfo(username = username)
         }
         NotificationButton(onClick = { onNotificationButtonClick() })
     }
