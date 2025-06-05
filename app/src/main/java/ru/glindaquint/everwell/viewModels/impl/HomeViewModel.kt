@@ -30,6 +30,7 @@ class HomeViewModel
                 HomeUiState(
                     tasks = tasks,
                     username = user?.username,
+                    userImage = user?.image,
                 )
             }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), HomeUiState())
 

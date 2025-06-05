@@ -1,8 +1,9 @@
 package ru.glindaquint.everwell.screens.profile
 
 import android.annotation.SuppressLint
-import android.os.Build
-import androidx.annotation.RequiresApi
+import android.net.Uri
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -15,9 +16,12 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -41,6 +45,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.layout.onGloballyPositioned
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.capitalize
 import androidx.compose.ui.text.input.TextFieldValue
@@ -60,6 +65,7 @@ import ru.glindaquint.everwell.sharedComponents.EverwellActionButton
 import ru.glindaquint.everwell.sharedComponents.EverwellScaffold
 import ru.glindaquint.everwell.sharedComponents.LabeledTextField
 import ru.glindaquint.everwell.sharedComponents.MainTopBar
+import ru.glindaquint.everwell.sharedComponents.UserImage
 import ru.glindaquint.everwell.ui.theme.MainBackground
 import ru.glindaquint.everwell.ui.theme.MainPrimary
 import ru.glindaquint.everwell.ui.theme.MainSecondary
@@ -73,29 +79,36 @@ import java.util.Date
 
 @SuppressLint("SimpleDateFormat")
 @OptIn(ExperimentalMaterial3Api::class)
-@RequiresApi(Build.VERSION_CODES.O)
 @Suppress("ktlint:standard:function-naming")
 @Composable
 fun ProfileInfoScreen(navHostController: NavHostController) {
     val viewModel = hiltViewModel<ProfileViewModel>()
     val uiState = viewModel.uiState.collectAsState()
 
+    var imageUri = remember { mutableStateOf<Uri?>(null) }
+    val context = LocalContext.current
+    val launcher =
+        rememberLauncherForActivityResult(
+            contract = ActivityResultContracts.GetContent(),
+            onResult = { uri ->
+                uri?.let { imageUri.value = it }
+            },
+        )
+
     val firstname = remember { mutableStateOf(TextFieldValue(uiState.value.firstname)) }
     val lastname = remember { mutableStateOf(TextFieldValue(uiState.value.lastname)) }
     val patronymic = remember { mutableStateOf(TextFieldValue(uiState.value.patronymic)) }
     val weight = remember { mutableStateOf(TextFieldValue(uiState.value.weight)) }
     val height = remember { mutableStateOf(TextFieldValue(uiState.value.height)) }
-    val birthDate =
-        remember { mutableStateOf(TextFieldValue()) }
+    val birthDate = remember { mutableStateOf(TextFieldValue()) }
     val selectedBirthDate =
         remember { mutableStateOf(convertDateToLocalDate(uiState.value.birthDate ?: Date())) }
     val sex = remember { mutableStateOf(SexPickerValue.getByString(uiState.value.sex)) }
     val badHabits =
         remember {
-            mutableStateListOf<String>()
-                .apply {
-                    addAll(uiState.value.badHabits)
-                }
+            mutableStateListOf<String>().apply {
+                addAll(uiState.value.badHabits)
+            }
         }
     val sicks = remember { mutableStateOf(TextFieldValue(uiState.value.diseases)) }
 
@@ -135,6 +148,26 @@ fun ProfileInfoScreen(navHostController: NavHostController) {
             )
         },
     ) {
+        Box(contentAlignment = Alignment.BottomEnd) {
+            UserImage(
+                image = imageUri.value ?: uiState.value.image,
+                modifier = Modifier.clip(CircleShape).size(85.dp),
+            )
+            Box(
+                modifier =
+                    Modifier.size(85.dp).background(
+                        color = Color.Black.copy(0.4f),
+                        shape = CircleShape,
+                    ),
+            )
+            IconButton(onClick = { launcher.launch("image/*") }) {
+                Icon(
+                    imageVector = Icons.Default.Edit,
+                    contentDescription = "edit profile image",
+                    tint = Color.White,
+                )
+            }
+        }
         LabeledTextField(state = lastname, labelText = "Lastname")
         LabeledTextField(state = firstname, labelText = "Firstname")
         LabeledTextField(state = patronymic, labelText = "Patronymic (optional)")
@@ -143,11 +176,9 @@ fun ProfileInfoScreen(navHostController: NavHostController) {
                 state = height,
                 labelText = "Height",
                 modifier =
-                    Modifier
-                        .fillMaxWidth(0.47f)
-                        .onGloballyPositioned {
-                            textFieldHeight.value = it.size.height.pxToDp()
-                        },
+                    Modifier.fillMaxWidth(0.47f).onGloballyPositioned {
+                        textFieldHeight.value = it.size.height.pxToDp()
+                    },
             )
             LabeledTextField(
                 state = weight,
@@ -204,6 +235,9 @@ fun ProfileInfoScreen(navHostController: NavHostController) {
                     navHostController.navigateUp()
                 },
             )
+            imageUri.value?.let {
+                viewModel.updateImage(it, context)
+            }
         })
 
         if (shouldShowBottomSheet.value) {
@@ -386,9 +420,7 @@ fun SexPickerItem(
         Text(
             text =
                 if (value == SexPickerValue.OTHER) {
-                    value.name
-                        .toLowerCase(Locale.current)
-                        .capitalize(Locale.current)
+                    value.name.toLowerCase(Locale.current).capitalize(Locale.current)
                 } else {
                     value.name[0].toString()
                 },
@@ -405,8 +437,7 @@ fun SexPickerItem(
 enum class SexPickerValue {
     MAN,
     WOMAN,
-    OTHER,
-    ;
+    OTHER, ;
 
     companion object {
         fun getByString(value: String?): SexPickerValue =

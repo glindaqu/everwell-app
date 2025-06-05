@@ -14,4 +14,5 @@ data class GetUserResponse(
     val badHabits: Set<String>,
     val weight: Int?,
     val height: Int?,
+    val image: String?,
 )

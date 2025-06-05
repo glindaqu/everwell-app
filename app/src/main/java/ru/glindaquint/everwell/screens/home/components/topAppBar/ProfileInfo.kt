@@ -15,22 +15,24 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import coil3.compose.AsyncImage
+import ru.glindaquint.everwell.sharedComponents.UserImage
 import ru.glindaquint.everwell.ui.theme.MainAccent
 import ru.glindaquint.everwell.ui.theme.Typography
 import ru.glindaquint.everwell.utils.pxToDp
 
 @Suppress("ktlint:standard:function-naming")
 @Composable
-fun ProfileInfo(username: String) {
+fun ProfileInfo(
+    username: String,
+    userImage: String?,
+) {
     Row(
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.spacedBy(8.dp),
         modifier = Modifier.padding(start = 19.pxToDp()).clip(RoundedCornerShape(12.dp)),
     ) {
-        AsyncImage(
-            model = "https://i.pinimg.com/originals/25/05/6a/25056adc1178c436437713d7444ba8a0.jpg",
-            contentDescription = "User profile image",
+        UserImage(
+            image = userImage,
             modifier =
                 Modifier.size(43.dp).clip(CircleShape).border(
                     width = 1.dp,

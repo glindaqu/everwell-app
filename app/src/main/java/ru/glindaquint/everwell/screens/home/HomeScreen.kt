@@ -99,6 +99,7 @@ fun HomeScreen(
             )
             HomeTopAppBar(
                 username = uiState.value.username.toString(),
+                userImage = uiState.value.userImage,
                 modifier =
                     Modifier.onGloballyPositioned {
                         topAppBarHeight.intValue = it.size.height

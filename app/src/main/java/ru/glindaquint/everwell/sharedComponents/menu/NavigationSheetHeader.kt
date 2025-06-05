@@ -13,12 +13,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
-import coil3.compose.AsyncImage
 import ru.glindaquint.everwell.dto.colors.navigation.NavigationDrawerColors
+import ru.glindaquint.everwell.sharedComponents.UserImage
 import ru.glindaquint.everwell.ui.theme.Typography
 import ru.glindaquint.everwell.viewModels.impl.HomeNavigationViewModel
 
@@ -28,6 +27,7 @@ import ru.glindaquint.everwell.viewModels.impl.HomeNavigationViewModel
 fun NavigationSheetHeader(navigationDrawerColors: NavigationDrawerColors) {
     val viewModel = hiltViewModel<HomeNavigationViewModel>()
     val user = viewModel.user.collectAsState()
+
     Column(
         modifier =
             Modifier
@@ -37,27 +37,19 @@ fun NavigationSheetHeader(navigationDrawerColors: NavigationDrawerColors) {
                 ).padding(start = 16.dp, top = 13.dp, bottom = 8.dp)
                 .statusBarsPadding(),
     ) {
-        AsyncImage(
-            model = "https://i.pinimg.com/originals/25/05/6a/25056adc1178c436437713d7444ba8a0.jpg",
-            contentDescription = "User profile image",
-            contentScale = ContentScale.Crop,
-            modifier =
-                Modifier
-                    .size(83.dp)
-                    .clip(CircleShape),
+        UserImage(
+            user.value?.image,
+            modifier = Modifier.size(83.dp).clip(CircleShape),
         )
         Text(
-            text =
-                user.value
-                    ?.username
-                    .toString(),
+            text = user.value?.username.toString(),
             fontSize = Typography.bodyMedium.fontSize,
             fontWeight = Typography.bodyMedium.fontWeight,
             fontFamily = Typography.bodyMedium.fontFamily,
             modifier = Modifier.padding(top = 5.dp),
         )
         Text(
-            text = "@skibidi_hex_jayce",
+            text = "@${user.value?.username}",
             fontSize = Typography.labelMedium.fontSize,
             fontWeight = Typography.labelMedium.fontWeight,
             fontFamily = Typography.labelMedium.fontFamily,

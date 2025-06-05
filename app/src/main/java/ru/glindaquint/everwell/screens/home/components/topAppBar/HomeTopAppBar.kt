@@ -21,6 +21,7 @@ import ru.glindaquint.everwell.ui.theme.MainBackground
 @Composable
 fun HomeTopAppBar(
     username: String,
+    userImage: String?,
     modifier: Modifier = Modifier,
     onMenuButtonClick: () -> Unit,
     onNotificationButtonClick: () -> Unit,
@@ -46,7 +47,7 @@ fun HomeTopAppBar(
                     )
                 },
             )
-            ProfileInfo(username = username)
+            ProfileInfo(username = username, userImage = userImage)
         }
         NotificationButton(onClick = { onNotificationButtonClick() })
     }

@@ -15,4 +15,5 @@ data class ProfileUiState(
     val username: String = "",
     val error: String? = null,
     val success: Boolean = false,
+    val image: String? = null
 )

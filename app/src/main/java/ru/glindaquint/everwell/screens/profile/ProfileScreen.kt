@@ -45,13 +45,13 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
-import coil3.compose.AsyncImage
 import kotlinx.coroutines.launch
 import ru.glindaquint.everwell.activities.AuthorizationActivity
 import ru.glindaquint.everwell.dto.colors.MainTopBarColors
 import ru.glindaquint.everwell.navigation.main.MainRoutes
 import ru.glindaquint.everwell.sharedComponents.EverwellScaffold
 import ru.glindaquint.everwell.sharedComponents.MainTopBar
+import ru.glindaquint.everwell.sharedComponents.UserImage
 import ru.glindaquint.everwell.ui.theme.BloodPressurePrimary
 import ru.glindaquint.everwell.ui.theme.MainBackground
 import ru.glindaquint.everwell.ui.theme.MainOnBackground
@@ -109,9 +109,8 @@ fun ProfileScreen(
             horizontalArrangement = Arrangement.SpaceBetween,
         ) {
             Column(verticalArrangement = Arrangement.spacedBy(5.dp)) {
-                AsyncImage(
-                    model = "https://i.pinimg.com/originals/25/05/6a/25056adc1178c436437713d7444ba8a0.jpg",
-                    contentDescription = "User profile image",
+                UserImage(
+                    image = uiState.value.image,
                     modifier =
                         Modifier
                             .clip(CircleShape)
@@ -155,10 +154,7 @@ fun ProfileScreen(
             }
         }
         Column(
-            modifier =
-                Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = 15.dp, vertical = 21.dp),
+            modifier = Modifier.fillMaxWidth().padding(horizontal = 15.dp, vertical = 21.dp),
             verticalArrangement = Arrangement.spacedBy(10.dp),
         ) {
             ProfileDataTile(title = "Main data") {
@@ -218,23 +214,13 @@ fun ProfileDataTile(
             fontWeight = FontWeight.Medium,
             color = MainPrimary,
             fontSize = 20.sp,
-            modifier =
-                Modifier
-                    .padding(vertical = 10.dp)
-                    .fillMaxWidth(0.9f),
+            modifier = Modifier.padding(vertical = 10.dp).fillMaxWidth(0.9f),
         )
         Spacer(
-            modifier =
-                Modifier
-                    .fillMaxWidth()
-                    .height(1.dp)
-                    .background(MainOnBackground),
+            modifier = Modifier.fillMaxWidth().height(1.dp).background(MainOnBackground),
         )
         Column(
-            modifier =
-                Modifier
-                    .fillMaxWidth(0.9f)
-                    .padding(vertical = 7.dp),
+            modifier = Modifier.fillMaxWidth(0.9f).padding(vertical = 7.dp),
         ) {
             content()
         }

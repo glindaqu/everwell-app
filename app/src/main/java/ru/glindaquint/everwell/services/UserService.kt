@@ -3,6 +3,7 @@ package ru.glindaquint.everwell.services
 import dagger.hilt.android.scopes.ActivityRetainedScoped
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import okhttp3.MultipartBody
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -184,5 +185,10 @@ class UserService
                     }
                 },
             )
+        }
+
+        fun updateProfileImage(body: MultipartBody.Part) {
+            userNetworkService.updateProfileImage(body).execute()
+            refreshUser()
         }
     }
