@@ -2,7 +2,7 @@ package ru.glindaquint.everwell.network.dto.users
 
 import java.util.Date
 
-data class GetUserResponse(
+data class User(
     val email: String,
     val username: String,
     val firstname: String?,
@@ -15,4 +15,5 @@ data class GetUserResponse(
     val weight: Int?,
     val height: Int?,
     val image: String?,
+    val familyGroupId: Long?,
 )

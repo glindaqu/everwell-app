@@ -42,5 +42,6 @@
     <string name="notifications">Notifications</string>
     <string name="feed_search_product">Feed search product</string>
     <string name="feed_cart_screen">Cart</string>
+    <string name="family_group">Family Group</string>
 
 </resources>

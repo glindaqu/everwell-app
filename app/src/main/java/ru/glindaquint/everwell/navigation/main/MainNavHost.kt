@@ -7,6 +7,7 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import ru.glindaquint.everwell.screens.familyGroup.FamilyGroupScreen
 import ru.glindaquint.everwell.screens.feed.FeedCartScreen
 import ru.glindaquint.everwell.screens.feed.FeedScreen
 import ru.glindaquint.everwell.screens.feed.ProductAddScreen
@@ -77,6 +78,12 @@ fun MainNavHost(
 
         composable(route = MainRoutes.feedCart.routeName) {
             FeedCartScreen(navHostController = navHostController)
+        }
+        composable(route = MainRoutes.familyGroup.routeName) {
+            FamilyGroupScreen(
+                drawerState = drawerState,
+                navHostController = navHostController,
+            )
         }
     }
 }

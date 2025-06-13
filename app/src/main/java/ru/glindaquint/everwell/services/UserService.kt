@@ -11,8 +11,8 @@ import ru.glindaquint.everwell.network.dto.authorization.AuthorizationResponse
 import ru.glindaquint.everwell.network.dto.authorization.RestoreRequest
 import ru.glindaquint.everwell.network.dto.authorization.signIn.SignInRequest
 import ru.glindaquint.everwell.network.dto.authorization.signUp.SignUpRequest
-import ru.glindaquint.everwell.network.dto.users.GetUserResponse
 import ru.glindaquint.everwell.network.dto.users.UpdateProfileRequest
+import ru.glindaquint.everwell.network.dto.users.User
 import ru.glindaquint.everwell.network.services.AuthorizationNetworkService
 import ru.glindaquint.everwell.network.services.UserNetworkService
 import javax.inject.Inject
@@ -24,7 +24,7 @@ class UserService
         private val userNetworkService: UserNetworkService,
         private val authorizationNetworkService: AuthorizationNetworkService,
     ) {
-        private val _user: MutableStateFlow<GetUserResponse?> = MutableStateFlow(null)
+        private val _user: MutableStateFlow<User?> = MutableStateFlow(null)
         val user = _user.asStateFlow()
 
         fun signIn(
@@ -89,10 +89,10 @@ class UserService
             onFailure: ((Throwable) -> Unit)? = null,
         ) {
             userNetworkService.getUser().enqueue(
-                object : Callback<GetUserResponse> {
+                object : Callback<User> {
                     override fun onResponse(
-                        call: Call<GetUserResponse>,
-                        response: Response<GetUserResponse>,
+                        call: Call<User>,
+                        response: Response<User>,
                     ) {
                         if (response.body() != null) {
                             _user.value = response.body()!!
@@ -103,7 +103,7 @@ class UserService
                     }
 
                     override fun onFailure(
-                        call: Call<GetUserResponse>,
+                        call: Call<User>,
                         t: Throwable,
                     ) {
                         onFailure?.invoke(t)

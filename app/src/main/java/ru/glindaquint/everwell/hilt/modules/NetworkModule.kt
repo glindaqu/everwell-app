@@ -8,6 +8,7 @@ import ru.glindaquint.everwell.network.RetrofitFactory
 import ru.glindaquint.everwell.network.services.AdviceRepository
 import ru.glindaquint.everwell.network.services.AuthorizationNetworkService
 import ru.glindaquint.everwell.network.services.BloodPressureNetworkService
+import ru.glindaquint.everwell.network.services.FamilyGroupService
 import ru.glindaquint.everwell.network.services.FeedNetworkService
 import ru.glindaquint.everwell.network.services.ProductsNetworkService
 import ru.glindaquint.everwell.network.services.TasksNetworkService
@@ -43,4 +44,8 @@ object NetworkModule {
     @Provides
     fun provideAdviceRepository(retrofitFactory: RetrofitFactory): AdviceRepository =
         retrofitFactory.getInstance().create(AdviceRepository::class.java)
+
+    @Provides
+    fun provideFamilyGroup(retrofitFactory: RetrofitFactory): FamilyGroupService =
+        retrofitFactory.getInstance().create(FamilyGroupService::class.java)
 }

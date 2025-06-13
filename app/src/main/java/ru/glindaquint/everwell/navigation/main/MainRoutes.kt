@@ -194,6 +194,24 @@ class MainRoutes {
             )
 
         @MainRoute
+        val familyGroup =
+            MainRouteDto(
+                routeName = "familyGroupScreen",
+                routeTitleResource = R.string.family_group,
+                routeIconResource = R.drawable.baseline_group_24,
+                navigationDrawerColors =
+                    NavigationDrawerColors(
+                        headerColor = Color.White,
+                        bodyColor = MainOnBackground,
+                        itemBackgroundColor = MainOnBackground,
+                        itemForegroundColor = MainSecondary,
+                        accentColor = MainAccent,
+                        selectedItemColor = Color.Black.copy(0.2f),
+                        nicknameColor = MainPrimary,
+                    ),
+            )
+
+        @MainRoute
         val waterBalance =
             MainRouteDto(
                 routeName = "water_balance",

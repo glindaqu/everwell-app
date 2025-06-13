@@ -7,12 +7,12 @@ import retrofit2.http.GET
 import retrofit2.http.Multipart
 import retrofit2.http.POST
 import retrofit2.http.Part
-import ru.glindaquint.everwell.network.dto.users.GetUserResponse
 import ru.glindaquint.everwell.network.dto.users.UpdateProfileRequest
+import ru.glindaquint.everwell.network.dto.users.User
 
 interface UserNetworkService {
     @GET("/users/get-user")
-    fun getUser(): Call<GetUserResponse>
+    fun getUser(): Call<User>
 
     @POST("/users/update-profile")
     fun updateProfile(

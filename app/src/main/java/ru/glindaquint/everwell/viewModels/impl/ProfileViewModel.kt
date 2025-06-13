@@ -13,8 +13,8 @@ import kotlinx.coroutines.launch
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
-import ru.glindaquint.everwell.network.dto.users.GetUserResponse
 import ru.glindaquint.everwell.network.dto.users.UpdateProfileRequest
+import ru.glindaquint.everwell.network.dto.users.User
 import ru.glindaquint.everwell.services.UserService
 import ru.glindaquint.everwell.services.preferencesManager.PreferencesKeys
 import ru.glindaquint.everwell.services.preferencesManager.PreferencesManager
@@ -41,7 +41,7 @@ class ProfileViewModel
             }
         }
 
-        private fun updateUiState(userData: GetUserResponse) {
+        private fun updateUiState(userData: User) {
             _uiState.value =
                 _uiState.value.copy(
                     badHabits = userData.badHabits,
