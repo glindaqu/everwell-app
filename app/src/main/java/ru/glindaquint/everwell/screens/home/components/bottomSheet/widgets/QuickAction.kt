@@ -4,8 +4,8 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
@@ -28,14 +28,20 @@ fun QuickAction(
     title: String,
     onClick: () -> Unit,
 ) {
-    Box(contentAlignment = Alignment.BottomStart, modifier = Modifier.clickable { onClick() }) {
+    Box(
+        contentAlignment = Alignment.BottomStart,
+        modifier =
+            Modifier
+                .clickable { onClick() }
+                .then(modifier),
+    ) {
         if (painter != null) {
             Image(
                 painter = painter,
                 contentDescription = "Quick action $title",
                 modifier =
                     Modifier
-                        .size(85.dp)
+                        .fillMaxSize()
                         .clip(RoundedCornerShape(12.dp)),
             )
         } else {

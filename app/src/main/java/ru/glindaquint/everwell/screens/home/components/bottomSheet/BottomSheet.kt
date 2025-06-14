@@ -96,9 +96,10 @@ fun BottomSheet(
     val advice = bottomSheetViewModel.dailyAdvice.collectAsState()
 
     val sheetWidth = remember { mutableStateOf(IntSize(0, 0)) }
-    val quickActionModifier = Modifier.size((sheetWidth.value.width / 4).pxToDp() - 10.dp)
     val widgetModifier = Modifier.size((sheetWidth.value.width / 3).pxToDp() - 10.dp)
-    val widgetSpacing = (sheetWidth.value.width.pxToDp() - 8.dp - (85.dp * 4)) / 3
+    val widgetSpacing = 10.dp
+    val widgetSize = (sheetWidth.value.width.pxToDp() - widgetSpacing * 3) / 4
+    val quickActionModifier = Modifier.size(widgetSize)
 
     val targetMainAlpha =
         remember {
