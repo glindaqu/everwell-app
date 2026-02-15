@@ -108,7 +108,7 @@ fun ProductInfoScreen(
                 horizontalArrangement = Arrangement.spacedBy(16.dp),
             ) {
                 SquareTextField(
-                    title = "Pt",
+                    title = "Б",
                     value = protein.value,
                     subtitle = "",
                     showMeasurementUnits = false,
@@ -119,7 +119,7 @@ fun ProductInfoScreen(
                     fontSizeFactor = 20f,
                 )
                 SquareTextField(
-                    title = "Fat",
+                    title = "Ж",
                     value = fats.value,
                     subtitle = "",
                     showMeasurementUnits = false,
@@ -130,7 +130,7 @@ fun ProductInfoScreen(
                     fontSizeFactor = 20f,
                 )
                 SquareTextField(
-                    title = "Cd",
+                    title = "У",
                     value = carbohydrates.value,
                     subtitle = "",
                     showMeasurementUnits = false,
@@ -141,7 +141,7 @@ fun ProductInfoScreen(
                     fontSizeFactor = 20f,
                 )
                 SquareTextField(
-                    title = "Cal",
+                    title = "Кал",
                     value = calories.value,
                     subtitle = "",
                     showMeasurementUnits = false,
@@ -159,7 +159,7 @@ fun ProductInfoScreen(
                 },
                 leadingIcon = {
                     Text(
-                        text = "Portions count",
+                        text = "Количество белков",
                         color = FeedSecondary,
                         modifier = Modifier.padding(start = 12.dp),
                     )
@@ -172,18 +172,18 @@ fun ProductInfoScreen(
                 },
                 leadingIcon = {
                     Text(
-                        text = "Portion size",
+                        text = "Размер порции",
                         color = FeedSecondary,
                         modifier = Modifier.padding(start = 12.dp),
                     )
                 },
                 trailingIcon = {
-                    Text(text = "gr")
+                    Text(text = "гр")
                 },
             )
         }
         EverwellActionButton(
-            text = "Next",
+            text = "Далее",
             backgroundColor = FeedPrimary,
             foregroundColor = FeedAlternateSecondary,
             paddingValues = PaddingValues(0.dp),

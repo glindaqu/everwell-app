@@ -33,7 +33,7 @@ fun FeedCartScreen(navHostController: NavHostController) {
         topBar = {
             MainTopBar(
                 icon = Icons.AutoMirrored.Filled.ArrowBack,
-                title = "Cart",
+                title = "Корзина",
                 colors =
                     MainTopBarColors(
                         backgroundColor = FeedPrimary,

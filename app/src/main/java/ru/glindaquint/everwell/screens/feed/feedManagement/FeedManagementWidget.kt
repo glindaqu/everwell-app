@@ -37,9 +37,9 @@ fun FeedManagementWidget(
             backgroundColor = FeedOnBackground,
             spacerColor = FeedPrimary,
             icon = painterResource(id = R.drawable.feed_breakfast),
-            title = "Breakfast",
+            title = "Завтрак",
             content = feeds.breakfast.joinToString(", "),
-            placeholder = "Add breakfast",
+            placeholder = "Добавить завтрак",
             onClick = { onClick(FeedType.BREAKFAST) },
             readonly = readonly,
         )
@@ -47,9 +47,9 @@ fun FeedManagementWidget(
             backgroundColor = FeedOnBackground,
             spacerColor = FeedPrimary,
             icon = painterResource(id = R.drawable.feed_lunch),
-            title = "Lunch",
+            title = "Обед",
             content = feeds.lunch.joinToString(", "),
-            placeholder = "Add lunch",
+            placeholder = "Добавить обед",
             onClick = { onClick(FeedType.LUNCH) },
             readonly = readonly,
         )
@@ -57,9 +57,9 @@ fun FeedManagementWidget(
             backgroundColor = FeedOnBackground,
             spacerColor = FeedPrimary,
             icon = painterResource(id = R.drawable.feed_dinner),
-            title = "Dinner",
+            title = "Ужин",
             content = feeds.dinner.joinToString(", "),
-            placeholder = "Add dinner",
+            placeholder = "Добавить ужин",
             onClick = { onClick(FeedType.DINNER) },
             readonly = readonly,
         )
@@ -67,21 +67,21 @@ fun FeedManagementWidget(
             backgroundColor = FeedOnBackground,
             spacerColor = FeedPrimary,
             icon = painterResource(id = R.drawable.feed_snack),
-            title = "Snack",
+            title = "Перекус",
             content = feeds.snack.joinToString(", "),
-            placeholder = "Add snack",
+            placeholder = "Добавить перекус",
             onClick = { FeedType.SNACK },
             readonly = readonly,
         )
-        AddActivityTile(
-            backgroundColor = FeedOnBackground,
-            spacerColor = FeedPrimary,
-            icon = painterResource(id = R.drawable.fire),
-            title = "Activity",
-            content = "",
-            placeholder = "Add activity",
-            onClick = { },
-            readonly = readonly,
-        )
+//        AddActivityTile(
+//            backgroundColor = FeedOnBackground,
+//            spacerColor = FeedPrimary,
+//            icon = painterResource(id = R.drawable.fire),
+//            title = "Activity",
+//            content = "",
+//            placeholder = "Add activity",
+//            onClick = { },
+//            readonly = readonly,
+//        )
     }
 }

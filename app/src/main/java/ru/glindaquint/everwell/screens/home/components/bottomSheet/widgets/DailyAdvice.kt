@@ -22,7 +22,7 @@ import ru.glindaquint.everwell.ui.theme.MainSecondary
 fun DailyAdvice(advice: String) {
     Column(verticalArrangement = Arrangement.spacedBy(3.dp)) {
         Text(
-            text = "Day's advice",
+            text = "Совет на день",
             fontSize = 14.sp,
             color = MainSecondary,
             fontWeight = FontWeight.Medium,

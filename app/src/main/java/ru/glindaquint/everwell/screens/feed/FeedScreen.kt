@@ -52,7 +52,7 @@ fun FeedScreen(
         topBar = {
             MainTopBar(
                 icon = Icons.Filled.Menu,
-                title = "Feed",
+                title = "Питание",
                 colors =
                     MainTopBarColors(
                         backgroundColor = FeedPrimary,

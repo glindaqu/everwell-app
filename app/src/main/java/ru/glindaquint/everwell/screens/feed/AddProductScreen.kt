@@ -62,7 +62,7 @@ fun ProductAddScreen(navHostController: NavHostController) {
         topBar = {
             MainTopBar(
                 icon = Icons.AutoMirrored.Filled.ArrowBack,
-                title = "Add product",
+                title = "Добавить продукт",
                 colors =
                     MainTopBarColors(
                         backgroundColor = FeedPrimary,
@@ -79,7 +79,7 @@ fun ProductAddScreen(navHostController: NavHostController) {
                 horizontalArrangement = Arrangement.spacedBy(16.dp),
             ) {
                 SquareTextField(
-                    title = "Pt",
+                    title = "Б",
                     value = protein.value,
                     subtitle = "",
                     showMeasurementUnits = false,
@@ -90,7 +90,7 @@ fun ProductAddScreen(navHostController: NavHostController) {
                     fontSizeFactor = 20f,
                 )
                 SquareTextField(
-                    title = "Fat",
+                    title = "Ж",
                     value = fats.value,
                     subtitle = "",
                     showMeasurementUnits = false,
@@ -101,7 +101,7 @@ fun ProductAddScreen(navHostController: NavHostController) {
                     fontSizeFactor = 20f,
                 )
                 SquareTextField(
-                    title = "Cd",
+                    title = "У",
                     value = carbohydrates.value,
                     subtitle = "",
                     showMeasurementUnits = false,
@@ -112,7 +112,7 @@ fun ProductAddScreen(navHostController: NavHostController) {
                     fontSizeFactor = 20f,
                 )
                 SquareTextField(
-                    title = "Cal",
+                    title = "Кал",
                     value = calories.value,
                     subtitle = "",
                     showMeasurementUnits = false,
@@ -130,7 +130,7 @@ fun ProductAddScreen(navHostController: NavHostController) {
                 },
                 leadingIcon = {
                     Text(
-                        text = "Title",
+                        text = "Название",
                         color = FeedSecondary,
                         modifier = Modifier.padding(start = 12.dp),
                     )
@@ -143,18 +143,18 @@ fun ProductAddScreen(navHostController: NavHostController) {
                 },
                 leadingIcon = {
                     Text(
-                        text = "Weight",
+                        text = "Вес",
                         color = FeedSecondary,
                         modifier = Modifier.padding(start = 12.dp),
                     )
                 },
                 trailingIcon = {
-                    Text(text = "gr")
+                    Text(text = "гр")
                 },
             )
         }
         EverwellActionButton(
-            text = "Next",
+            text = "Далее",
             backgroundColor = FeedPrimary,
             foregroundColor = FeedAlternateSecondary,
             paddingValues = PaddingValues(0.dp),

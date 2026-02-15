@@ -42,7 +42,7 @@ fun NavigationSheetHeader(navigationDrawerColors: NavigationDrawerColors) {
             modifier = Modifier.size(83.dp).clip(CircleShape),
         )
         Text(
-            text = user.value?.username.toString(),
+            text = "${user.value?.lastname} ${user.value?.firstname}",
             fontSize = Typography.bodyMedium.fontSize,
             fontWeight = Typography.bodyMedium.fontWeight,
             fontFamily = Typography.bodyMedium.fontFamily,

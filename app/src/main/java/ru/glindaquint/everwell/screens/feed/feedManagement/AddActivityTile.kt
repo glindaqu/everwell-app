@@ -69,7 +69,7 @@ fun AddActivityTile(
         ) {
             if (content.isEmpty()) {
                 Text(
-                    text = if (readonly) "Nothing to display" else placeholder,
+                    text = if (readonly) "Нет данных" else placeholder,
                     fontWeight = FontWeight.Bold,
                     modifier =
                         Modifier

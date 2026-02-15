@@ -145,7 +145,7 @@ fun ProductSearchScreen(navHostController: NavHostController) {
         topBar = {
             MainTopBar(
                 icon = Icons.AutoMirrored.Filled.ArrowBack,
-                title = "Search product",
+                title = "Поиск продукта",
                 colors =
                     MainTopBarColors(
                         backgroundColor = FeedPrimary,
@@ -209,13 +209,13 @@ fun ProductSearchScreen(navHostController: NavHostController) {
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.spacedBy(16.dp),
         ) {
-            ProductsListFilterButton(value = "All", onClick = {
+            ProductsListFilterButton(value = "Все", onClick = {
                 filterType.value = ProductFilterType.ALL
             })
-            ProductsListFilterButton(value = "Recent", onClick = {
+            ProductsListFilterButton(value = "Недавние", onClick = {
                 filterType.value = ProductFilterType.RECENT
             })
-            ProductsListFilterButton(value = "My", onClick = {
+            ProductsListFilterButton(value = "Мои", onClick = {
                 filterType.value = ProductFilterType.MY
             })
         }
@@ -319,8 +319,8 @@ fun BoxScope.SideActionButton(
     onClick: () -> Unit,
 ) {
     val radians = Math.toRadians(angle.toDouble())
-    val x = (parentViewSize.height / 2.3f * cos(radians)).dp
-    val y = (parentViewSize.height / 2.3f * sin(radians)).dp
+    val x = (parentViewSize.height / 1.5f * cos(radians)).dp
+    val y = (parentViewSize.height / 1.5f * sin(radians)).dp
 
     Box(
         contentAlignment = Alignment.TopEnd,

@@ -82,7 +82,7 @@ fun ProfileScreen(
         topBar = {
             MainTopBar(
                 icon = Icons.Filled.Menu,
-                title = "Profile",
+                title = "Профиль",
                 colors =
                     MainTopBarColors(
                         backgroundColor = MainPrimary,
@@ -157,9 +157,9 @@ fun ProfileScreen(
             modifier = Modifier.fillMaxWidth().padding(horizontal = 15.dp, vertical = 21.dp),
             verticalArrangement = Arrangement.spacedBy(10.dp),
         ) {
-            ProfileDataTile(title = "Main data") {
+            ProfileDataTile(title = "Основная информация") {
                 ProfileDataTileContentItem(
-                    title = "Birth date: ",
+                    title = "Дата рождения: ",
                     value =
                         if (uiState.value.birthDate != null) {
                             SimpleDateFormat("dd.MM.yyyy").format(uiState.value.birthDate!!)
@@ -167,25 +167,29 @@ fun ProfileScreen(
                             "null"
                         },
                 )
-                ProfileDataTileContentItem(title = "Sex: ", value = uiState.value.sex)
+                ProfileDataTileContentItem(title = "Пол: ", value = when (uiState.value.sex) {
+                    "MAN" -> "Мужской"
+                    "WOMAN" -> "Женский"
+                    else -> "Не указан"
+                })
             }
-            ProfileDataTile(title = "Body metrics") {
+            ProfileDataTile(title = "Физические показатели") {
                 ProfileDataTileContentItem(
-                    title = "Weight: ",
-                    value = "${uiState.value.weight}kg",
+                    title = "Вес: ",
+                    value = "${uiState.value.weight}кг",
                 )
                 ProfileDataTileContentItem(
-                    title = "Height: ",
-                    value = "${uiState.value.height}cm",
+                    title = "Рост: ",
+                    value = "${uiState.value.height}см",
                 )
             }
-            ProfileDataTile(title = "Sicks") {
+            ProfileDataTile(title = "Заболевания") {
                 ProfileDataTileContentItem(
                     title = "",
                     value = uiState.value.diseases,
                 )
             }
-            ProfileDataTile(title = "Bad habits") {
+            ProfileDataTile(title = "Вредные привычки") {
                 ProfileDataTileContentItem(
                     title = "",
                     value = uiState.value.badHabits.joinToString(", "),
@@ -253,7 +257,7 @@ fun Test_ProfileDataTile() {
         Text(
             text =
                 buildAnnotatedString {
-                    append("Birth date: ")
+                    append("Дата рождения: ")
                     withStyle(style = SpanStyle(fontWeight = FontWeight.Medium)) {
                         append("26.02.2001")
                     }
@@ -263,7 +267,7 @@ fun Test_ProfileDataTile() {
         Text(
             text =
                 buildAnnotatedString {
-                    append("Sex: ")
+                    append("Пол: ")
                     withStyle(style = SpanStyle(fontWeight = FontWeight.Medium)) {
                         append("Male")
                     }

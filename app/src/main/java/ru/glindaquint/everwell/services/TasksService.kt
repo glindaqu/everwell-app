@@ -7,6 +7,7 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import ru.glindaquint.everwell.network.dto.tasks.GetAllTasksResponse
+import ru.glindaquint.everwell.network.dto.tasks.InsertTaskRequest
 import ru.glindaquint.everwell.network.dto.tasks.TaskDto
 import ru.glindaquint.everwell.network.services.TasksNetworkService
 import javax.inject.Inject
@@ -53,5 +54,10 @@ class TasksService
                     }
                 },
             )
+        }
+
+        suspend fun pushTask(dto: InsertTaskRequest) {
+            tasksNetworkService.add(dto).execute()
+            refreshTasks()
         }
     }

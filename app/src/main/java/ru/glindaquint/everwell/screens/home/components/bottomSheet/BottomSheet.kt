@@ -139,7 +139,7 @@ fun BottomSheet(
             verticalArrangement = Arrangement.spacedBy(widgetSpacing),
         ) {
             QuickAction(
-                title = "Blood Pressure",
+                title = "Давление",
                 modifier = quickActionModifier,
                 painter = painterResource(R.drawable.pressure_widget),
                 onClick = {
@@ -147,7 +147,7 @@ fun BottomSheet(
                 },
             )
             QuickAction(
-                title = "Feed",
+                title = "Питание",
                 modifier = quickActionModifier,
                 painter = painterResource(R.drawable.feed_widget),
                 onClick = {
@@ -155,7 +155,7 @@ fun BottomSheet(
                 },
             )
             QuickAction(
-                title = "Water Balance",
+                title = "Водный баланс",
                 modifier = quickActionModifier,
                 painter = painterResource(R.drawable.water_balance_widget),
                 onClick = {
@@ -163,7 +163,7 @@ fun BottomSheet(
                 },
             )
             QuickAction(
-                title = "Notes",
+                title = "Заметки",
                 modifier = quickActionModifier,
                 painter = painterResource(R.drawable.notes_widget),
                 onClick = {
@@ -171,7 +171,7 @@ fun BottomSheet(
                 },
             )
             QuickAction(
-                title = "Tasks",
+                title = "Задачи",
                 modifier = quickActionModifier,
                 painter = painterResource(R.drawable.tasks_widget),
                 onClick = {
@@ -179,7 +179,7 @@ fun BottomSheet(
                 },
             )
             QuickAction(
-                title = "News",
+                title = "Новости",
                 modifier = quickActionModifier,
                 painter = painterResource(R.drawable.news_widget),
                 onClick = {
@@ -198,21 +198,21 @@ fun BottomSheet(
             ) {
                 ActivityInfo(
                     modifier = widgetModifier,
-                    title = "Calories",
+                    title = "Калории",
                     painter = painterResource(id = R.drawable.apple),
-                    value = "${totalCalories}kCal",
+                    value = "${totalCalories}ккал",
                 )
                 ActivityInfo(
                     modifier = widgetModifier,
-                    title = "Steps",
+                    title = "Шаги",
                     painter = painterResource(id = R.drawable.sneakers),
                     value = currentSteps.value.toString(),
                 )
                 ActivityInfo(
                     modifier = widgetModifier,
-                    title = "Water drunk",
+                    title = "Воды выпито",
                     painter = painterResource(id = R.drawable.water_glass),
-                    value = "1 liters",
+                    value = "1 литр",
                 )
             }
         }

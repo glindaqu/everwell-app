@@ -135,7 +135,7 @@ fun ProfileInfoScreen(navHostController: NavHostController) {
         topBar = {
             MainTopBar(
                 icon = Icons.AutoMirrored.Filled.ArrowBack,
-                title = "Profile",
+                title = "Профиль",
                 colors =
                     MainTopBarColors(
                         backgroundColor = MainPrimary,
@@ -168,13 +168,13 @@ fun ProfileInfoScreen(navHostController: NavHostController) {
                 )
             }
         }
-        LabeledTextField(state = lastname, labelText = "Lastname")
-        LabeledTextField(state = firstname, labelText = "Firstname")
-        LabeledTextField(state = patronymic, labelText = "Patronymic (optional)")
+        LabeledTextField(state = lastname, labelText = "Фамилия")
+        LabeledTextField(state = firstname, labelText = "Имя")
+        LabeledTextField(state = patronymic, labelText = "Отчество (опционально)")
         Row(horizontalArrangement = Arrangement.spacedBy(16.dp)) {
             LabeledTextField(
                 state = height,
-                labelText = "Height",
+                labelText = "Рост",
                 modifier =
                     Modifier.fillMaxWidth(0.47f).onGloballyPositioned {
                         textFieldHeight.value = it.size.height.pxToDp()
@@ -182,13 +182,13 @@ fun ProfileInfoScreen(navHostController: NavHostController) {
             )
             LabeledTextField(
                 state = weight,
-                labelText = "Weight",
+                labelText = "Вес",
             )
         }
         Row(horizontalArrangement = Arrangement.spacedBy(16.dp)) {
             LabeledTextField(
                 state = birthDate,
-                labelText = "Birth date",
+                labelText = "Дата рождения",
                 modifier = Modifier.fillMaxWidth(0.47f),
                 enabled = false,
                 trailingIcon = {
@@ -207,7 +207,7 @@ fun ProfileInfoScreen(navHostController: NavHostController) {
                 },
             )
             SexPicker(
-                title = "Sex",
+                title = "Пол",
                 value = sex.value,
                 onValueChanged = {
                     sex.value = it
@@ -215,9 +215,9 @@ fun ProfileInfoScreen(navHostController: NavHostController) {
                 modifier = Modifier.height(textFieldHeight.value),
             )
         }
-        LabeledTextField(state = sicks, labelText = "Diseases (optional)")
-        BadHabitsPicker(title = "Bad habits", state = badHabits)
-        EverwellActionButton(text = "Save", action = {
+        LabeledTextField(state = sicks, labelText = "Заболевания (опционально)")
+        BadHabitsPicker(title = "Вредные привычки", state = badHabits)
+        EverwellActionButton(text = "Сохранить", action = {
             viewModel.updateProfile(
                 request =
                     UpdateProfileRequest(

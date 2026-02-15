@@ -35,7 +35,7 @@ internal fun TaskListContainer(
             verticalAlignment = Alignment.CenterVertically,
         ) {
             Text(
-                text = "Tasks for today",
+                text = "Задачи на сегодня",
                 color = MainPrimary,
                 fontSize = Typography.bodySmall.fontSize,
                 fontWeight = Typography.bodySmall.fontWeight,

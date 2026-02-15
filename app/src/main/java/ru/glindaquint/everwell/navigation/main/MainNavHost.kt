@@ -7,6 +7,9 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import androidx.navigation.navDeepLink
+import ru.glindaquint.everwell.navigation.deeplinks.FamilyGroupDeepLink
+import ru.glindaquint.everwell.network.RetrofitFactory
 import ru.glindaquint.everwell.screens.familyGroup.FamilyGroupScreen
 import ru.glindaquint.everwell.screens.feed.FeedCartScreen
 import ru.glindaquint.everwell.screens.feed.FeedScreen
@@ -18,6 +21,7 @@ import ru.glindaquint.everwell.screens.home.NotificationScreen
 import ru.glindaquint.everwell.screens.pressure.BloodPressureScreen
 import ru.glindaquint.everwell.screens.profile.ProfileInfoScreen
 import ru.glindaquint.everwell.screens.profile.ProfileScreen
+import ru.glindaquint.everwell.screens.tasks.TasksScreen
 
 @RequiresApi(Build.VERSION_CODES.O)
 @Suppress("ktlint:standard:function-naming")
@@ -79,11 +83,25 @@ fun MainNavHost(
         composable(route = MainRoutes.feedCart.routeName) {
             FeedCartScreen(navHostController = navHostController)
         }
-        composable(route = MainRoutes.familyGroup.routeName) {
+        composable(
+            route = MainRoutes.familyGroup.routeName,
+            deepLinks =
+                listOf(
+                    navDeepLink<FamilyGroupDeepLink>(
+                        basePath = "http://${RetrofitFactory.API_BASE_URL}/family-group/join",
+                    ),
+                ),
+        ) {
             FamilyGroupScreen(
                 drawerState = drawerState,
                 navHostController = navHostController,
             )
+        }
+
+        composable(
+            route = MainRoutes.tasks.routeName,
+        ) {
+            TasksScreen(navHostController = navHostController, drawerState = drawerState)
         }
     }
 }

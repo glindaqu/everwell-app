@@ -13,4 +13,5 @@ data class TaskDto(
     val isNotificationEnabled: Boolean,
     val deadlineDate: Date,
     val isCompleted: Boolean,
+    val category: String,
 )

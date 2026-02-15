@@ -1,5 +1,6 @@
 package ru.glindaquint.everwell.screens.familyGroup
 
+import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -33,6 +34,7 @@ import ru.glindaquint.everwell.viewModels.impl.FamilyGroupViewModel
 @Suppress("ktlint:standard:function-naming")
 @Composable
 fun FamilyGroupScreen(
+    referredFamilyGroupId: Long? = null,
     drawerState: DrawerState,
     navHostController: NavHostController,
     viewModel: FamilyGroupViewModel = hiltViewModel(),
@@ -43,6 +45,7 @@ fun FamilyGroupScreen(
     LaunchedEffect(Unit) {
         viewModel.members()
         viewModel.invite()
+        Log.d("tag", "FamilyGroupScreen: $referredFamilyGroupId")
     }
 
     EverwellScaffold(
@@ -84,11 +87,12 @@ fun EmptyGroupPlaceholder(link: String) {
         verticalArrangement = Arrangement.Center,
     ) {
         Column(verticalArrangement = Arrangement.spacedBy(20.dp)) {
-            Text(text = "You are not in a group now... Accept invite or share your invite link!")
+            Text(text = "В данный момент вы не в группе... Скопируйте ссылки или перейдите по " +
+                        "ссылке члена семьи!")
             Button(onClick = {
                 copyToClipboard(context, "${RetrofitFactory.API_BASE_URL}$link")
             }) {
-                Text(text = "Copy link")
+                Text(text = "Копировать ссылку")
             }
         }
     }
